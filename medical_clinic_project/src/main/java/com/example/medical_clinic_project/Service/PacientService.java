@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class PacientService{
+public class PacientService {
     private final PacientRepository pacientRepository;
 
     @Autowired
@@ -16,7 +17,15 @@ public class PacientService{
         this.pacientRepository = pacientRepository;
     }
 
-    public List<Pacient> getPacienti(){
+    public List<Pacient> getPacienti() {
         return pacientRepository.findAll();
+    }
+
+    public void addPacient(Pacient pacient) {
+        Optional<Pacient> pacientOptional = pacientRepository.findPacientByCnp(pacient.getCnpPacient());
+        if (pacientOptional.isPresent()) {
+            throw new IllegalStateException("Pacientul exista deja");
+        }
+        pacientRepository.save(pacient);
     }
 }

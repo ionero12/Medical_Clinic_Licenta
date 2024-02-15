@@ -2,19 +2,21 @@ package com.example.medical_clinic_project.Model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "consultatii")
 public class Consultatie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONSULTATIE_SEQ")
+    @SequenceGenerator(name = "CONSULTATIE_SEQ", sequenceName = "CONSULTATIE_SEQ", allocationSize = 1)
     @Column(name = "id_consultatie")
-    private int idConsultatie;
+    private Long idConsultatie;
+
 
     @Column(name = "data_consultatiei", nullable = false)
-    private Date dataConsultatiei;
+    private LocalDate dataConsultatiei;
 
     @ManyToOne
     @JoinColumn(name = "pacienti_id_pacient", nullable = false)
@@ -27,11 +29,22 @@ public class Consultatie {
     @Column(name = "nume_consultatie", nullable = false, length = 64)
     private String numeConsultatie;
 
-    public int getIdConsultatie() {
+    public Consultatie() {
+    }
+
+    public Consultatie(Long idConsultatie, LocalDate dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie) {
+        this.idConsultatie = idConsultatie;
+        this.dataConsultatiei = dataConsultatiei;
+        this.pacient = pacient;
+        this.medic = medic;
+        this.numeConsultatie = numeConsultatie;
+    }
+
+    public Long getIdConsultatie() {
         return idConsultatie;
     }
 
-    public void setIdConsultatie(int idConsultatie) {
+    public void setIdConsultatie(Long idConsultatie) {
         this.idConsultatie = idConsultatie;
     }
 
@@ -51,11 +64,11 @@ public class Consultatie {
         this.pacient = pacient;
     }
 
-    public Date getDataConsultatiei() {
+    public LocalDate getDataConsultatiei() {
         return dataConsultatiei;
     }
 
-    public void setDataConsultatiei(Date dataConsultatiei) {
+    public void setDataConsultatiei(LocalDate dataConsultatiei) {
         this.dataConsultatiei = dataConsultatiei;
     }
 

@@ -7,9 +7,10 @@ import jakarta.persistence.*;
 public class Valoare {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VALOARE_SEQ")
+    @SequenceGenerator(name = "VALOARE_SEQ", sequenceName = "VALOARE_SEQ", allocationSize = 1)
     @Column(name = "id_valoare")
-    private int idValoare;
+    private Long idValoare;
 
     @Column(name = "nume_valoare", nullable = false, length = 32)
     private String numeValoare;
@@ -17,11 +18,20 @@ public class Valoare {
     @Column(name = "rezultat_valoare", nullable = false)
     private Double rezultatValoare;
 
-    public int getIdValoare() {
+    public Valoare() {
+    }
+
+    public Valoare(Long idValoare, String numeValoare, Double rezultatValoare) {
+        this.idValoare = idValoare;
+        this.numeValoare = numeValoare;
+        this.rezultatValoare = rezultatValoare;
+    }
+
+    public Long getIdValoare() {
         return idValoare;
     }
 
-    public void setIdValoare(int idValoare) {
+    public void setIdValoare(Long idValoare) {
         this.idValoare = idValoare;
     }
 

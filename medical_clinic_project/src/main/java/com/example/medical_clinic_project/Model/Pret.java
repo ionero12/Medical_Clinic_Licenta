@@ -7,18 +7,27 @@ import jakarta.persistence.*;
 public class Pret {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRET_SEQ")
+    @SequenceGenerator(name = "PRET_SEQ", sequenceName = "PRET_SEQ", allocationSize = 1)
     @Column(name = "id_pret")
-    private int idPret;
+    private Long idPret;
 
     @Column(name = "valoare", nullable = false)
     private Double valoare;
 
-    public int getIdPret() {
+    public Pret() {
+    }
+
+    public Pret(Long idPret, Double valoare) {
+        this.idPret = idPret;
+        this.valoare = valoare;
+    }
+
+    public Long getIdPret() {
         return idPret;
     }
 
-    public void setIdPret(int idPret) {
+    public void setIdPret(Long idPret) {
         this.idPret = idPret;
     }
 

@@ -2,19 +2,21 @@ package com.example.medical_clinic_project.Model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "fise_medicale")
 public class FisaMedicala {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FISA_MEDICALA_SEQ")
+    @SequenceGenerator(name = "FISA_MEDICALA_SEQ", sequenceName = "FISA_MEDICALA_SEQ", allocationSize = 1)
     @Column(name = "id_fisa_medicala")
-    private int idFisaMedicala;
+    private Long idFisaMedicala;
+
 
     @Column(name = "data_investigatie", nullable = false)
-    private Date dataInvestigatie;
+    private LocalDate dataInvestigatie;
 
     @Column(name = "descriere_investigatie", nullable = false, length = 512)
     private String descriereInvestigatie;
@@ -23,21 +25,29 @@ public class FisaMedicala {
     @JoinColumn(name = "pacienti_id_pacient", nullable = false)
     private Pacient pacient;
 
-    // Getters and setters
+    public FisaMedicala() {
+    }
 
-    public int getIdFisaMedicala() {
+    public FisaMedicala(Long idFisaMedicala, LocalDate dataInvestigatie, String descriereInvestigatie, Pacient pacient) {
+        this.idFisaMedicala = idFisaMedicala;
+        this.dataInvestigatie = dataInvestigatie;
+        this.descriereInvestigatie = descriereInvestigatie;
+        this.pacient = pacient;
+    }
+
+    public Long getIdFisaMedicala() {
         return idFisaMedicala;
     }
 
-    public void setIdFisaMedicala(int idFisaMedicala) {
+    public void setIdFisaMedicala(Long idFisaMedicala) {
         this.idFisaMedicala = idFisaMedicala;
     }
 
-    public Date getDataInvestigatie() {
+    public LocalDate getDataInvestigatie() {
         return dataInvestigatie;
     }
 
-    public void setDataInvestigatie(Date dataInvestigatie) {
+    public void setDataInvestigatie(LocalDate dataInvestigatie) {
         this.dataInvestigatie = dataInvestigatie;
     }
 

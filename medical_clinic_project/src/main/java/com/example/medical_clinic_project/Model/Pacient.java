@@ -2,16 +2,17 @@ package com.example.medical_clinic_project.Model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "pacienti")
 public class Pacient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PACIENT_SEQ")
+    @SequenceGenerator(name = "PACIENT_SEQ", sequenceName = "PACIENT_SEQ", allocationSize = 1)
     @Column(name = "id_pacient")
-    private int idPacient;
+    private Long idPacient;
 
     @Column(name = "nume_pacient", nullable = false)
     private String numePacient;
@@ -20,7 +21,7 @@ public class Pacient {
     private String prenumePacient;
 
     @Column(name = "data_nastere_pacient", nullable = false)
-    private Date dataNasterePacient;
+    private LocalDate dataNasterePacient;
 
     @Column(name = "cnp_pacient", nullable = false)
     private String cnpPacient;
@@ -46,11 +47,29 @@ public class Pacient {
     @Column(name = "abonament_pacient", nullable = false)
     private char abonamentPacient;
 
-    public int getIdPacient() {
+    public Pacient() {
+    }
+
+    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, char asigurat, String telefonPacient, String emailPacient, char abonamentPacient) {
+        this.idPacient = idPacient;
+        this.numePacient = numePacient;
+        this.prenumePacient = prenumePacient;
+        this.dataNasterePacient = dataNasterePacient;
+        this.cnpPacient = cnpPacient;
+        this.sexPacient = sexPacient;
+        this.greutatePacient = greutatePacient;
+        this.inaltimePacient = inaltimePacient;
+        this.asigurat = asigurat;
+        this.telefonPacient = telefonPacient;
+        this.emailPacient = emailPacient;
+        this.abonamentPacient = abonamentPacient;
+    }
+
+    public Long getIdPacient() {
         return idPacient;
     }
 
-    public void setIdPacient(int idPacient) {
+    public void setIdPacient(Long idPacient) {
         this.idPacient = idPacient;
     }
 
@@ -70,11 +89,11 @@ public class Pacient {
         this.prenumePacient = prenumePacient;
     }
 
-    public Date getDataNasterePacient() {
+    public LocalDate getDataNasterePacient() {
         return dataNasterePacient;
     }
 
-    public void setDataNasterePacient(Date dataNasterePacient) {
+    public void setDataNasterePacient(LocalDate dataNasterePacient) {
         this.dataNasterePacient = dataNasterePacient;
     }
 

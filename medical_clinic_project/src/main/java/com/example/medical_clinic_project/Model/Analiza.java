@@ -2,6 +2,7 @@ package com.example.medical_clinic_project.Model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -9,30 +10,40 @@ import java.util.Date;
 public class Analiza {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ANALIZA_SEQ")
+    @SequenceGenerator(name = "ANALIZA_SEQ", sequenceName = "ANALIZA_SEQ", allocationSize = 1)
     @Column(name = "id_analiza")
-    private int idAnaliza;
+    private Long idAnaliza;
+
 
     @Column(name = "data_analiza", nullable = false)
-    private Date dataAnaliza;
+    private LocalDate dataAnaliza;
 
     @ManyToOne
     @JoinColumn(name = "pacienti_id_pacient", nullable = false)
     private Pacient pacient;
 
-    public int getIdAnaliza() {
+    public Analiza() {
+    }
+    public Analiza(Long idAnaliza, LocalDate dataAnaliza, Pacient pacient) {
+        this.idAnaliza = idAnaliza;
+        this.dataAnaliza = dataAnaliza;
+        this.pacient = pacient;
+    }
+
+    public Long getIdAnaliza() {
         return idAnaliza;
     }
 
-    public void setIdAnaliza(int idAnaliza) {
+    public void setIdAnaliza(Long idAnaliza) {
         this.idAnaliza = idAnaliza;
     }
 
-    public Date getDataAnaliza() {
+    public LocalDate getDataAnaliza() {
         return dataAnaliza;
     }
 
-    public void setDataAnaliza(Date dataAnaliza) {
+    public void setDataAnaliza(LocalDate dataAnaliza) {
         this.dataAnaliza = dataAnaliza;
     }
 

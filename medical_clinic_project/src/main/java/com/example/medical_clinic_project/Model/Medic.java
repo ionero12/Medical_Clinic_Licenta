@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "medici")
 public class Medic {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEDIC_SEQ")
+    @SequenceGenerator(name = "MEDIC_SEQ", sequenceName = "MEDIC_SEQ", allocationSize = 1)
     @Column(name = "id_medic")
-    private int idMedic;
+    private Long idMedic;
 
     @Column(name = "nume_medic", nullable = false, length = 64)
     private String numeMedic;
@@ -23,6 +23,9 @@ public class Medic {
 
     @Column(name = "data_nastere_medic", nullable = false)
     private LocalDate dataNastereMedic;
+
+    @Column(name = "cnp_medic", nullable = false)
+    private String cnpMedic;
 
     @Column(name = "telefon_medic", nullable = false, length = 16)
     private String telefonMedic;
@@ -38,27 +41,27 @@ public class Medic {
     @Column(name = "parola_medic", nullable = false, length = 64)
     private String parolaMedic;
 
-    public Medic()
-    {
+    public Medic() {
 
     }
 
-    public Medic(int idMedic, String numeMedic, String prenumeMedic, LocalDate dataNastereMedic, String telefonMedic, String emailMedic, Specializare specializare, String parolaMedic) {
+    public Medic(Long idMedic, String numeMedic, String prenumeMedic, LocalDate dataNastereMedic, String cnpMedic, String telefonMedic, String emailMedic, Specializare specializare, String parolaMedic) {
         this.idMedic = idMedic;
         this.numeMedic = numeMedic;
         this.prenumeMedic = prenumeMedic;
         this.dataNastereMedic = dataNastereMedic;
+        this.cnpMedic = cnpMedic;
         this.telefonMedic = telefonMedic;
         this.emailMedic = emailMedic;
         this.specializare = specializare;
         this.parolaMedic = parolaMedic;
     }
 
-    public int getIdMedic() {
+    public Long getIdMedic() {
         return idMedic;
     }
 
-    public void setIdMedic(int idMedic) {
+    public void setIdMedic(Long idMedic) {
         this.idMedic = idMedic;
     }
 
@@ -82,6 +85,13 @@ public class Medic {
         return dataNastereMedic;
     }
 
+    public String getCnpMedic() {
+        return cnpMedic;
+    }
+
+    public void setCnpMedic(String cnpMedic) {
+        this.cnpMedic = cnpMedic;
+    }
     public void setDataNastereMedic(LocalDate dataNastereMedic) {
         this.dataNastereMedic = dataNastereMedic;
     }

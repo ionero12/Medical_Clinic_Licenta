@@ -10,9 +10,10 @@ import java.util.List;
 public class Specializare {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPECIALIZARE_SEQ")
+    @SequenceGenerator(name = "SPECIALIZARE_SEQ", sequenceName = "SPECIALIZARE_SEQ", allocationSize = 1)
     @Column(name = "id_specializare")
-    private int idSpecializare;
+    private Long idSpecializare;
 
     @Column(name = "nume_specializare", nullable = false, length = 64)
     private String numeSpecializare;
@@ -24,17 +25,17 @@ public class Specializare {
     public Specializare() {
     }
 
-    public Specializare(int idSpecializare, String numeSpecializare, List<Medic> mediciList) {
+    public Specializare(Long idSpecializare, String numeSpecializare, List<Medic> mediciList) {
         this.idSpecializare = idSpecializare;
         this.numeSpecializare = numeSpecializare;
         this.mediciList = mediciList;
     }
 
-    public int getIdSpecializare() {
+    public Long getIdSpecializare() {
         return idSpecializare;
     }
 
-    public void setIdSpecializare(int idSpecializare) {
+    public void setIdSpecializare(Long idSpecializare) {
         this.idSpecializare = idSpecializare;
     }
 
