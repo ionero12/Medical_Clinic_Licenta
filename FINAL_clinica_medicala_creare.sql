@@ -62,6 +62,7 @@ CREATE TABLE medici (
     nume_medic                   VARCHAR2(64) NOT NULL,
     prenume_medic                VARCHAR2(64) NOT NULL,
     data_nastere_medic           DATE NOT NULL,
+    cnp_medic          VARCHAR2(16) NOT NULL,
     telefon_medic                VARCHAR2(16) NOT NULL,
     email_medic                  VARCHAR2(128) NOT NULL,
     specializari_id_specializare NUMBER NOT NULL,
