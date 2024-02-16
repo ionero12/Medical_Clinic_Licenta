@@ -19,4 +19,8 @@ public class FisaMedicalaService {
     public List<FisaMedicala> getFiseMedicale() {
         return fisaMedicalaRepository.findAll();
     }
+
+    public void addFisaMedicala(FisaMedicala fisaMedicala) {
+        fisaMedicalaRepository.save(fisaMedicala);
+    }
 }
