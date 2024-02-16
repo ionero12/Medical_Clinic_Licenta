@@ -1,5 +1,7 @@
 package com.example.medical_clinic_project.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ public class FisaMedicala {
     @Column(name = "descriere_investigatie", nullable = false, length = 512)
     private String descriereInvestigatie;
 
+    @JsonBackReference(value = "pacient-fiseMedicale")
     @ManyToOne
     @JoinColumn(name = "pacienti_id_pacient", nullable = false)
     private Pacient pacient;

@@ -3,9 +3,7 @@ package com.example.medical_clinic_project.Controller;
 import com.example.medical_clinic_project.Model.FisaMedicala;
 import com.example.medical_clinic_project.Service.FisaMedicalaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +22,8 @@ public class FisaMedicalaController {
         return fisaMedicalaService.getFiseMedicale();
     }
 
-
+    @PostMapping
+    public void addFisaMedicala(@RequestBody FisaMedicala fisaMedicala) {
+        fisaMedicalaService.addFisaMedicala(fisaMedicala);
+    }
 }

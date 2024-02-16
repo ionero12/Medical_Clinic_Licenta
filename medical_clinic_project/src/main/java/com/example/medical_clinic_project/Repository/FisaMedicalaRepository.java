@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FisaMedicalaRepository extends JpaRepository<FisaMedicala, Long> {
+
 }
