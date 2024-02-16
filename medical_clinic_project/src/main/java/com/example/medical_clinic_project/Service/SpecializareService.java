@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SpecializareService {
@@ -19,5 +20,15 @@ public class SpecializareService {
 
     public List<Specializare> getSpecializari() {
         return specializareRepository.findAll();
+    }
+
+    public void addSpecializare(Specializare specializare) {
+
+        Optional<Specializare> specializareOptional = specializareRepository.findSpecializareByNume(specializare.getNumeSpecializare());
+        if (specializareOptional.isPresent()) {
+            throw new IllegalStateException("Specializarea exista deja");
+        }
+        specializareRepository.save(specializare);
+
     }
 }

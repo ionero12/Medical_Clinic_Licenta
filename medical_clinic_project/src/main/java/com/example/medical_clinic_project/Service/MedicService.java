@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,16 +32,13 @@ public class MedicService {
 
     public void addMedic(Medic medic) {
         Specializare specializare = specializareRepository.findById(medic.getSpecializare().getIdSpecializare()).orElseThrow(() -> new IllegalStateException("Specializare does not exist"));
-
         medic.setSpecializare(specializare);
-
         Optional<Medic> medicOptional = medicRepository.findMedicByCnp(medic.getCnpMedic());
         if (medicOptional.isPresent()) {
             throw new IllegalStateException("Medicul exista deja");
         }
 
         specializare.getMediciList().add(medic);
-
         medicRepository.save(medic);
     }
 
