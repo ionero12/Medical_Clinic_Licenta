@@ -26,4 +26,6 @@ public class MedicController {
     public void addMedic(@RequestBody Medic medic) {
         medicService.addMedic(medic);
     }
+
+
 }

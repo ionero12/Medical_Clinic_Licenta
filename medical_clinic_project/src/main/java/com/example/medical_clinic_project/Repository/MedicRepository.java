@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MedicRepository extends JpaRepository<Medic, Integer> {
+public interface MedicRepository extends JpaRepository<Medic, Long> {
     @Query("SELECT m FROM Medic m WHERE m.cnpMedic = ?1")
     Optional<Medic> findMedicByCnp(String cnp);
 }

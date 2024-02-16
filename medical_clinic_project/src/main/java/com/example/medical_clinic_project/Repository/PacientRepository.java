@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PacientRepository extends JpaRepository<Pacient, Integer> {
+public interface PacientRepository extends JpaRepository<Pacient, Long> {
     @Query("SELECT p FROM Pacient p WHERE p.cnpPacient = ?1")
     Optional<Pacient> findPacientByCnp(String cnp);
 }

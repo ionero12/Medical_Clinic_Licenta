@@ -1,6 +1,8 @@
 package com.example.medical_clinic_project.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -33,8 +35,8 @@ public class Medic {
     @Column(name = "email_medic", nullable = false, length = 128)
     private String emailMedic;
 
-    @JsonIgnore
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "specializari_id_specializare", nullable = false)
     private Specializare specializare;
 
@@ -85,6 +87,10 @@ public class Medic {
         return dataNastereMedic;
     }
 
+    public void setDataNastereMedic(LocalDate dataNastereMedic) {
+        this.dataNastereMedic = dataNastereMedic;
+    }
+
     public String getCnpMedic() {
         return cnpMedic;
     }
@@ -92,15 +98,12 @@ public class Medic {
     public void setCnpMedic(String cnpMedic) {
         this.cnpMedic = cnpMedic;
     }
-    public void setDataNastereMedic(LocalDate dataNastereMedic) {
-        this.dataNastereMedic = dataNastereMedic;
-    }
 
-    public Specializare getSpecializariIdSpecializare() {
+    public Specializare getSpecializare() {
         return specializare;
     }
 
-    public void setSpecializariIdSpecializare(Specializare specializare) {
+    public void setSpecializare(Specializare specializare) {
         this.specializare = specializare;
     }
 

@@ -1,6 +1,6 @@
 package com.example.medical_clinic_project.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,11 +18,16 @@ public class Specializare {
     @Column(name = "nume_specializare", nullable = false, length = 64)
     private String numeSpecializare;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "specializare")
     private List<Medic> mediciList;
 
     public Specializare() {
+    }
+
+    public Specializare(Long idSpecializare, String numeSpecializare) {
+        this.idSpecializare = idSpecializare;
+        this.numeSpecializare = numeSpecializare;
     }
 
     public Specializare(Long idSpecializare, String numeSpecializare, List<Medic> mediciList) {
