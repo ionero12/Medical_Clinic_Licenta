@@ -3,9 +3,7 @@ package com.example.medical_clinic_project.Controller;
 import com.example.medical_clinic_project.Model.Analiza;
 import com.example.medical_clinic_project.Service.AnalizaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +22,8 @@ public class AnalizaController {
         return analizaService.getAnalize();
     }
 
-
+    @PostMapping
+    public void addAnaliza(@RequestBody Analiza analiza) {
+        analizaService.addAnaliza(analiza);
+    }
 }

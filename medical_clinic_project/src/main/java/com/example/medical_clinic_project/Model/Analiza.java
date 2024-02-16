@@ -1,9 +1,9 @@
 package com.example.medical_clinic_project.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "analize")
@@ -15,16 +15,17 @@ public class Analiza {
     @Column(name = "id_analiza")
     private Long idAnaliza;
 
-
     @Column(name = "data_analiza", nullable = false)
     private LocalDate dataAnaliza;
 
+    @JsonBackReference(value = "pacient-analize")
     @ManyToOne
     @JoinColumn(name = "pacienti_id_pacient", nullable = false)
     private Pacient pacient;
 
     public Analiza() {
     }
+
     public Analiza(Long idAnaliza, LocalDate dataAnaliza, Pacient pacient) {
         this.idAnaliza = idAnaliza;
         this.dataAnaliza = dataAnaliza;
@@ -47,11 +48,11 @@ public class Analiza {
         this.dataAnaliza = dataAnaliza;
     }
 
-    public Pacient getPacientiIdPacient() {
+    public Pacient getPacient() {
         return pacient;
     }
 
-    public void setPacientiIdPacient(Pacient pacient) {
+    public void setPacient(Pacient pacient) {
         this.pacient = pacient;
     }
 }

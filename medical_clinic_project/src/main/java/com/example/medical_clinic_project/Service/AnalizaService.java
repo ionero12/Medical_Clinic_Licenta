@@ -19,4 +19,8 @@ public class AnalizaService {
     public List<Analiza> getAnalize() {
         return analizaRepository.findAll();
     }
+
+    public void addAnaliza(Analiza analiza) {
+        analizaRepository.save(analiza);
+    }
 }
