@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "medici")
@@ -35,7 +37,7 @@ public class Medic {
     @Column(name = "email_medic", nullable = false, length = 128)
     private String emailMedic;
 
-    @JsonBackReference
+    @JsonBackReference(value="medic-specializare")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "specializari_id_specializare", nullable = false)
     private Specializare specializare;
@@ -43,11 +45,15 @@ public class Medic {
     @Column(name = "parola_medic", nullable = false, length = 64)
     private String parolaMedic;
 
+    @JsonManagedReference(value="medic-consultatii")
+    @OneToMany(mappedBy = "medic")
+    private List<Consultatie> consultatii = new ArrayList<>();
+
     public Medic() {
 
     }
 
-    public Medic(Long idMedic, String numeMedic, String prenumeMedic, LocalDate dataNastereMedic, String cnpMedic, String telefonMedic, String emailMedic, Specializare specializare, String parolaMedic) {
+    public Medic(Long idMedic, String numeMedic, String prenumeMedic, LocalDate dataNastereMedic, String cnpMedic, String telefonMedic, String emailMedic, Specializare specializare, String parolaMedic, List<Consultatie> consultatii) {
         this.idMedic = idMedic;
         this.numeMedic = numeMedic;
         this.prenumeMedic = prenumeMedic;
@@ -57,6 +63,7 @@ public class Medic {
         this.emailMedic = emailMedic;
         this.specializare = specializare;
         this.parolaMedic = parolaMedic;
+        this.consultatii = consultatii;
     }
 
     public Long getIdMedic() {
@@ -129,6 +136,14 @@ public class Medic {
 
     public void setEmailMedic(String emailMedic) {
         this.emailMedic = emailMedic;
+    }
+
+    public List<Consultatie> getConsultatii() {
+        return consultatii;
+    }
+
+    public void setConsultatii(List<Consultatie> consultatii) {
+        this.consultatii = consultatii;
     }
 }
 
