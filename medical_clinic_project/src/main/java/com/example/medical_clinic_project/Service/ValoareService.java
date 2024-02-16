@@ -19,4 +19,8 @@ public class ValoareService {
     public List<Valoare> getValori() {
         return valoareRepository.findAll();
     }
+
+    public void addValoare(Valoare valoare) {
+        valoareRepository.save(valoare);
+    }
 }
