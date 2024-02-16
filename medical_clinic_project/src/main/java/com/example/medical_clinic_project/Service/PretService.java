@@ -19,4 +19,8 @@ public class PretService {
     public List<Pret> getPreturi() {
         return pretRepository.findAll();
     }
+
+    public void addPret(Pret pret) {
+        pretRepository.save(pret);
+    }
 }
