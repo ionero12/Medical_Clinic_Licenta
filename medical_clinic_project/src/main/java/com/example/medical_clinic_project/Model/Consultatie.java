@@ -1,5 +1,6 @@
 package com.example.medical_clinic_project.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -14,14 +15,15 @@ public class Consultatie {
     @Column(name = "id_consultatie")
     private Long idConsultatie;
 
-
     @Column(name = "data_consultatiei", nullable = false)
     private LocalDate dataConsultatiei;
 
+    @JsonBackReference(value = "pacient-consultatii")
     @ManyToOne
     @JoinColumn(name = "pacienti_id_pacient", nullable = false)
     private Pacient pacient;
 
+    @JsonBackReference(value = "medic-consultatii")
     @ManyToOne
     @JoinColumn(name = "medici_id_medic", nullable = false)
     private Medic medic;
@@ -48,22 +50,6 @@ public class Consultatie {
         this.idConsultatie = idConsultatie;
     }
 
-    public String getNumeConsultatie() {
-        return numeConsultatie;
-    }
-
-    public void setNumeConsultatie(String numeConsultatie) {
-        this.numeConsultatie = numeConsultatie;
-    }
-
-    public Pacient getPacientiIdPacient() {
-        return pacient;
-    }
-
-    public void setPacientiIdPacient(Pacient pacient) {
-        this.pacient = pacient;
-    }
-
     public LocalDate getDataConsultatiei() {
         return dataConsultatiei;
     }
@@ -72,11 +58,27 @@ public class Consultatie {
         this.dataConsultatiei = dataConsultatiei;
     }
 
-    public Medic getMediciIdMedic() {
+    public Pacient getPacient() {
+        return pacient;
+    }
+
+    public void setPacient(Pacient pacient) {
+        this.pacient = pacient;
+    }
+
+    public Medic getMedic() {
         return medic;
     }
 
-    public void setMediciIdMedic(Medic medic) {
+    public void setMedic(Medic medic) {
         this.medic = medic;
+    }
+
+    public String getNumeConsultatie() {
+        return numeConsultatie;
+    }
+
+    public void setNumeConsultatie(String numeConsultatie) {
+        this.numeConsultatie = numeConsultatie;
     }
 }

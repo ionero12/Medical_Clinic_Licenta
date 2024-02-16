@@ -19,4 +19,8 @@ public class ConsultatieService {
     public List<Consultatie> getConsultatii() {
         return consultatieRepository.findAll();
     }
+
+    public void addConsultatie(Consultatie consultatie) {
+        consultatieRepository.save(consultatie);
+    }
 }
