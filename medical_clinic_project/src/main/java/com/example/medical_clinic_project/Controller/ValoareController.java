@@ -3,9 +3,7 @@ package com.example.medical_clinic_project.Controller;
 import com.example.medical_clinic_project.Model.Valoare;
 import com.example.medical_clinic_project.Service.ValoareService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,11 @@ public class ValoareController {
     @GetMapping
     public List<Valoare> getValori() {
         return valoareService.getValori();
+    }
+
+    @PostMapping
+    public void addValoare(@RequestBody Valoare valoare) {
+        valoareService.addValoare(valoare);
     }
 
 
