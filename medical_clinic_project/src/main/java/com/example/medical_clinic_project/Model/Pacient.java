@@ -1,8 +1,12 @@
 package com.example.medical_clinic_project.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pacienti")
@@ -47,10 +51,22 @@ public class Pacient {
     @Column(name = "abonament_pacient", nullable = false)
     private char abonamentPacient;
 
+    @JsonManagedReference(value = "pacient-fiseMedicale")
+    @OneToMany(mappedBy = "pacient")
+    private List<FisaMedicala> fiseMedicale = new ArrayList<>();
+
+    @JsonManagedReference(value = "pacient-consultatii")
+    @OneToMany(mappedBy = "pacient")
+    private List<Consultatie> consultatii = new ArrayList<>();
+
+    @JsonManagedReference(value = "pacient-analize")
+    @OneToMany(mappedBy = "pacient")
+    private List<Analiza> analize = new ArrayList<>();
+
     public Pacient() {
     }
 
-    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, char asigurat, String telefonPacient, String emailPacient, char abonamentPacient) {
+    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, char asigurat, String telefonPacient, String emailPacient, char abonamentPacient, List<FisaMedicala> fiseMedicale, List<Consultatie> consultatii, List<Analiza> analize) {
         this.idPacient = idPacient;
         this.numePacient = numePacient;
         this.prenumePacient = prenumePacient;
@@ -63,6 +79,9 @@ public class Pacient {
         this.telefonPacient = telefonPacient;
         this.emailPacient = emailPacient;
         this.abonamentPacient = abonamentPacient;
+        this.fiseMedicale = fiseMedicale;
+        this.consultatii = consultatii;
+        this.analize = analize;
     }
 
     public Long getIdPacient() {
@@ -159,5 +178,29 @@ public class Pacient {
 
     public void setAbonamentPacient(char abonamentPacient) {
         this.abonamentPacient = abonamentPacient;
+    }
+
+    public List<FisaMedicala> getFiseMedicale() {
+        return fiseMedicale;
+    }
+
+    public void setFiseMedicale(List<FisaMedicala> fiseMedicale) {
+        this.fiseMedicale = fiseMedicale;
+    }
+
+    public List<Consultatie> getConsultatii() {
+        return consultatii;
+    }
+
+    public void setConsultatii(List<Consultatie> consultatii) {
+        this.consultatii = consultatii;
+    }
+
+    public List<Analiza> getAnalize() {
+        return analize;
+    }
+
+    public void setAnalize(List<Analiza> analize) {
+        this.analize = analize;
     }
 }
