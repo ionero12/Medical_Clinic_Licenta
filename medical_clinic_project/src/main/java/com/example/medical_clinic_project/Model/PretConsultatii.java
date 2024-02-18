@@ -19,6 +19,15 @@ public class PretConsultatii {
     @JoinColumn(name = "preturi_id_pret")
     private Pret pret;
 
+    public PretConsultatii() {
+    }
+
+    public PretConsultatii(PretConsultatiiId id, Consultatie consultatie, Pret pret) {
+        this.id = id;
+        this.consultatie = consultatie;
+        this.pret = pret;
+    }
+
     public PretConsultatiiId getId() {
         return id;
     }
