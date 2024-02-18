@@ -26,4 +26,9 @@ public class PacientController {
     public void addPacient(@RequestBody Pacient pacient) {
         pacientService.addPacient(pacient);
     }
+
+    @DeleteMapping(path = "{pacientId}")
+    public void deletePacient(@PathVariable("pacientId") Long pacientId) {
+        pacientService.deletePacient(pacientId);
+    }
 }

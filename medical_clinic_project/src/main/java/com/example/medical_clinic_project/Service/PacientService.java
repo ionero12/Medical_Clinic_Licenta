@@ -28,4 +28,12 @@ public class PacientService {
         }
         pacientRepository.save(pacient);
     }
+
+    public void deletePacient(Long pacientId) {
+        boolean exists = pacientRepository.existsById(pacientId);
+        if (!exists) {
+            throw new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista");
+        }
+        pacientRepository.deleteById(pacientId);
+    }
 }
