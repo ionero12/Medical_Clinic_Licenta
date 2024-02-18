@@ -31,4 +31,12 @@ public class SpecializareService {
         specializareRepository.save(specializare);
 
     }
+
+    public void deleteSpecializare(Long specializareId) {
+        boolean exists = specializareRepository.existsById(specializareId);
+        if (!exists) {
+            throw new IllegalStateException("Specializarea cu id-ul " + specializareId + " nu exista");
+        }
+        specializareRepository.deleteById(specializareId);
+    }
 }

@@ -27,4 +27,9 @@ public class SpecializareController {
     public void addSpecializare(@RequestBody Specializare specializare) {
         specializareService.addSpecializare(specializare);
     }
+
+    @DeleteMapping(path = "{specializareId}")
+    public void deleteSpecializare(@PathVariable("specializareId") Long specializareId) {
+        specializareService.deleteSpecializare(specializareId);
+    }
 }
