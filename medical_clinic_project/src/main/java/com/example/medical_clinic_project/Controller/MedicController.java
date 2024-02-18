@@ -26,4 +26,9 @@ public class MedicController {
     public void addMedic(@RequestBody Medic medic) {
         medicService.addMedic(medic);
     }
+
+    @DeleteMapping(path = "{medicId}")
+    public void deleteMedic(@PathVariable("medicId") Long medicId) {
+        medicService.deleteMedic(medicId);
+    }
 }

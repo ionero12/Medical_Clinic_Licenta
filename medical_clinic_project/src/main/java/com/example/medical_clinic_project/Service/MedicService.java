@@ -43,4 +43,11 @@ public class MedicService {
     }
 
 
+    public void deleteMedic(Long medicId) {
+        boolean exists = medicRepository.existsById(medicId);
+        if (!exists) {
+            throw new IllegalStateException("Medicul cu id-ul " + medicId + " nu exista");
+        }
+        medicRepository.deleteById(medicId);
+    }
 }
