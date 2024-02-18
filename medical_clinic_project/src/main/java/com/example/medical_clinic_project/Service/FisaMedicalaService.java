@@ -23,4 +23,12 @@ public class FisaMedicalaService {
     public void addFisaMedicala(FisaMedicala fisaMedicala) {
         fisaMedicalaRepository.save(fisaMedicala);
     }
+
+    public void deleteFisaMedicala(Long fisaMedicalaId) {
+        boolean exists = fisaMedicalaRepository.existsById(fisaMedicalaId);
+        if (!exists) {
+            throw new IllegalStateException("Fisa medicala cu id-ul " + fisaMedicalaId + " nu exista");
+        }
+        fisaMedicalaRepository.deleteById(fisaMedicalaId);
+    }
 }

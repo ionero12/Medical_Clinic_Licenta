@@ -26,4 +26,9 @@ public class FisaMedicalaController {
     public void addFisaMedicala(@RequestBody FisaMedicala fisaMedicala) {
         fisaMedicalaService.addFisaMedicala(fisaMedicala);
     }
+
+    @DeleteMapping(path = "{fisaMedicalaId}")
+    public void deleteFisaMedicala(@PathVariable("fisaMedicalaId") Long fisaMedicalaId) {
+        fisaMedicalaService.deleteFisaMedicala(fisaMedicalaId);
+    }
 }
