@@ -19,6 +19,15 @@ public class ValoareAnalize {
     @JoinColumn(name = "valori_id_valoare")
     private Valoare valoare;
 
+    public ValoareAnalize() {
+    }
+
+    public ValoareAnalize(ValoareAnalizeId id, Analiza analiza, Valoare valoare) {
+        this.id = id;
+        this.analiza = analiza;
+        this.valoare = valoare;
+    }
+
     public ValoareAnalizeId getId() {
         return id;
     }
