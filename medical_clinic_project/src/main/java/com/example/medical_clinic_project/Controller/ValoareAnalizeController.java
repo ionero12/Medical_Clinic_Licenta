@@ -1,6 +1,7 @@
 package com.example.medical_clinic_project.Controller;
 
 import com.example.medical_clinic_project.Model.ValoareAnalize;
+import com.example.medical_clinic_project.Model.ValoareAnalizeId;
 import com.example.medical_clinic_project.Service.ValoareAnalizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,11 @@ public class ValoareAnalizeController {
         valoareAnalizeService.addValoareAnalize(valoareAnalize);
     }
 
+
+    @DeleteMapping(path = "{analizeIdAnaliza}/{valoriIdValoare}")
+    public void deleteValoareAnalize(@PathVariable("analizeIdAnaliza") Long analizeIdAnaliza, @PathVariable("valoriIdValoare") Long valoriIdValoare) {
+        ValoareAnalizeId id = new ValoareAnalizeId(analizeIdAnaliza, valoriIdValoare);
+        valoareAnalizeService.deleteValoareAnalize(id);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.medical_clinic_project.Service;
 
 import com.example.medical_clinic_project.Model.ValoareAnalize;
+import com.example.medical_clinic_project.Model.ValoareAnalizeId;
 import com.example.medical_clinic_project.Repository.ValoareAnalizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,13 @@ public class ValoareAnalizeService {
     public void addValoareAnalize(ValoareAnalize valoareAnalize) {
         valoareAnalizeRepository.save(valoareAnalize);
     }
+
+    public void deleteValoareAnalize(ValoareAnalizeId id) {
+        boolean exists = valoareAnalizeRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException("Valoarea analizei cu id-ul " + id + " nu exista");
+        }
+        valoareAnalizeRepository.deleteById(id);
+    }
+
 }
