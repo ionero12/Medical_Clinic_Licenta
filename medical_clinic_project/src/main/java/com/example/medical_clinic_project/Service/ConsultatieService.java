@@ -23,4 +23,12 @@ public class ConsultatieService {
     public void addConsultatie(Consultatie consultatie) {
         consultatieRepository.save(consultatie);
     }
+
+    public void deleteConsultatie(Long consultatieId) {
+        boolean exists = consultatieRepository.existsById(consultatieId);
+        if (!exists) {
+            throw new IllegalStateException("Consultatia cu id-ul " + consultatieId + " nu exista");
+        }
+        consultatieRepository.deleteById(consultatieId);
+    }
 }
