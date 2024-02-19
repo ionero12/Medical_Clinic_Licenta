@@ -27,5 +27,9 @@ public class ValoareController {
         valoareService.addValoare(valoare);
     }
 
+    @DeleteMapping(path = "{valoareId}")
+    public void deleteValoare(@PathVariable("valoareId") Long valoareId) {
+        valoareService.deleteValoare(valoareId);
+    }
 
 }

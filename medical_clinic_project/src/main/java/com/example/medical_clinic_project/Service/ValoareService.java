@@ -23,4 +23,12 @@ public class ValoareService {
     public void addValoare(Valoare valoare) {
         valoareRepository.save(valoare);
     }
+
+    public void deleteValoare(Long valoareId) {
+        boolean exists = valoareRepository.existsById(valoareId);
+        if (!exists) {
+            throw new IllegalStateException("Valoarea cu id-ul " + valoareId + " nu exista");
+        }
+        valoareRepository.deleteById(valoareId);
+    }
 }
