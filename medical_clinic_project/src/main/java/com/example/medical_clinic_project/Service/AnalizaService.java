@@ -23,4 +23,12 @@ public class AnalizaService {
     public void addAnaliza(Analiza analiza) {
         analizaRepository.save(analiza);
     }
+
+    public void deleteAnaliza(Long analizaId) {
+        boolean exists = analizaRepository.existsById(analizaId);
+        if (!exists) {
+            throw new IllegalStateException("Analiza cu id-ul " + analizaId + " nu exista");
+        }
+        analizaRepository.deleteById(analizaId);
+    }
 }

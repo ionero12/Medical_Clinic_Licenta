@@ -26,4 +26,9 @@ public class AnalizaController {
     public void addAnaliza(@RequestBody Analiza analiza) {
         analizaService.addAnaliza(analiza);
     }
+
+    @DeleteMapping(path = "{analizaId}")
+    public void deleteAnaliza(@PathVariable("analizaId") Long analizaId) {
+        analizaService.deleteAnaliza(analizaId);
+    }
 }
