@@ -23,4 +23,12 @@ public class PretService {
     public void addPret(Pret pret) {
         pretRepository.save(pret);
     }
+
+    public void deletePret(Long pretId) {
+        boolean exists = pretRepository.existsById(pretId);
+        if (!exists) {
+            throw new IllegalStateException("Pretul cu id-ul " + pretId + " nu exista");
+        }
+        pretRepository.deleteById(pretId);
+    }
 }

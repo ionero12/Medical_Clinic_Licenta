@@ -26,4 +26,9 @@ public class PretController {
     public void addPret(@RequestBody Pret pret) {
         pretService.addPret(pret);
     }
+
+    @DeleteMapping(path = "{pretId}")
+    public void deletePret(@PathVariable("pretId") Long pretId) {
+        pretService.deletePret(pretId);
+    }
 }
