@@ -31,4 +31,9 @@ public class PacientController {
     public void deletePacient(@PathVariable("pacientId") Long pacientId) {
         pacientService.deletePacient(pacientId);
     }
+
+    @PutMapping(path = "{pacientId}")
+    public void updatePacient(@PathVariable("pacientId") Long pacientId, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) String cnpPacient, @RequestParam(required = false) char asigurat, @RequestParam(required = false) char abonamentPacient,@RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient) {
+        pacientService.updatePacient(pacientId, numePacient, prenumePacient, cnpPacient, telefonPacient, emailPacient, parolaPacient, inaltimePacient, greutatePacient, abonamentPacient, asigurat);
+    }
 }
