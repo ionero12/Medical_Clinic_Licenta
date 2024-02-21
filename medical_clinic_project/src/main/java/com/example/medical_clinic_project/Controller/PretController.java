@@ -31,4 +31,9 @@ public class PretController {
     public void deletePret(@PathVariable("pretId") Long pretId) {
         pretService.deletePret(pretId);
     }
+
+    @PutMapping(path = "{pretId}")
+    public void updatePret(@PathVariable("pretId") Long pretId, @RequestParam(required = false) Double valoare){
+        pretService.updatePret(pretId, valoare);
+    }
 }
