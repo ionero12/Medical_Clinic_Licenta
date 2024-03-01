@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface MedicRepository extends JpaRepository<Medic, Long> {
     @Query("SELECT m FROM Medic m WHERE m.cnpMedic = ?1")
     Optional<Medic> findMedicByCnp(String cnp);
+
+    @Query("SELECT m FROM Medic m WHERE m.emailMedic = ?1")
+    Optional<Medic> findByEmailMedic(String email);
 }

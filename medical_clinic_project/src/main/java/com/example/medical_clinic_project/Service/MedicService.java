@@ -4,12 +4,11 @@ import com.example.medical_clinic_project.Model.Medic;
 import com.example.medical_clinic_project.Model.Specializare;
 import com.example.medical_clinic_project.Repository.MedicRepository;
 import com.example.medical_clinic_project.Repository.SpecializareRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,16 +16,16 @@ import java.util.Optional;
 public class MedicService {
     private final MedicRepository medicRepository;
     private final SpecializareRepository specializareRepository;
-    private final ObjectMapper objectMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public MedicService(MedicRepository medicRepository, SpecializareRepository specializareRepository, ObjectMapper objectMapper) {
+    public MedicService(MedicRepository medicRepository, SpecializareRepository specializareRepository, BCryptPasswordEncoder passwordEncoder) {
         this.medicRepository = medicRepository;
         this.specializareRepository = specializareRepository;
-        this.objectMapper = objectMapper;
-
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     public List<Medic> getMedici() {
         return medicRepository.findAll();
@@ -39,10 +38,11 @@ public class MedicService {
         if (medicOptional.isPresent()) {
             throw new IllegalStateException("Medicul exista deja");
         }
-
+        medic.setParolaMedic(passwordEncoder.encode(medic.getParolaMedic()));
         specializare.getMediciList().add(medic);
         medicRepository.save(medic);
     }
+
 
     public void deleteMedic(Long medicId) {
         boolean exists = medicRepository.existsById(medicId);
@@ -55,27 +55,36 @@ public class MedicService {
     @Transactional
     public void updateMedic(Long medicId, String nume, String prenume, String cnp, String telefon, String email, String parola, String specializare) {
         Medic medic = medicRepository.findById(medicId).orElseThrow(() -> new IllegalStateException("Medicul cu id-ul " + medicId + " nu exista"));
-        if (nume != null && nume.length() > 0 && !medic.getNumeMedic().equals(nume)) {
+        if (nume != null && !nume.isEmpty() && !medic.getNumeMedic().equals(nume)) {
             medic.setNumeMedic(nume);
         }
-        if (prenume != null && prenume.length() > 0 && !medic.getPrenumeMedic().equals(prenume)) {
+        if (prenume != null && !prenume.isEmpty() && !medic.getPrenumeMedic().equals(prenume)) {
             medic.setPrenumeMedic(prenume);
         }
-        if (cnp != null && cnp.length() > 0 && !medic.getCnpMedic().equals(cnp)) {
+        if (cnp != null && !cnp.isEmpty() && !medic.getCnpMedic().equals(cnp)) {
             medic.setCnpMedic(cnp);
         }
-        if (telefon != null && telefon.length() > 0 && !medic.getTelefonMedic().equals(telefon)) {
+        if (telefon != null && !telefon.isEmpty() && !medic.getTelefonMedic().equals(telefon)) {
             medic.setTelefonMedic(telefon);
         }
-        if (email != null && email.length() > 0 && !medic.getEmailMedic().equals(email)) {
+        if (email != null && !email.isEmpty() && !medic.getEmailMedic().equals(email)) {
             medic.setEmailMedic(email);
         }
-        if (parola != null && parola.length() > 0 && !medic.getParolaMedic().equals(parola)) {
-            medic.setParolaMedic(parola);
+        if (parola != null && !parola.isEmpty() && !passwordEncoder.matches(parola, medic.getParolaMedic())) {
+            medic.setParolaMedic(passwordEncoder.encode(parola));
         }
-        if (specializare != null && specializare.length() > 0) {
+        if (specializare != null && !specializare.isEmpty()) {
             Specializare specializare1 = specializareRepository.findSpecializareByNume(specializare).orElseThrow(() -> new IllegalStateException("Specializarea nu exista"));
             medic.setSpecializare(specializare1);
         }
+    }
+
+    public boolean isValidCredentials(String emailMedic, String parolaMedic) {
+        Optional<Medic> medicOptional = medicRepository.findByEmailMedic(emailMedic);
+        if (medicOptional.isPresent()) {
+            Medic medic = medicOptional.get();
+            return passwordEncoder.matches(parolaMedic, medic.getParolaMedic());
+        }
+        return false;
     }
 }

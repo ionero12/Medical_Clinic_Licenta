@@ -27,6 +27,15 @@ public class MedicController {
         medicService.addMedic(medic);
     }
 
+    @PostMapping("/login")
+    public String login(@RequestParam String emailMedic, @RequestParam String parolaMedic) {
+        if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
+            return "Login successful!";
+        } else {
+            return "Invalid credentials. Please try again.";
+        }
+    }
+
     @DeleteMapping(path = "{medicId}")
     public void deleteMedic(@PathVariable("medicId") Long medicId) {
         medicService.deleteMedic(medicId);
