@@ -2,7 +2,9 @@ package com.example.medical_clinic_BACKEND.Service;
 
 import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Repository.PacientRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +13,12 @@ import java.util.Optional;
 @Service
 public class PacientService {
     private final PacientRepository pacientRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public PacientService(PacientRepository pacientRepository) {
+    public PacientService(PacientRepository pacientRepository, BCryptPasswordEncoder passwordEncoder) {
         this.pacientRepository = pacientRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Pacient> getPacienti() {
@@ -26,6 +30,7 @@ public class PacientService {
         if (pacientOptional.isPresent()) {
             throw new IllegalStateException("Pacientul exista deja");
         }
+        pacient.setParolaPacient(passwordEncoder.encode(pacient.getParolaPacient()));
         pacientRepository.save(pacient);
     }
 
@@ -37,34 +42,51 @@ public class PacientService {
         pacientRepository.deleteById(pacientId);
     }
 
-    public void updatePacient(Long pacientId, String numePacient, String prenumePacient, String cnpPacient, String telefonPacient, String emailPacient, String parolaPacient, Double greutatePacient, Double inaltimePacient, char asigurat, char abonamentPacient) {
+    @Transactional
+    public void updatePacient(Long pacientId, String numePacient, String prenumePacient, String cnpPacient, String telefonPacient, String emailPacient, String parolaPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
         Pacient pacient = pacientRepository.findById(pacientId).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista"));
-        if(numePacient != null && numePacient.length() > 0 && !pacient.getNumePacient().equals(numePacient)) {
+        if (numePacient != null && !numePacient.isEmpty() && !pacient.getNumePacient().equals(numePacient)) {
             pacient.setNumePacient(numePacient);
         }
-        if(prenumePacient != null && prenumePacient.length() > 0 && !pacient.getPrenumePacient().equals(prenumePacient)) {
+        if (prenumePacient != null && !prenumePacient.isEmpty() && !pacient.getPrenumePacient().equals(prenumePacient)) {
             pacient.setPrenumePacient(prenumePacient);
         }
-        if(cnpPacient != null && cnpPacient.length() > 0 && !pacient.getCnpPacient().equals(cnpPacient)) {
+        if (cnpPacient != null && !cnpPacient.isEmpty() && !pacient.getCnpPacient().equals(cnpPacient)) {
             pacient.setCnpPacient(cnpPacient);
         }
-        if(telefonPacient != null && telefonPacient.length() > 0 && !pacient.getTelefonPacient().equals(telefonPacient)) {
+        if (telefonPacient != null && !telefonPacient.isEmpty() && !pacient.getTelefonPacient().equals(telefonPacient)) {
             pacient.setTelefonPacient(telefonPacient);
         }
-        if(emailPacient != null && emailPacient.length() > 0 && !pacient.getEmailPacient().equals(emailPacient)) {
+        if (emailPacient != null && !emailPacient.isEmpty() && !pacient.getEmailPacient().equals(emailPacient)) {
             pacient.setEmailPacient(emailPacient);
         }
-        if(greutatePacient != null && !pacient.getGreutatePacient().equals(greutatePacient)){
+        if (greutatePacient != null && !pacient.getGreutatePacient().equals(greutatePacient)) {
             pacient.setGreutatePacient(greutatePacient);
         }
-        if(inaltimePacient != null && !pacient.getInaltimePacient().equals(inaltimePacient)){
+        if (inaltimePacient != null && !pacient.getInaltimePacient().equals(inaltimePacient)) {
             pacient.setInaltimePacient(inaltimePacient);
         }
-        if(asigurat != '\0' && pacient.getAsigurat() != asigurat){
+        if (asigurat != null && !pacient.getAsigurat().equals(asigurat)) {
             pacient.setAsigurat(asigurat);
         }
-        if(abonamentPacient != '\0' && pacient.getAbonamentPacient() != abonamentPacient){
+        if (abonamentPacient != null && !pacient.getAbonamentPacient().equals(abonamentPacient)) {
             pacient.setAbonamentPacient(abonamentPacient);
         }
+        if (parolaPacient != null && !parolaPacient.isEmpty() && !pacient.getParolaPacient().equals(parolaPacient)) {
+            pacient.setParolaPacient(passwordEncoder.encode(parolaPacient));
+        }
+        System.out.println("Varsta pacientului este: " + varstaPacient);
+        if (varstaPacient != null && !pacient.getVarstaPacient().equals(varstaPacient)) {
+            pacient.setVarstaPacient(varstaPacient);
+        }
+    }
+
+    public boolean isValidCredentials(String emailPacient, String parolaPacient) {
+        Optional<Pacient> pacientOptional = pacientRepository.findPacientByEmailPacient(emailPacient);
+        if (pacientOptional.isPresent()) {
+            Pacient pacient = pacientOptional.get();
+            return passwordEncoder.matches(parolaPacient, pacient.getParolaPacient());
+        }
+        return false;
     }
 }

@@ -3,6 +3,9 @@ package com.example.medical_clinic_BACKEND.Model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +26,11 @@ public class Pacient {
     @Column(name = "prenume_pacient", nullable = false)
     private String prenumePacient;
 
+    @Past(message = "Date of birth must be a past date")
     @Column(name = "data_nastere_pacient", nullable = false)
     private LocalDate dataNasterePacient;
 
+    @Pattern(regexp = "^[1-9][0-9]{12}$", message = "CNP must be a 13-digit number starting from 1 to 9")
     @Column(name = "cnp_pacient", nullable = false)
     private String cnpPacient;
 
@@ -39,16 +44,24 @@ public class Pacient {
     private Double inaltimePacient;
 
     @Column(name = "asigurat", nullable = false)
-    private char asigurat;
+    private Character asigurat;
 
+    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be a 10-digit number")
     @Column(name = "telefon_pacient", nullable = false)
     private String telefonPacient;
 
-    @Column(name = "email_pacient")
+    @Email(message = "Email should be valid")
+    @Column(name = "email_pacient", nullable = false)
     private String emailPacient;
 
     @Column(name = "abonament_pacient", nullable = false)
-    private char abonamentPacient;
+    private Character abonamentPacient;
+
+    @Column(name = "parola_pacient", nullable = false)
+    private String parolaPacient;
+
+    @Column(name = "varsta_pacient", nullable = false)
+    private Integer varstaPacient;
 
     @JsonManagedReference(value = "pacient-fiseMedicale")
     @OneToMany(mappedBy = "pacient")
@@ -65,7 +78,7 @@ public class Pacient {
     public Pacient() {
     }
 
-    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, char asigurat, String telefonPacient, String emailPacient, char abonamentPacient, List<FisaMedicala> fiseMedicale, List<Consultatie> consultatii, List<Analiza> analize) {
+    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, String telefonPacient, String emailPacient, Character abonamentPacient, String parolaPacient, Integer varstaPacient, List<FisaMedicala> fiseMedicale, List<Consultatie> consultatii, List<Analiza> analize) {
         this.idPacient = idPacient;
         this.numePacient = numePacient;
         this.prenumePacient = prenumePacient;
@@ -78,6 +91,8 @@ public class Pacient {
         this.telefonPacient = telefonPacient;
         this.emailPacient = emailPacient;
         this.abonamentPacient = abonamentPacient;
+        this.parolaPacient = parolaPacient;
+        this.varstaPacient = varstaPacient;
         this.fiseMedicale = fiseMedicale;
         this.consultatii = consultatii;
         this.analize = analize;
@@ -147,11 +162,11 @@ public class Pacient {
         this.inaltimePacient = inaltimePacient;
     }
 
-    public char getAsigurat() {
+    public Character getAsigurat() {
         return asigurat;
     }
 
-    public void setAsigurat(char asigurat) {
+    public void setAsigurat(Character asigurat) {
         this.asigurat = asigurat;
     }
 
@@ -171,12 +186,28 @@ public class Pacient {
         this.emailPacient = emailPacient;
     }
 
-    public char getAbonamentPacient() {
+    public Character getAbonamentPacient() {
         return abonamentPacient;
     }
 
-    public void setAbonamentPacient(char abonamentPacient) {
+    public void setAbonamentPacient(Character abonamentPacient) {
         this.abonamentPacient = abonamentPacient;
+    }
+
+    public String getParolaPacient() {
+        return parolaPacient;
+    }
+
+    public void setParolaPacient(String parolaPacient) {
+        this.parolaPacient = parolaPacient;
+    }
+
+    public Integer getVarstaPacient() {
+        return varstaPacient;
+    }
+
+    public void setVarstaPacient(Integer varstaPacient) {
+        this.varstaPacient = varstaPacient;
     }
 
     public List<FisaMedicala> getFiseMedicale() {

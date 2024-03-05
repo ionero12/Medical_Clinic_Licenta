@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/medic")
@@ -29,8 +30,9 @@ public class MedicController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
-    public String login(@RequestParam String emailMedic, @RequestParam String parolaMedic) {
-        System.out.println(emailMedic + " " + parolaMedic);
+    public String loginMedic(@RequestBody Map<String, String> credentials) {
+        String emailMedic = credentials.get("emailMedic");
+        String parolaMedic = credentials.get("parolaMedic");
         if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
             return "Login successful!";
         } else {
