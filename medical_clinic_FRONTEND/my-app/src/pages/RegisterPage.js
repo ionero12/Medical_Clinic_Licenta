@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import SpecializationDropdown from "../components/SpecializationDropdown";
+import {useNavigate} from 'react-router-dom';
+
 function RegisterPage() {
     const [emailMedic, setEmailMedic] = useState('');
     const [parolaMedic, setParolaMedic] = useState('');
@@ -9,6 +11,7 @@ function RegisterPage() {
     const [telefonMedic, setTelefonMedic] = useState('');
     const [dataNastereMedic, setDataNastereMedic] = useState('');
     const [selectedSpecializationId, setSelectedSpecializationId] = useState('');
+    const navigate = useNavigate();
 
     const handleRegistration = async () => {
         try {
@@ -26,6 +29,7 @@ function RegisterPage() {
 
             if (response.ok) {
                 console.log('Medic registered successfully');
+                navigate('/dashboard');
             } else {
                 console.log('Registration failed');
             }
@@ -34,80 +38,81 @@ function RegisterPage() {
         }
     };
 
-
-    return (<div className="registerPage">
-        <h2>Register</h2>
-
-        <label>
-            Nume:
-            <input
-                type="text"
-                value={numeMedic}
-                onChange={e => setNumeMedic(e.target.value)}
-            />
-        </label>
-
-        <label>
-            Prenume:
-            <input
-                type="text"
-                value={prenumeMedic}
-                onChange={e => setPrenumeMedic(e.target.value)}
-            />
-        </label>
-
-        <label>
-            Cnp:
-            <input
-                type="text"
-                value={cnpMedic}
-                onChange={e => setCnpMedic(e.target.value)}
-            />
-        </label>
-
-        <label>
-            Data nasterii:
-            <input
-                type="date"
-                value={dataNastereMedic}
-                onChange={e => setDataNastereMedic(e.target.value)}
-            />
-        </label>
-
-        <label>
-            Specializare:
-            <SpecializationDropdown onSelectSpecialization={setSelectedSpecializationId}/>
-        </label>
-
-        <label>
-            Telefon:
-            <input
-                type="phone"
-                value={telefonMedic}
-                onChange={e => setTelefonMedic(e.target.value)}
-            />
-        </label>
-
-        <label>
-            Email:
-            <input
-                type="email"
-                value={emailMedic}
-                onChange={e => setEmailMedic(e.target.value)}
-            />
-        </label>
-
-        <label>
-            Parola:
-            <input
-                type="password"
-                value={parolaMedic}
-                onChange={e => setParolaMedic(e.target.value)}
-            />
-        </label>
-
-        <button onClick={handleRegistration}>Register</button>
-    </div>);
+    return (
+        <div className="pt-5">
+        <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
+            <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
+            <label className="block mb-2">
+                Nume:
+                <input
+                    type="text"
+                    value={numeMedic}
+                    onChange={e => setNumeMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Prenume:
+                <input
+                    type="text"
+                    value={prenumeMedic}
+                    onChange={e => setPrenumeMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                CNP:
+                <input
+                    type="text"
+                    value={cnpMedic}
+                    onChange={e => setCnpMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Data nasterii:
+                <input
+                    type="date"
+                    value={dataNastereMedic}
+                    onChange={e => setDataNastereMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Specializare:
+                <SpecializationDropdown onSelectSpecialization={setSelectedSpecializationId}/>
+            </label>
+            <label className="block mb-2">
+                Telefon:
+                <input
+                    type="phone"
+                    value={telefonMedic}
+                    onChange={e => setTelefonMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Email:
+                <input
+                    type="email"
+                    value={emailMedic}
+                    onChange={e => setEmailMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Parola:
+                <input
+                    type="password"
+                    value={parolaMedic}
+                    onChange={e => setParolaMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <button onClick={handleRegistration} className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register</button>
+        </div>
+        </div>
+    );
 }
 
 export default RegisterPage;
