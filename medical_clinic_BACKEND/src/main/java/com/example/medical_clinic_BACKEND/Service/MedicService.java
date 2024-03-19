@@ -80,11 +80,16 @@ public class MedicService {
     }
 
     public boolean isValidCredentials(String emailMedic, String parolaMedic) {
-        Optional<Medic> medicOptional = medicRepository.findByEmailMedic(emailMedic);
+        Optional<Medic> medicOptional = medicRepository.findMedicByEmail(emailMedic);
         if (medicOptional.isPresent()) {
             Medic medic = medicOptional.get();
             return passwordEncoder.matches(parolaMedic, medic.getParolaMedic());
         }
         return false;
+    }
+
+    public Medic findByEmail(String emailMedic) {
+        Optional<Medic> medicOptional = medicRepository.findMedicByEmail(emailMedic);
+        return medicOptional.orElse(null);
     }
 }

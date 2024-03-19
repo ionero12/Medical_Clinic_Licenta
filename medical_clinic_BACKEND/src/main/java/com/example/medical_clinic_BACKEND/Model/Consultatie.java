@@ -81,4 +81,37 @@ public class Consultatie {
     public void setNumeConsultatie(String numeConsultatie) {
         this.numeConsultatie = numeConsultatie;
     }
+
+    public void setNumeMedic(String numeMedic) {
+        this.medic.setNumeMedic(numeMedic);
+    }
+
+    public void setPrenumeMedic(String prenumeMedic) {
+        this.medic.setPrenumeMedic(prenumeMedic);
+    }
+
+    public void setNumePacient(String numePacient) {
+        this.pacient.setNumePacient(numePacient);
+    }
+
+    public void setPrenumePacient(String prenumePacient) {
+        this.pacient.setPrenumePacient(prenumePacient);
+    }
+
+    public String getNumeMedic( ) {
+        return this.medic.getNumeMedic();
+    }
+
+    public String getPrenumeMedic( ) {
+        return this.medic.getPrenumeMedic();
+    }
+
+    public String getNumePacient( ) {
+        return this.pacient.getNumePacient();
+    }
+
+    public String getPrenumePacient( ) {
+        return this.pacient.getPrenumePacient();
+    }
+
 }

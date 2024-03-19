@@ -3,6 +3,8 @@ package com.example.medical_clinic_BACKEND.Controller;
 import com.example.medical_clinic_BACKEND.Model.Medic;
 import com.example.medical_clinic_BACKEND.Service.MedicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,19 +26,21 @@ public class MedicController {
     }
 
     @PostMapping
-    public void addMedic(@RequestBody Medic medic) {
+    public ResponseEntity<Medic> addMedic(@RequestBody Medic medic) {
         medicService.addMedic(medic);
+        return ResponseEntity.ok(medic);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
-    public String loginMedic(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Medic> loginMedic(@RequestBody Map<String, String> credentials) {
         String emailMedic = credentials.get("emailMedic");
         String parolaMedic = credentials.get("parolaMedic");
         if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
-            return "Login successful!";
+            Medic medic = medicService.findByEmail(emailMedic);
+            return ResponseEntity.ok(medic);
         } else {
-            return "Invalid credentials. Please try again.";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

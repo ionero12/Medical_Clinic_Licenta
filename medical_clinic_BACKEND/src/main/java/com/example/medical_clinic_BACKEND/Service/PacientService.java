@@ -89,4 +89,13 @@ public class PacientService {
         }
         return false;
     }
+
+    public Pacient getPacientById(Long pacientId) {
+        return pacientRepository.findById(pacientId).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista"));
+    }
+
+    public Pacient findByEmail(String emailPacient) {
+        Optional<Pacient> pacientOptional = pacientRepository.findPacientByEmailPacient(emailPacient);
+        return pacientOptional.orElse(null);
+    }
 }

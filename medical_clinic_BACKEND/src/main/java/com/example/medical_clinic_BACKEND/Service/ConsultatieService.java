@@ -31,4 +31,12 @@ public class ConsultatieService {
         }
         consultatieRepository.deleteById(consultatieId);
     }
+
+    public List<Consultatie> findByMedicId(Long medicId) {
+        return consultatieRepository.findByMedicId(medicId);
+    }
+
+    public List<Consultatie> findByPacientId(Long pacientId) {
+        return consultatieRepository.findByPacientId(pacientId);
+    }
 }
