@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import SpecializationDropdown from "../components/SpecializationDropdown";
 import {useNavigate} from 'react-router-dom';
 
-function RegisterPage() {
+function MedicRegister() {
     const [emailMedic, setEmailMedic] = useState('');
     const [parolaMedic, setParolaMedic] = useState('');
     const [numeMedic, setNumeMedic] = useState('');
@@ -29,7 +29,7 @@ function RegisterPage() {
 
             if (response.ok) {
                 console.log('Medic registered successfully');
-                navigate('/dashboard');
+                navigate('/medic/dashboard');
             } else {
                 console.log('Registration failed');
             }
@@ -115,4 +115,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default MedicRegister;
