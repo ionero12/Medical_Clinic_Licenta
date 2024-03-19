@@ -43,16 +43,13 @@ public class PacientService {
     }
 
     @Transactional
-    public void updatePacient(Long pacientId, String numePacient, String prenumePacient, String cnpPacient, String telefonPacient, String emailPacient, String parolaPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
+    public void updatePacient(Long pacientId, String numePacient, String prenumePacient , String telefonPacient, String emailPacient, String parolaPacient, Double inaltimePacient, Double greutatePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
         Pacient pacient = pacientRepository.findById(pacientId).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista"));
         if (numePacient != null && !numePacient.isEmpty() && !pacient.getNumePacient().equals(numePacient)) {
             pacient.setNumePacient(numePacient);
         }
         if (prenumePacient != null && !prenumePacient.isEmpty() && !pacient.getPrenumePacient().equals(prenumePacient)) {
             pacient.setPrenumePacient(prenumePacient);
-        }
-        if (cnpPacient != null && !cnpPacient.isEmpty() && !pacient.getCnpPacient().equals(cnpPacient)) {
-            pacient.setCnpPacient(cnpPacient);
         }
         if (telefonPacient != null && !telefonPacient.isEmpty() && !pacient.getTelefonPacient().equals(telefonPacient)) {
             pacient.setTelefonPacient(telefonPacient);
@@ -75,7 +72,6 @@ public class PacientService {
         if (parolaPacient != null && !parolaPacient.isEmpty() && !pacient.getParolaPacient().equals(parolaPacient)) {
             pacient.setParolaPacient(passwordEncoder.encode(parolaPacient));
         }
-        System.out.println("Varsta pacientului este: " + varstaPacient);
         if (varstaPacient != null && !pacient.getVarstaPacient().equals(varstaPacient)) {
             pacient.setVarstaPacient(varstaPacient);
         }

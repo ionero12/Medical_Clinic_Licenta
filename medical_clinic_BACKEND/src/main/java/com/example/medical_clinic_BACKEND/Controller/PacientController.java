@@ -70,7 +70,7 @@ public class PacientController {
     }
 
     @PutMapping(path = "{pacientId}")
-    public void updatePacient(@PathVariable("pacientId") Long pacientId, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) String cnpPacient, @RequestParam(required = false) Character asigurat, @RequestParam(required = false) Character abonamentPacient, @RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient, @RequestParam(required = false) Integer varstaPacient) {
-        pacientService.updatePacient(pacientId, numePacient, prenumePacient, cnpPacient, telefonPacient, emailPacient, parolaPacient, inaltimePacient, greutatePacient, abonamentPacient, asigurat, varstaPacient);
+    public void updatePacient(@PathVariable("pacientId") Long pacientId, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) Character asigurat, @RequestParam(required = false) Character abonamentPacient, @RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient, @RequestParam(required = false) Integer varstaPacient) {
+        pacientService.updatePacient(pacientId, numePacient, prenumePacient, telefonPacient, emailPacient, parolaPacient, inaltimePacient, greutatePacient, abonamentPacient, asigurat, varstaPacient);
     }
 }

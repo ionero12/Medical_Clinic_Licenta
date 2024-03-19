@@ -53,29 +53,22 @@ public class MedicService {
     }
 
     @Transactional
-    public void updateMedic(Long medicId, String nume, String prenume, String cnp, String telefon, String email, String parola, String specializare) {
+    public void updateMedic(Long medicId, String numeMedic, String prenumeMedic, String telefonMedic, String emailMedic, String parolaMedic) {
         Medic medic = medicRepository.findById(medicId).orElseThrow(() -> new IllegalStateException("Medicul cu id-ul " + medicId + " nu exista"));
-        if (nume != null && !nume.isEmpty() && !medic.getNumeMedic().equals(nume)) {
-            medic.setNumeMedic(nume);
+        if (numeMedic != null && !numeMedic.isEmpty() && !medic.getNumeMedic().equals(numeMedic)) {
+            medic.setNumeMedic(numeMedic);
         }
-        if (prenume != null && !prenume.isEmpty() && !medic.getPrenumeMedic().equals(prenume)) {
-            medic.setPrenumeMedic(prenume);
+        if (prenumeMedic != null && !prenumeMedic.isEmpty() && !medic.getPrenumeMedic().equals(prenumeMedic)) {
+            medic.setPrenumeMedic(prenumeMedic);
         }
-        if (cnp != null && !cnp.isEmpty() && !medic.getCnpMedic().equals(cnp)) {
-            medic.setCnpMedic(cnp);
+        if (telefonMedic != null && !telefonMedic.isEmpty() && !medic.getTelefonMedic().equals(telefonMedic)) {
+            medic.setTelefonMedic(telefonMedic);
         }
-        if (telefon != null && !telefon.isEmpty() && !medic.getTelefonMedic().equals(telefon)) {
-            medic.setTelefonMedic(telefon);
+        if (emailMedic != null && !emailMedic.isEmpty() && !medic.getEmailMedic().equals(emailMedic)) {
+            medic.setEmailMedic(emailMedic);
         }
-        if (email != null && !email.isEmpty() && !medic.getEmailMedic().equals(email)) {
-            medic.setEmailMedic(email);
-        }
-        if (parola != null && !parola.isEmpty() && !passwordEncoder.matches(parola, medic.getParolaMedic())) {
-            medic.setParolaMedic(passwordEncoder.encode(parola));
-        }
-        if (specializare != null && !specializare.isEmpty()) {
-            Specializare specializare1 = specializareRepository.findSpecializareByNume(specializare).orElseThrow(() -> new IllegalStateException("Specializarea nu exista"));
-            medic.setSpecializare(specializare1);
+        if (parolaMedic != null && !parolaMedic.isEmpty() && !passwordEncoder.matches(parolaMedic, medic.getParolaMedic())) {
+            medic.setParolaMedic(passwordEncoder.encode(parolaMedic));
         }
     }
 

@@ -50,7 +50,7 @@ public class MedicController {
     }
 
     @PutMapping(path = "{medicId}")
-    public void updateMedic(@PathVariable("medicId") Long medicId, @RequestParam(required = false) String numeMedic, @RequestParam(required = false) String prenumeMedic, @RequestParam(required = false) String specializare, @RequestParam(required = false) String emailMedic, @RequestParam(required = false) String telefonMedic, @RequestParam(required = false) String parolaMedic, @RequestParam(required = false) String cnpMedic) {
-        medicService.updateMedic(medicId, numeMedic, prenumeMedic, cnpMedic, telefonMedic, emailMedic, parolaMedic, specializare);
+    public void updateMedic(@PathVariable("medicId") Long medicId, @RequestParam(required = false) String numeMedic, @RequestParam(required = false) String prenumeMedic, @RequestParam(required = false) String emailMedic, @RequestParam(required = false) String telefonMedic, @RequestParam(required = false) String parolaMedic) {
+        medicService.updateMedic(medicId, numeMedic, prenumeMedic, telefonMedic, emailMedic, parolaMedic);
     }
 }

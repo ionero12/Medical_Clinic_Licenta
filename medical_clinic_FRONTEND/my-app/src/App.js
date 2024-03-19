@@ -6,6 +6,8 @@ import MedicRegister from './pages/MedicRegister';
 import PatientRegister from './pages/PatientRegister';
 import MedicDashboard from './pages/MedicDashboard';
 import PatientDashboard from './pages/PatientDashboard';
+import MedicProfile from './pages/MedicProfile';
+import PatientProfile from './pages/PatientProfile';
 import Patient from './pages/Patient';
 import {UserProvider} from './user/UserContext'; // import UserProvider
 
@@ -18,6 +20,8 @@ function App() {
                 <Route path="/pacient/register" element={<PatientRegister/>}/>
                 <Route path="/medic/dashboard" element={<MedicDashboard/>}/>
                 <Route path="/pacient/dashboard" element={<PatientDashboard/>}/>
+                <Route path="/medic/profile" element={<MedicProfile/>}/>
+                <Route path="/pacient/profile" element={<PatientProfile/>}/>
                 <Route path="/patient/:id" element={<Patient/>}/>
                 <Route path="*" element={<Navigate to="/login"/>}/>
             </Routes>
