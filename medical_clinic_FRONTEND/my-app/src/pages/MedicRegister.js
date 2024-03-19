@@ -16,9 +16,16 @@ function MedicRegister() {
     const handleRegistration = async () => {
         try {
             const newUser = {
-                numeMedic, prenumeMedic, cnpMedic, dataNastereMedic, specializare: {
+                numeMedic,
+                prenumeMedic,
+                cnpMedic,
+                dataNastereMedic,
+                specializare: {
                     idSpecializare: selectedSpecializationId
-                }, telefonMedic, emailMedic, parolaMedic
+                },
+                telefonMedic,
+                emailMedic,
+                parolaMedic
             };
 
             const response = await fetch('http://localhost:8081/api/medic', {
@@ -38,8 +45,7 @@ function MedicRegister() {
         }
     };
 
-    return (
-        <div className="pt-5">
+    return (<div className="pt-5">
         <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
             <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
             <label className="block mb-2">
@@ -109,10 +115,11 @@ function MedicRegister() {
                     className="w-full px-2 py-1 mb-4 border border-gray-300"
                 />
             </label>
-            <button onClick={handleRegistration} className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register</button>
+            <button onClick={handleRegistration}
+                    className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register
+            </button>
         </div>
-        </div>
-    );
+    </div>);
 }
 
 export default MedicRegister;

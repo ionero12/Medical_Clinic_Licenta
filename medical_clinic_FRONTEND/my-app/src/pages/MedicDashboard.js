@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useUser } from '../user/UserContext';  // import useUser
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {useUser} from '../user/UserContext'; // import useUser
+import MedicMenu from '../components/MedicMenu';
 
 const MedicDashboard = () => {
     const [patients, setPatients] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-    const { user } = useUser();  // get user from the user context
+    const {user} = useUser();  // get user from the user context
     const idMedic = user ? user.idMedic : null;  // get medicId from the user
 
     console.log(user);  // print user to the console
@@ -30,23 +31,20 @@ const MedicDashboard = () => {
     }, [idMedic]);
 
 
-
-    return (
-        <div className="p-6">
+    return (<div className="p-6">
+            <MedicMenu/>
             <h1 className="text-3xl font-bold mb-4">Dashboard Medic</h1>
             <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded shadow">
                     <h2 className="text-2xl font-bold mb-2">Pacienti</h2>
                     <ul>
-                        {patients.map((pacient) => (
-                            <li key={pacient.idPacient} className="border-b py-2">
+                        {patients.map((pacient) => (<li key={pacient.idPacient} className="border-b py-2">
                                 <Link to={`/patient/${pacient.idPacient}`}>
                                     {pacient.numePacient} {pacient.prenumePacient}
                                 </Link>
                                 <br/>
                                 Varsta: {pacient.varstaPacient}
-                            </li>
-                        ))}
+                            </li>))}
                     </ul>
                 </div>
                 <div className="bg-white p-4 rounded shadow">
@@ -59,13 +57,11 @@ const MedicDashboard = () => {
                                 Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
                                 <br/>
                                 ID Consultatie: {appointment.idConsultatie}, Data: {appointment.dataConsultatiei}
-                            </li>
-                        ))}
+                            </li>))}
                     </ul>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default MedicDashboard;

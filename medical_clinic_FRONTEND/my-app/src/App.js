@@ -11,18 +11,18 @@ import {UserProvider} from './user/UserContext'; // import UserProvider
 
 function App() {
     return (<Router>
-            <UserProvider>  {/* Wrap your routes with UserProvider */}
-                <Routes>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/medic/register" element={<MedicRegister/>}/>
-                    <Route path="/pacient/register" element={<PatientRegister/>}/>
-                    <Route path="/medic/dashboard" element={<MedicDashboard/>}/>
-                    <Route path="/pacient/dashboard" element={<PatientDashboard/>}/>
-                    <Route path="/patient/:id" element={<Patient/>}/>
-                    <Route path="*" element={<Navigate to="/login"/>}/>
-                </Routes>
-            </UserProvider>
-        </Router>);
+        <UserProvider>  {/* Wrap your routes with UserProvider */}
+            <Routes>
+                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/medic/register" element={<MedicRegister/>}/>
+                <Route path="/pacient/register" element={<PatientRegister/>}/>
+                <Route path="/medic/dashboard" element={<MedicDashboard/>}/>
+                <Route path="/pacient/dashboard" element={<PatientDashboard/>}/>
+                <Route path="/patient/:id" element={<Patient/>}/>
+                <Route path="*" element={<Navigate to="/login"/>}/>
+            </Routes>
+        </UserProvider>
+    </Router>);
 }
 
 export default App;
