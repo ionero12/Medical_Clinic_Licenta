@@ -11,7 +11,7 @@ const PatientDashboard = () => {
 
     useEffect(() => {
         if (idPacient) {
-            const urlConsultations = `http://localhost:8081/api/consultatie?pacientId=${idPacient}`;
+            const urlConsultations = `http://localhost:8081/api/consultatie?idPacient=${idPacient}`;
 
             fetch(urlConsultations)
                 .then(response => response.json())

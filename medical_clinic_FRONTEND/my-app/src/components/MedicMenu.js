@@ -15,7 +15,7 @@ const MedicMenu = () => {
             <div className={`md:flex ${isOpen ? 'block' : 'hidden'}`}>
                 <Link to="/medic/dashboard"
                       className="text-white text-lg hover:underline block px-4 py-3 md:inline-block">Dashboard</Link>
-                <Link to="/appointments"
+                <Link to="/medic/appointments"
                       className="text-white text-lg hover:underline block px-4 py-3 md:inline-block">Appointments</Link>
                 {/* Add more menu items as needed */}
                 <Link to="/medic/profile"
