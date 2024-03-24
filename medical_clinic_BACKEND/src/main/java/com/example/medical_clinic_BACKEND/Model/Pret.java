@@ -1,6 +1,9 @@
 package com.example.medical_clinic_BACKEND.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "preturi")
@@ -12,15 +15,24 @@ public class Pret {
     @Column(name = "id_pret")
     private Long idPret;
 
-    @Column(name = "valoare", nullable = false)
-    private Double valoare;
+    @Column(name = "pret_fara_abonament", nullable = false)
+    private Double pretFaraAbonament;
+
+    @Column(name = "pret_cu_abonament", nullable = false)
+    private Double pretCuAbonament;
+
+    @JsonManagedReference(value="consultatie-pret")
+    @OneToMany(mappedBy = "pret")
+    private List<Consultatie> consultatii;
 
     public Pret() {
     }
 
-    public Pret(Long idPret, Double valoare) {
+    public Pret(Long idPret, Double pretFaraAbonament, Double pretCuAbonament, List<Consultatie> consultatii) {
         this.idPret = idPret;
-        this.valoare = valoare;
+        this.pretFaraAbonament = pretFaraAbonament;
+        this.pretCuAbonament = pretCuAbonament;
+        this.consultatii = consultatii;
     }
 
     public Long getIdPret() {
@@ -31,11 +43,27 @@ public class Pret {
         this.idPret = idPret;
     }
 
-    public Double getValoare() {
-        return valoare;
+    public Double getPretFaraAbonament() {
+        return pretFaraAbonament;
     }
 
-    public void setValoare(Double valoare) {
-        this.valoare = valoare;
+    public void setPretFaraAbonament(Double pretFaraAbonament) {
+        this.pretFaraAbonament = pretFaraAbonament;
+    }
+
+    public Double getPretCuAbonament() {
+        return pretCuAbonament;
+    }
+
+    public void setPretCuAbonament(Double pretCuAbonament) {
+        this.pretCuAbonament = pretCuAbonament;
+    }
+
+    public List<Consultatie> getConsultatii() {
+        return consultatii;
+    }
+
+    public void setConsultatii(List<Consultatie> consultatii) {
+        this.consultatii = consultatii;
     }
 }

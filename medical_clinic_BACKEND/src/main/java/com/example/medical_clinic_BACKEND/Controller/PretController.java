@@ -33,7 +33,7 @@ public class PretController {
     }
 
     @PutMapping(path = "{pretId}")
-    public void updatePret(@PathVariable("pretId") Long pretId, @RequestParam(required = false) Double valoare){
-        pretService.updatePret(pretId, valoare);
+    public void updatePret(@PathVariable("pretId") Long pretId, @RequestParam(required = false) Double pretFaraAbonament, @RequestParam(required = false) Double pretCuAbonament) {
+        pretService.updatePret(pretId, pretFaraAbonament, pretCuAbonament);
     }
 }

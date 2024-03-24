@@ -31,15 +31,21 @@ public class Consultatie {
     @Column(name = "nume_consultatie", nullable = false, length = 64)
     private String numeConsultatie;
 
+    @JsonBackReference(value="consultatie-pret")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "preturi_id_pret", nullable = false)
+    private Pret pret;
+
     public Consultatie() {
     }
 
-    public Consultatie(Long idConsultatie, LocalDate dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie) {
+    public Consultatie(Long idConsultatie, LocalDate dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret) {
         this.idConsultatie = idConsultatie;
         this.dataConsultatiei = dataConsultatiei;
         this.pacient = pacient;
         this.medic = medic;
         this.numeConsultatie = numeConsultatie;
+        this.pret = pret;
     }
 
     public Long getIdConsultatie() {
@@ -114,4 +120,11 @@ public class Consultatie {
         return this.pacient.getPrenumePacient();
     }
 
+    public Pret getPret() {
+        return pret;
+    }
+
+    public void setPret(Pret pret) {
+        this.pret = pret;
+    }
 }

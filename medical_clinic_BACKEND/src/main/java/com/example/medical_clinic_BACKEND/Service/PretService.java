@@ -34,10 +34,13 @@ public class PretService {
     }
 
     @Transactional
-    public void updatePret(Long idPret, Double valoare) {
+    public void updatePret(Long idPret, Double pretFaraAbonament, Double pretCuAbonament) {
         Pret pret = pretRepository.findById(idPret).orElseThrow(() -> new IllegalStateException("Pretul cu id-ul " + idPret + " nu exista"));
-        if( valoare != null && !pret.getValoare().equals(valoare)){
-            pret.setValoare(valoare);
+        if( pretFaraAbonament != null && !pret.getPretFaraAbonament().equals(pretFaraAbonament)){
+            pret.setPretFaraAbonament(pretFaraAbonament);
+        }
+        if( pretCuAbonament != null && !pret.getPretCuAbonament().equals(pretCuAbonament)){
+            pret.setPretCuAbonament(pretCuAbonament);
         }
     }
 }
