@@ -27,10 +27,10 @@ public class PacientController {
     }
 
     @GetMapping
-    public List<Pacient> getPacienti(@RequestParam(required = false) Long medicId) {
-        if (medicId == null) return pacientService.getPacienti();
+    public List<Pacient> getPacienti(@RequestParam(required = false) Long idMedic) {
+        if (idMedic == null) return pacientService.getPacienti();
         else {
-            List<Consultatie> consultatii = consultatieService.findByMedicId(medicId);
+            List<Consultatie> consultatii = consultatieService.findByIdMedic(idMedic);
             if (consultatii != null) {
                 return consultatii.stream().map(Consultatie::getPacient).distinct().collect(Collectors.toList());
             } else {
@@ -40,9 +40,9 @@ public class PacientController {
     }
 
 
-    @GetMapping(path = "{pacientId}")
-    public Pacient getPacientById(@PathVariable("pacientId") Long pacientId) {
-        return pacientService.getPacientById(pacientId);
+    @GetMapping(path = "{idPacient}")
+    public Pacient getPacientById(@PathVariable("idPacient") Long idPacient) {
+        return pacientService.getPacientById(idPacient);
     }
 
     @PostMapping
@@ -64,13 +64,13 @@ public class PacientController {
         }
     }
 
-    @DeleteMapping(path = "{pacientId}")
-    public void deletePacient(@PathVariable("pacientId") Long pacientId) {
-        pacientService.deletePacient(pacientId);
+    @DeleteMapping(path = "{idPacient}")
+    public void deletePacient(@PathVariable("idPacient") Long idPacient) {
+        pacientService.deletePacient(idPacient);
     }
 
-    @PutMapping(path = "{pacientId}")
-    public void updatePacient(@PathVariable("pacientId") Long pacientId, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) Character asigurat, @RequestParam(required = false) Character abonamentPacient, @RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient, @RequestParam(required = false) Integer varstaPacient) {
-        pacientService.updatePacient(pacientId, numePacient, prenumePacient, telefonPacient, emailPacient, parolaPacient, inaltimePacient, greutatePacient, abonamentPacient, asigurat, varstaPacient);
+    @PutMapping(path = "{idPacient}")
+    public void updatePacient(@PathVariable("idPacient") Long idPacient, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) Character asigurat, @RequestParam(required = false) Character abonamentPacient, @RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient, @RequestParam(required = false) Integer varstaPacient) {
+        pacientService.updatePacient(idPacient, numePacient, prenumePacient, telefonPacient, emailPacient, parolaPacient, inaltimePacient, greutatePacient, abonamentPacient, asigurat, varstaPacient);
     }
 }

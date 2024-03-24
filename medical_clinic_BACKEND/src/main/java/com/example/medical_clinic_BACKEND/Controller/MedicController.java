@@ -44,13 +44,13 @@ public class MedicController {
         }
     }
 
-    @DeleteMapping(path = "{medicId}")
-    public void deleteMedic(@PathVariable("medicId") Long medicId) {
-        medicService.deleteMedic(medicId);
+    @DeleteMapping(path = "{idMedic}")
+    public void deleteMedic(@PathVariable("idMedic") Long idMedic) {
+        medicService.deleteMedic(idMedic);
     }
 
-    @PutMapping(path = "{medicId}")
-    public void updateMedic(@PathVariable("medicId") Long medicId, @RequestParam(required = false) String numeMedic, @RequestParam(required = false) String prenumeMedic, @RequestParam(required = false) String emailMedic, @RequestParam(required = false) String telefonMedic, @RequestParam(required = false) String parolaMedic) {
-        medicService.updateMedic(medicId, numeMedic, prenumeMedic, telefonMedic, emailMedic, parolaMedic);
+    @PutMapping(path = "{idMedic}")
+    public void updateMedic(@PathVariable("idMedic") Long idMedic, @RequestParam(required = false) String numeMedic, @RequestParam(required = false) String prenumeMedic, @RequestParam(required = false) String emailMedic, @RequestParam(required = false) String telefonMedic, @RequestParam(required = false) String parolaMedic) {
+        medicService.updateMedic(idMedic, numeMedic, prenumeMedic, telefonMedic, emailMedic, parolaMedic);
     }
 }

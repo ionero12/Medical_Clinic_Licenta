@@ -63,9 +63,9 @@ public class Pacient {
     @Column(name = "varsta_pacient", nullable = false)
     private Integer varstaPacient;
 
-    @JsonManagedReference(value = "pacient-fiseMedicale")
+    @JsonManagedReference(value = "pacient-diagnostice")
     @OneToMany(mappedBy = "pacient")
-    private List<FisaMedicala> fiseMedicale = new ArrayList<>();
+    private List<Diagnostic> fiseMedicale = new ArrayList<>();
 
     @JsonManagedReference(value = "pacient-consultatii")
     @OneToMany(mappedBy = "pacient")
@@ -78,7 +78,7 @@ public class Pacient {
     public Pacient() {
     }
 
-    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, String telefonPacient, String emailPacient, Character abonamentPacient, String parolaPacient, Integer varstaPacient, List<FisaMedicala> fiseMedicale, List<Consultatie> consultatii, List<Analiza> analize) {
+    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, String telefonPacient, String emailPacient, Character abonamentPacient, String parolaPacient, Integer varstaPacient, List<Diagnostic> fiseMedicale, List<Consultatie> consultatii, List<Analiza> analize) {
         this.idPacient = idPacient;
         this.numePacient = numePacient;
         this.prenumePacient = prenumePacient;
@@ -210,11 +210,11 @@ public class Pacient {
         this.varstaPacient = varstaPacient;
     }
 
-    public List<FisaMedicala> getFiseMedicale() {
+    public List<Diagnostic> getFiseMedicale() {
         return fiseMedicale;
     }
 
-    public void setFiseMedicale(List<FisaMedicala> fiseMedicale) {
+    public void setFiseMedicale(List<Diagnostic> fiseMedicale) {
         this.fiseMedicale = fiseMedicale;
     }
 

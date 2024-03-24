@@ -34,17 +34,17 @@ public class PacientService {
         pacientRepository.save(pacient);
     }
 
-    public void deletePacient(Long pacientId) {
-        boolean exists = pacientRepository.existsById(pacientId);
+    public void deletePacient(Long idPacient) {
+        boolean exists = pacientRepository.existsById(idPacient);
         if (!exists) {
-            throw new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista");
+            throw new IllegalStateException("Pacientul cu id-ul " + idPacient + " nu exista");
         }
-        pacientRepository.deleteById(pacientId);
+        pacientRepository.deleteById(idPacient);
     }
 
     @Transactional
-    public void updatePacient(Long pacientId, String numePacient, String prenumePacient , String telefonPacient, String emailPacient, String parolaPacient, Double inaltimePacient, Double greutatePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
-        Pacient pacient = pacientRepository.findById(pacientId).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista"));
+    public void updatePacient(Long idPacient, String numePacient, String prenumePacient , String telefonPacient, String emailPacient, String parolaPacient, Double inaltimePacient, Double greutatePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
+        Pacient pacient = pacientRepository.findById(idPacient).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + idPacient + " nu exista"));
         if (numePacient != null && !numePacient.isEmpty() && !pacient.getNumePacient().equals(numePacient)) {
             pacient.setNumePacient(numePacient);
         }
@@ -86,8 +86,8 @@ public class PacientService {
         return false;
     }
 
-    public Pacient getPacientById(Long pacientId) {
-        return pacientRepository.findById(pacientId).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + pacientId + " nu exista"));
+    public Pacient getPacientById(Long idPacient) {
+        return pacientRepository.findById(idPacient).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + idPacient + " nu exista"));
     }
 
     public Pacient findByEmail(String emailPacient) {
