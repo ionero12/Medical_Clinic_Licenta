@@ -7,7 +7,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +49,18 @@ public class ConsultatieService {
         return consultatieRepository.findAll();
     }
 
+    public List<Consultatie> getConsultatiiWithPrices(){
+        List<Consultatie> consultatii = consultatieRepository.findAll();
+        for (Consultatie consultatie : consultatii) {
+            Pret pret = consultatie.getPret();
+            Double price1 = pret.getPretFaraAbonament();
+            Double price2 = pret.getPretCuAbonament();
+            consultatie.setPretFaraAbonament(price1);
+            consultatie.setPretCuAbonament(price2);
+        }
+        return consultatii;
+    }
+
     public void addConsultatie(Consultatie consultatie) {
         Pret pret = pretRepository.findById(consultatie.getPret().getIdPret()).orElseThrow(() -> new IllegalStateException("Pret does not exist"));
         consultatie.setPret(pret);
@@ -71,7 +85,7 @@ public class ConsultatieService {
 //    }
 
     @Transactional
-    public Consultatie updateConsultatie(Long idConsultatie, LocalDate dataConsultatiei) {
+    public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei) {
         Consultatie consultatie = consultatieRepository.findById(idConsultatie).orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
         if (dataConsultatiei != null && !dataConsultatiei.equals(consultatie.getDataConsultatiei())) {
             consultatie.setDataConsultatiei(dataConsultatiei);

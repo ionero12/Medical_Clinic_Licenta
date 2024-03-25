@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,6 +24,11 @@ public class ConsultatieController {
         return consultatieService.getConsultatii(idMedic,  idPacient);
     }
 
+    @GetMapping(path = "/preturi")
+    public List<Consultatie> getConsultatiiWithPrices(){
+        return consultatieService.getConsultatiiWithPrices();
+    }
+
     @PostMapping
     public ResponseEntity<Consultatie> addConsultatie(@RequestBody Consultatie consultatie) {
         consultatieService.addConsultatie(consultatie);
@@ -36,7 +41,7 @@ public class ConsultatieController {
     }
 
     @PutMapping(path = "{idConsultatie}")
-    public Consultatie updateConsultatie(@PathVariable("idConsultatie") Long idConsultatie, @RequestParam(required = false) LocalDate dataConsultatiei) {
+    public Consultatie updateConsultatie(@PathVariable("idConsultatie") Long idConsultatie, @RequestParam(required = false) LocalDateTime dataConsultatiei) {
         return consultatieService.updateConsultatie(idConsultatie, dataConsultatiei);
     }
 }

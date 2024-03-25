@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "consultatii")
@@ -16,7 +17,7 @@ public class Consultatie {
     private Long idConsultatie;
 
     @Column(name = "data_consultatiei", nullable = false)
-    private LocalDate dataConsultatiei;
+    private LocalDateTime dataConsultatiei;
 
     @JsonBackReference(value = "pacient-consultatii")
     @ManyToOne
@@ -39,7 +40,7 @@ public class Consultatie {
     public Consultatie() {
     }
 
-    public Consultatie(Long idConsultatie, LocalDate dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret) {
+    public Consultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret) {
         this.idConsultatie = idConsultatie;
         this.dataConsultatiei = dataConsultatiei;
         this.pacient = pacient;
@@ -56,11 +57,11 @@ public class Consultatie {
         this.idConsultatie = idConsultatie;
     }
 
-    public LocalDate getDataConsultatiei() {
+    public LocalDateTime getDataConsultatiei() {
         return dataConsultatiei;
     }
 
-    public void setDataConsultatiei(LocalDate dataConsultatiei) {
+    public void setDataConsultatiei(LocalDateTime dataConsultatiei) {
         this.dataConsultatiei = dataConsultatiei;
     }
 
@@ -92,31 +93,31 @@ public class Consultatie {
         this.medic.setNumeMedic(numeMedic);
     }
 
+    public String getNumeMedic() {
+        return this.medic.getNumeMedic();
+    }
+
     public void setPrenumeMedic(String prenumeMedic) {
         this.medic.setPrenumeMedic(prenumeMedic);
+    }
+
+    public String getPrenumeMedic() {
+        return this.medic.getPrenumeMedic();
     }
 
     public void setNumePacient(String numePacient) {
         this.pacient.setNumePacient(numePacient);
     }
 
+    public String getNumePacient() {
+        return this.pacient.getNumePacient();
+    }
+
     public void setPrenumePacient(String prenumePacient) {
         this.pacient.setPrenumePacient(prenumePacient);
     }
 
-    public String getNumeMedic( ) {
-        return this.medic.getNumeMedic();
-    }
-
-    public String getPrenumeMedic( ) {
-        return this.medic.getPrenumeMedic();
-    }
-
-    public String getNumePacient( ) {
-        return this.pacient.getNumePacient();
-    }
-
-    public String getPrenumePacient( ) {
+    public String getPrenumePacient() {
         return this.pacient.getPrenumePacient();
     }
 
@@ -126,5 +127,21 @@ public class Consultatie {
 
     public void setPret(Pret pret) {
         this.pret = pret;
+    }
+
+    public void setPretFaraAbonament(Double pretFaraAbonament) {
+        this.pret.setPretFaraAbonament(pretFaraAbonament);
+    }
+
+    public Double getPretFaraAbonament() {
+        return this.pret.getPretFaraAbonament();
+    }
+
+    public void setPretCuAbonament(Double pretCuAbonament) {
+        this.pret.setPretCuAbonament(pretCuAbonament);
+    }
+
+    public Double getPretCuAbonament() {
+        return this.pret.getPretCuAbonament();
     }
 }

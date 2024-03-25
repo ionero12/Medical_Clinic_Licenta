@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useUser } from '../user/UserContext'; // import useUser
+import React, {useEffect, useState} from 'react';
+import {useUser} from '../user/UserContext'; // import useUser
 import MedicMenu from '../components/MedicMenu';
+import Appointment from '../components/Appointment';
 import axios from "axios";
+
 
 const MedicAppointments = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-    const { user } = useUser(); // get user from the user context
+    const {user} = useUser(); // get user from the user context
     const idMedic = user ? user.idMedic : null; // get patient ID from the user
 
     const [idPacient, setIdPacient] = useState('');
     const [numeConsultatie, setNumeConsultatie] = useState('');
     const [dataConsultatiei, setDataConsultatiei] = useState('');
+
 
     useEffect(() => {
         if (idMedic) {
@@ -68,10 +71,7 @@ const MedicAppointments = () => {
         event.preventDefault();
 
         const newAppointment = {
-            idPacient,
-            idMedic,
-            numeConsultatie,
-            dataConsultatiei
+            idPacient, idMedic, numeConsultatie, dataConsultatiei
         };
 
         try {
@@ -82,78 +82,59 @@ const MedicAppointments = () => {
         }
     };
 
-    return (
-        <div className="p-6">
-            <MedicMenu/>
-            <h1 className="text-3xl font-bold mb-4">Programari</h1>
-            <div className="flex">
-                <div className="bg-white p-4 rounded shadow w-1/2 mr-2">
-                    <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
-                    <ul>
-                        {pastAppointments.map((appointment) => (
-                            <li key={appointment.idConsultatie} className="border-b py-2">
-                                Nume consultatie: {appointment.numeConsultatie}
-                                <br/>
-                                Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
-                                <br/>
-                                ID Consutlatie: {appointment.idConsultatie}, Data: {appointment.dataConsultatiei}
-                                <br/>
-                                <button onClick={() => deleteAppointment(appointment.idConsultatie)}
-                                        className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-700 transition duration-200">Delete
-                                </button>
-
-                            </li>
-                        ))}
-                    </ul>
+    return (<div className="p-6">
+        <MedicMenu/>
+        <h1 className="text-3xl font-bold mb-4">Programari</h1>
+        <div className="flex">
+            <div className="bg-white p-4 rounded shadow w-1/2 mr-2">
+                <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
+                {pastAppointments.map(appointment => (
+                    <Appointment key={appointment.idConsultatie} appointment={appointment}/>))}
+            </div>
+            <div className="bg-white p-4 rounded shadow w-1/2 ml-2">
+                <div className="flex justify-end">
+                    <button
+                        onClick={() => document.getElementById('addAppointmentForm').style.display = 'block'}
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded transition duration-200 mb-4"
+                    >
+                        Add
+                    </button>
                 </div>
-                <div className="bg-white p-4 rounded shadow w-1/2 ml-2">
-                    <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
-                    <ul>
-                        {upcomingAppointments.map((appointment) => (
-                            <li key={appointment.idConsultatie} className="border-b py-2">
-                                Nume consultatie: {appointment.numeConsultatie}
-                                <br/>
-                                Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
-                                <br/>
-                                ID Consutlatie: {appointment.idConsultatie}, Data: {appointment.dataConsultatiei}
-                                <br/>
-                                <button onClick={() => openUpdateModal(appointment.idConsultatie)}
-                                        className="bg-blue-500 text-white rounded px-4 py-2 mr-4 hover:bg-blue-700 transition duration-200">Update
-                                </button>
-                                <button onClick={() => deleteAppointment(appointment.idConsultatie)}
-                                        className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-700 transition duration-200">Delete
-                                </button>
-                                <br/>
-                                <button
-                                    onClick={() => document.getElementById('addAppointmentForm').style.display = 'block'}>Add
-                                    Appointment
-                                </button>
 
-                                <form id="addAppointmentForm" style={{display: 'none'}} onSubmit={handleAddAppointment}>
-                                    <label>
-                                        Patient ID:
-                                        <input type="text" value={idPacient}
-                                               onChange={e => setIdPacient(e.target.value)} required/>
-                                    </label>
-                                    <label>
-                                        Appointment Name:
-                                        <input type="text" value={numeConsultatie}
-                                               onChange={e => setNumeConsultatie(e.target.value)} required/>
-                                    </label>
-                                    <label>
-                                        Appointment Date:
-                                        <input type="datetime-local" value={dataConsultatiei}
-                                               onChange={e => setDataConsultatiei(e.target.value)} required/>
-                                    </label>
-                                    <input type="submit" value="Submit"/>
-                                </form>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <form id="addAppointmentForm" style={{display: 'none'}} onSubmit={handleAddAppointment}>
+                    <label>
+                        Patient ID:
+                        <input type="text" value={idPacient}
+                               onChange={e => setIdPacient(e.target.value)} required/>
+                    </label>
+                    <label>
+                        Appointment Name:
+                        <input type="text" value={numeConsultatie}
+                               onChange={e => setNumeConsultatie(e.target.value)} required/>
+                    </label>
+                    <label>
+                        Appointment Date:
+                        <input type="datetime-local" value={dataConsultatiei}
+                               onChange={e => setDataConsultatiei(e.target.value)} required/>
+                    </label>
+                    <input type="submit" value="Submit"/>
+                </form>
+                <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
+                <ul>
+                    {upcomingAppointments.map(appointment => (<li key={appointment.idConsultatie}>
+                        <Appointment appointment={appointment}/>
+                        <button onClick={() => openUpdateModal(appointment.idConsultatie)}
+                                className="bg-sky-500 hover:bg-sky-600 text-white rounded px-2.5 py-2 transition duration-200">Update
+                        </button>
+                        <button onClick={() => deleteAppointment(appointment.idConsultatie)}
+                                className="bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-5 transition duration-200">Delete
+                        </button>
+                    </li>))}
+                </ul>
             </div>
         </div>
-    );
+    </div>)
+
 };
 
 export default MedicAppointments;

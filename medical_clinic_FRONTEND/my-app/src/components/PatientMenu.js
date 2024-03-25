@@ -17,6 +17,8 @@ const PatientMenu = () => {
                       className="text-white text-lg hover:underline block px-4 py-3 md:inline-block">Dashboard</Link>
                 <Link to="/pacient/appointments"
                       className="text-white text-lg hover:underline block px-4 py-3 md:inline-block">Appointments</Link>
+                <Link to="/pacient/prices"
+                      className="text-white text-lg hover:underline block px-4 py-3 md:inline-block">Prices</Link>
                 <Link to="/pacient/profile"
                       className="text-white text-lg hover:underline block px-4 py-3 md:inline-block">Profile</Link>
             </div>
