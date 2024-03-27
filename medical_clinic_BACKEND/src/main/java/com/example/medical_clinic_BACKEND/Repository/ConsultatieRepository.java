@@ -15,4 +15,7 @@ public interface ConsultatieRepository extends JpaRepository<Consultatie, Long> 
 
     @Query("SELECT c FROM Consultatie c WHERE c.pacient.idPacient = ?1")
     List<Consultatie> findByIdPacient(Long idPacient);
+
+    @Query("SELECT c FROM Consultatie c WHERE c.numeConsultatie = ?1")
+    Consultatie findByName(String numeConsultatie);
 }

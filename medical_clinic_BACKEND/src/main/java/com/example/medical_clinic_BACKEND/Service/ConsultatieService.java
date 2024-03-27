@@ -62,9 +62,17 @@ public class ConsultatieService {
     }
 
     public void addConsultatie(Consultatie consultatie) {
-        Pret pret = pretRepository.findById(consultatie.getPret().getIdPret()).orElseThrow(() -> new IllegalStateException("Pret does not exist"));
-        consultatie.setPret(pret);
-        pret.getConsultatii().add(consultatie);
+        System.out.println(consultatie.getNumeConsultatie() + " " + consultatie.getDataConsultatiei() + " " + consultatie.getMedic() + " " + consultatie.getPacient() + " " + consultatie.getPret());
+
+        Consultatie existingConsultatie = consultatieRepository.findByName(consultatie.getNumeConsultatie());
+        if (consultatie.getNumeConsultatie().equals(existingConsultatie.getNumeConsultatie())) {
+            consultatie.setPret(existingConsultatie.getPret());
+        }
+        else {
+            Pret pret = pretRepository.findById(consultatie.getPret().getIdPret()).orElseThrow(() -> new IllegalStateException("Pret does not exist"));
+            consultatie.setPret(pret);
+            pret.getConsultatii().add(consultatie);
+        }
         consultatieRepository.save(consultatie);
     }
 

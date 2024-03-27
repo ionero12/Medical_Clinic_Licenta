@@ -16,24 +16,24 @@ public class Consultatie {
     @Column(name = "id_consultatie")
     private Long idConsultatie;
 
-    @Column(name = "data_consultatiei", nullable = false)
+    @Column(name = "data_consultatiei")
     private LocalDateTime dataConsultatiei;
 
     @JsonBackReference(value = "pacient-consultatii")
     @ManyToOne
-    @JoinColumn(name = "pacienti_id_pacient", nullable = false)
+    @JoinColumn(name = "pacienti_id_pacient")
     private Pacient pacient;
 
     @JsonBackReference(value = "medic-consultatii")
     @ManyToOne
-    @JoinColumn(name = "medici_id_medic", nullable = false)
+    @JoinColumn(name = "medici_id_medic")
     private Medic medic;
 
     @Column(name = "nume_consultatie", nullable = false, length = 64)
     private String numeConsultatie;
 
     @JsonBackReference(value="consultatie-pret")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "preturi_id_pret", nullable = false)
     private Pret pret;
 
