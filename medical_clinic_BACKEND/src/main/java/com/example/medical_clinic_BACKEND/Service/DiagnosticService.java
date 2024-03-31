@@ -16,7 +16,10 @@ public class DiagnosticService {
         this.diagnosticRepository = diagnosticRepository;
     }
 
-    public List<Diagnostic> getDiagnostic() {
+    public List<Diagnostic> getDiagnostic(Long idPacient) {
+        if (idPacient != null) {
+            return diagnosticRepository.findByIdPacient(idPacient);
+        }
         return diagnosticRepository.findAll();
     }
 

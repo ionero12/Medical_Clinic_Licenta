@@ -18,8 +18,8 @@ public class DiagnosticController {
     }
 
     @GetMapping
-    public List<Diagnostic> getDiagnostice() {
-        return diagnosticService.getDiagnostic();
+    public List<Diagnostic> getDiagnostice(@RequestParam(required = false) Long idPacient) {
+        return diagnosticService.getDiagnostic(idPacient);
     }
 
     @PostMapping
