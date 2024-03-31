@@ -65,7 +65,7 @@ public class Pacient {
 
     @JsonManagedReference(value = "pacient-diagnostice")
     @OneToMany(mappedBy = "pacient")
-    private List<Diagnostic> fiseMedicale = new ArrayList<>();
+    private List<Diagnostic> diagnostice = new ArrayList<>();
 
     @JsonManagedReference(value = "pacient-consultatii")
     @OneToMany(mappedBy = "pacient")
@@ -78,7 +78,7 @@ public class Pacient {
     public Pacient() {
     }
 
-    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, String telefonPacient, String emailPacient, Character abonamentPacient, String parolaPacient, Integer varstaPacient, List<Diagnostic> fiseMedicale, List<Consultatie> consultatii, List<Analiza> analize) {
+    public Pacient(Long idPacient, String numePacient, String prenumePacient, LocalDate dataNasterePacient, String cnpPacient, String sexPacient, Double greutatePacient, Double inaltimePacient, Character asigurat, String telefonPacient, String emailPacient, Character abonamentPacient, String parolaPacient, Integer varstaPacient, List<Diagnostic> diagnostice, List<Consultatie> consultatii, List<Analiza> analize) {
         this.idPacient = idPacient;
         this.numePacient = numePacient;
         this.prenumePacient = prenumePacient;
@@ -93,7 +93,7 @@ public class Pacient {
         this.abonamentPacient = abonamentPacient;
         this.parolaPacient = parolaPacient;
         this.varstaPacient = varstaPacient;
-        this.fiseMedicale = fiseMedicale;
+        this.diagnostice = diagnostice;
         this.consultatii = consultatii;
         this.analize = analize;
     }
@@ -210,12 +210,12 @@ public class Pacient {
         this.varstaPacient = varstaPacient;
     }
 
-    public List<Diagnostic> getFiseMedicale() {
-        return fiseMedicale;
+    public List<Diagnostic> getDiagnostice() {
+        return diagnostice;
     }
 
-    public void setFiseMedicale(List<Diagnostic> fiseMedicale) {
-        this.fiseMedicale = fiseMedicale;
+    public void setDiagnostice(List<Diagnostic> diagnostice) {
+        this.diagnostice = diagnostice;
     }
 
     public List<Consultatie> getConsultatii() {
