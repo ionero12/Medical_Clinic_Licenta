@@ -7,8 +7,8 @@ import axios from "axios";
 const PatientAppointments = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-    const {user} = useUser(); // get user from the user context
-    const idPacient = user ? user.idPacient : null; // get patient ID from the user
+    const {user} = useUser();
+    const idPacient = user ? user.idPacient : null;
 
     const [idMedic, setIdMedic] = useState('');
     const [numeConsultatie, setNumeConsultatie] = useState('');

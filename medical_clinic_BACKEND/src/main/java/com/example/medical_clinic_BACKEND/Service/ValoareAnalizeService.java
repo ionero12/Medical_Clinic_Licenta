@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -18,7 +19,12 @@ public class ValoareAnalizeService {
         this.valoareAnalizeRepository = valoareAnalizeRepository;
     }
 
-    public List<ValoareAnalize> getValoareAnalize() {
+    public List<ValoareAnalize> getValoareAnalize(Long idPacient) {
+        if(idPacient != null) {
+            return valoareAnalizeRepository.findAll().stream()
+                    .filter(valoareAnalize -> valoareAnalize.getAnaliza().getPacient().getIdPacient().equals(idPacient))
+                    .collect(Collectors.toList());
+        }
         return valoareAnalizeRepository.findAll();
     }
 

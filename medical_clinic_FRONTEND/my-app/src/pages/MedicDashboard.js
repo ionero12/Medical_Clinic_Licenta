@@ -39,7 +39,7 @@ const MedicDashboard = () => {
                     <h2 className="text-2xl font-bold mb-2">Pacienti</h2>
                     <ul>
                         {patients.map((pacient) => (<li key={pacient.idPacient} className="border-b py-2">
-                                <Link to={`/patient/${pacient.idPacient}`}>
+                                <Link to={`/pacient/${pacient.idPacient}`}>
                                     {pacient.numePacient} {pacient.prenumePacient}
                                 </Link>
                                 <br/>

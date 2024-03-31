@@ -8,7 +8,8 @@ import MedicDashboard from './pages/MedicDashboard';
 import PatientDashboard from './pages/PatientDashboard';
 import MedicAppointments from './pages/MedicAppointments';
 import PatientAppointments from './pages/PatientAppointments';
-import ConsultatiePreturi from './pages/Prices';
+import Prices from './pages/Prices';
+import Diagnostics from './pages/Diagnostics';
 import MedicProfile from './pages/MedicProfile';
 import PatientProfile from './pages/PatientProfile';
 import Patient from './pages/Patient';
@@ -25,10 +26,11 @@ function App() {
                 <Route path="/pacient/dashboard" element={<PatientDashboard/>}/>
                 <Route path="/medic/appointments" element={<MedicAppointments/>}/>
                 <Route path="/pacient/appointments" element={<PatientAppointments/>}/>
-                <Route path="/pacient/prices" element={<ConsultatiePreturi/>}/>
+                <Route path="/pacient/prices" element={<Prices/>}/>
+                <Route path="pacient/diagnostics" element={<Diagnostics/>}/>
                 <Route path="/medic/profile" element={<MedicProfile/>}/>
                 <Route path="/pacient/profile" element={<PatientProfile/>}/>
-                <Route path="/patient/:id" element={<Patient/>}/>
+                <Route path="/pacient/:id" element={<Patient/>}/>
                 <Route path="*" element={<Navigate to="/login"/>}/>
             </Routes>
         </UserProvider>

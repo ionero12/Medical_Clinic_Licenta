@@ -20,8 +20,8 @@ public class ValoareAnalizeController {
     }
 
     @GetMapping
-    public List<ValoareAnalize> getValoareAnalize() {
-        return valoareAnalizeService.getValoareAnalize();
+    public List<ValoareAnalize> getValoareAnalize(@RequestParam(required = false) Long idPacient) {
+        return valoareAnalizeService.getValoareAnalize(idPacient);
     }
 
     @PostMapping
