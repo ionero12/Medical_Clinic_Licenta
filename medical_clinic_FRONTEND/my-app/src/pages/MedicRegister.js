@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import SpecializationDropdown from "../components/SpecializationDropdown";
 import {useNavigate} from 'react-router-dom';
+import '../styles/RegisterPage.css';
+
 
 function MedicRegister() {
     const [emailMedic, setEmailMedic] = useState('');

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import loginImage from '../assets/images/login_bkg.jpg';
 import {useUser} from '../user/UserContext';
+import '../styles/LoginPage.css';
 
 function LoginPage() {
     const [emailMedic, setEmailMedic] = useState('');

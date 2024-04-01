@@ -15,6 +15,7 @@ import PatientProfile from './pages/PatientProfile';
 import Patient from './pages/Patient';
 import {UserProvider} from './user/UserContext';
 
+
 function App() {
     return (<Router>
         <UserProvider>  {/* Wrap your routes with UserProvider */}
