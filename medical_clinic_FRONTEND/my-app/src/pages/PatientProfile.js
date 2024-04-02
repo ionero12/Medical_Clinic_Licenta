@@ -46,19 +46,19 @@ function PatientProfile() {
             <div className="pt-5 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
                 <div className="flex items-start mt-8">
                     <div className="flex flex-col items-center max-w-md bg-white p-5 rounded shadow-md mb-4 mr-4">
-                        <h2 className="text-2xl p-3.5">{numePacient} {prenumePacient}</h2>
+                        <h2 className="text-2xl p-3">{numePacient} {prenumePacient}</h2>
                         <div
                             className="w-32 h-32 rounded-full border border-cyan-300 flex items-center justify-center mb-4">
                             <img src={profilePic} alt="Profile" className="w-28 h-28 rounded-full"/>
                         </div>
-                        <label className="block mb-2 p-1.5">
+                        <label className="block mb-2 p-2">
                             Asigurat:
                             <select value={asigurat} onChange={e => setAsigurat(e.target.value)}>
                                 <option value="Y">Da</option>
                                 <option value="N">Nu</option>
                             </select>
                         </label>
-                        <label className="block mb-2 p-1.5">
+                        <label className="block mb-2 p-2">
                             Abonament:
                             <select value={abonamentPacient} onChange={e => setAbonamentPacient(e.target.value)}>
                                 <option value="Y">Da</option>
