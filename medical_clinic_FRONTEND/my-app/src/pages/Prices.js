@@ -33,7 +33,7 @@ const Prices = () => {
                         </thead>
                         <tbody>
                         {consultatii.map(consultatie => (
-                            <tr key={consultatie.id}>
+                            <tr key={consultatie.idConsultatie}>
                                 <td className="border border-blue-600 p-2">{consultatie.numeConsultatie}</td>
                                 <td className="border border-blue-600 p-2">{consultatie.pretCuAbonament}</td>
                             </tr>
@@ -52,7 +52,7 @@ const Prices = () => {
                         </thead>
                         <tbody>
                         {consultatii.map(consultatie => (
-                            <tr key={consultatie.id}>
+                            <tr key={consultatie.idConsultatie}>
                                 <td className="border border-blue-600 p-2">{consultatie.numeConsultatie}</td>
                                 <td className="border border-blue-600 p-2">{consultatie.pretFaraAbonament}</td>
                             </tr>
