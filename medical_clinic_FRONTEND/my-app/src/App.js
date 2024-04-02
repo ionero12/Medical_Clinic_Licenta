@@ -31,7 +31,7 @@ function App() {
                 <Route path="pacient/diagnostics" element={<Diagnostics/>}/>
                 <Route path="/medic/profile" element={<MedicProfile/>}/>
                 <Route path="/pacient/profile" element={<PatientProfile/>}/>
-                <Route path="/pacient/:id" element={<Patient/>}/>
+                <Route path="/pacient/:idPacient" element={<Patient/>}/>
                 <Route path="*" element={<Navigate to="/login"/>}/>
             </Routes>
         </UserProvider>

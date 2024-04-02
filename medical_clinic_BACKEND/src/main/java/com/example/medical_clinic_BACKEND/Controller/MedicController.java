@@ -34,6 +34,7 @@ public class MedicController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<Medic> loginMedic(@RequestBody Map<String, String> credentials) {
+        System.out.println(credentials);
         String emailMedic = credentials.get("emailMedic");
         String parolaMedic = credentials.get("parolaMedic");
         if (medicService.isValidCredentials(emailMedic, parolaMedic)) {

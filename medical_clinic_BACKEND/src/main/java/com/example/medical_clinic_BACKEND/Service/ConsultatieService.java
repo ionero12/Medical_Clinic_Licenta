@@ -7,11 +7,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 public class ConsultatieService {
@@ -51,15 +51,19 @@ public class ConsultatieService {
 
     public List<Consultatie> getConsultatiiWithPrices(){
         List<Consultatie> consultatii = consultatieRepository.findAll();
+        Map<String, Consultatie> uniqueConsultatii = new HashMap<>();
         for (Consultatie consultatie : consultatii) {
             Pret pret = consultatie.getPret();
             Double price1 = pret.getPretFaraAbonament();
             Double price2 = pret.getPretCuAbonament();
             consultatie.setPretFaraAbonament(price1);
             consultatie.setPretCuAbonament(price2);
+            uniqueConsultatii.put(consultatie.getNumeConsultatie(), consultatie);
         }
-        return consultatii;
+        return new ArrayList<>(uniqueConsultatii.values());
     }
+
+
 
     public void addConsultatie(Consultatie consultatie) {
         System.out.println(consultatie.getNumeConsultatie() + " " + consultatie.getDataConsultatiei() + " " + consultatie.getMedic() + " " + consultatie.getPacient() + " " + consultatie.getPret());
@@ -94,6 +98,7 @@ public class ConsultatieService {
 
     @Transactional
     public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei) {
+        System.out.println(idConsultatie + " " + dataConsultatiei);
         Consultatie consultatie = consultatieRepository.findById(idConsultatie).orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
         if (dataConsultatiei != null && !dataConsultatiei.equals(consultatie.getDataConsultatiei())) {
             consultatie.setDataConsultatiei(dataConsultatiei);

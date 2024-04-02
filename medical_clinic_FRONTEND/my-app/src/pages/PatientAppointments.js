@@ -4,15 +4,13 @@ import PatientMenu from '../components/PatientMenu';
 import Appointment from "../components/Appointment";
 import axios from "axios";
 
+
 const PatientAppointments = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const {user} = useUser();
     const idPacient = user ? user.idPacient : null;
 
-    const [idMedic, setIdMedic] = useState('');
-    const [numeConsultatie, setNumeConsultatie] = useState('');
-    const [dataConsultatiei, setDataConsultatiei] = useState('');
 
     useEffect(() => {
         if (idPacient) {
@@ -66,69 +64,33 @@ const PatientAppointments = () => {
         }
     };
 
-    const handleAddAppointment = async (event) => {
-        event.preventDefault();
-
-        const newAppointment = {
-            idMedic, idPacient, numeConsultatie, dataConsultatiei
-        };
-
-        try {
-            const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
-            console.log('Appointment added successfully:', response.data);
-        } catch (error) {
-            console.error('Error adding appointment:', error);
-        }
-    };
-
     return (<div className="p-6">
-            <PatientMenu/>
-            <h1 className="text-3xl font-bold mb-4">Programari</h1>
-            <div className="flex">
-                <div className="bg-white p-4 rounded shadow w-1/2 mr-2">
-                    <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
-                    {pastAppointments.map(appointment => (
-                        <Appointment key={appointment.idConsultatie} appointment={appointment}/>))}
-                </div>
-                <div className="bg-white p-4 rounded shadow w-1/2 ml-2">
-                    <button
-                        onClick={() => document.getElementById('addAppointmentForm').style.display = 'block'}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded mt-4 ml-80"
-                    >Add
-                    </button>
-                    <form id="addAppointmentForm" style={{display: 'none'}} onSubmit={handleAddAppointment}>
-                        <label>
-                            Medic ID:
-                            <input type="text" value={idPacient}
-                                   onChange={e => setIdMedic(e.target.value)} required/>
-                        </label>
-                        <label>
-                            Appointment Name:
-                            <input type="text" value={numeConsultatie}
-                                   onChange={e => setNumeConsultatie(e.target.value)} required/>
-                        </label>
-                        <label>
-                            Appointment Date:
-                            <input type="datetime-local" value={dataConsultatiei}
-                                   onChange={e => setDataConsultatiei(e.target.value)} required/>
-                        </label>
-                        <input type="submit" value="Submit"/>
-                    </form>
-                    <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
-                    <ul>
-                        {upcomingAppointments.map(appointment => (<li key={appointment.idConsultatie}>
-                            <Appointment appointment={appointment}/>
-                            <button onClick={() => openUpdateModal(appointment.idConsultatie)}
-                                    className="bg-sky-500 hover:bg-sky-600 text-white rounded px-2.5 py-2 transition duration-200">Update
-                            </button>
-                            <button onClick={() => deleteAppointment(appointment.idConsultatie)}
-                                    className="bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-56 transition duration-200">Delete
-                            </button>
-                        </li>))}
-                    </ul>
-                </div>
+        <PatientMenu/>
+        <h1 className="text-3xl font-bold mb-4">Programari</h1>
+        <div className="flex">
+            <div className="bg-white p-4 rounded shadow w-1/2 mr-2">
+                <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
+                {pastAppointments.map(appointment => (
+                    <Appointment key={appointment.idConsultatie} appointment={appointment}/>))}
             </div>
-        </div>);
-};
+            <div className="bg-white p-4 rounded shadow w-1/2 ml-2">
+                <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
+                <ul>
+                    {upcomingAppointments.map(appointment => (<li key={appointment.idConsultatie}>
+                        <ul>
+                            <Appointment appointment={appointment}/>
+                        </ul>
+                        <button onClick={() => openUpdateModal(appointment.idConsultatie)}
+                                className="bg-sky-500 hover:bg-sky-600 text-white rounded px-2.5 py-2 transition duration-200">Update
+                        </button>
+                        <button onClick={() => deleteAppointment(appointment.idConsultatie)}
+                                className="bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-56 transition duration-200">Delete
+                        </button>
+                    </li>))}
+                </ul>
+            </div>
+        </div>
+    </div>);
+}
 
 export default PatientAppointments;
