@@ -10,6 +10,7 @@ import MedicAppointments from './pages/MedicAppointments';
 import PatientAppointments from './pages/PatientAppointments';
 import Prices from './pages/Prices';
 import Diagnostics from './pages/Diagnostics';
+import Questionnaire from './pages/Questionnaire';
 import MedicProfile from './pages/MedicProfile';
 import PatientProfile from './pages/PatientProfile';
 import Patient from './pages/Patient';
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/pacient/appointments" element={<PatientAppointments/>}/>
                 <Route path="/pacient/prices" element={<Prices/>}/>
                 <Route path="pacient/diagnostics" element={<Diagnostics/>}/>
+                <Route path="/pacient/chestionar" element={<Questionnaire/>}/>
                 <Route path="/medic/profile" element={<MedicProfile/>}/>
                 <Route path="/pacient/profile" element={<PatientProfile/>}/>
                 <Route path="/pacient/:idPacient" element={<Patient/>}/>
