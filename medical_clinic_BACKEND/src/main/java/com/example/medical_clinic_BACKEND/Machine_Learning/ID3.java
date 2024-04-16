@@ -18,12 +18,12 @@ public class ID3 {
     public static void main(String[] args) throws Exception {
         // Load training data
         CSVLoader loader = new CSVLoader();
-        loader.setSource(new File("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\training_data.csv"));
+        loader.setSource(new File("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\training_data1.csv"));
         Instances trainData = loader.getDataSet();
         trainData.setClassIndex(trainData.numAttributes() - 1);
 
         // Load testing data
-        loader.setSource(new File("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\test_data.csv"));
+        loader.setSource(new File("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\test_data1.csv"));
         Instances testData = loader.getDataSet();
         testData.setClassIndex(testData.numAttributes() - 1);
 
@@ -39,7 +39,7 @@ public class ID3 {
         int[] indices = selector.selectedAttributes();
         System.out.println("Ranked attributes:");
         for (int index : indices) {
-            System.out.println(" " + trainData.attribute(index).name());
+            System.out.println(index + " " + trainData.attribute(index).name());
         }
 
         // Initialize and train J48 (an implementation of ID3)
