@@ -9,9 +9,9 @@ function LoginPage() {
     const [emailPacient, setEmailPacient] = useState('');
     const [parolaMedic, setParolaMedic] = useState('');
     const [parolaPacient, setParolaPacient] = useState('');
-    const [userType, setUserType] = useState('medic');  // state to store the user type
+    const [userType, setUserType] = useState('medic');
     const navigate = useNavigate();
-    const {setUser} = useUser();  // get setUser from the user context
+    const {setUser} = useUser();
 
     const handleLogin = async () => {
         try {
@@ -40,14 +40,15 @@ function LoginPage() {
     };
 
 
-    return (<div className="flex justify-center items-center min-h-screen min-w-screen">
-            <div className="w-5/6 bg-white rounded overflow-hidden flex flex-row items-stretch shadow-lg">
-                <div className="w-4/6 flex flex-col items-center">
+    return (
+        <div className="flex justify-center items-center min-h-screen min-w-screen">
+            <div className="w-full md:w-5/6 bg-white rounded overflow-hidden flex flex-col md:flex-row items-stretch shadow-lg">
+                <div className="w-full md:w-4/6 flex flex-col items-center">
                     <div className="overlay">
                         <img src={loginImage} alt="Login" className="w-full h-full object-cover"/>
                     </div>
                 </div>
-                <div className="w-2/6 p-2 border border-black flex flex-col items-center justify-center">
+                <div className="w-full md:w-2/6 p-2 border border-black flex flex-col items-center justify-center">
                     <h1 className="text-2xl font-bold mb-20">Login</h1>
                     <p className="text-sm">
                         Nu aveti un cont? <a href={`/${userType}/register`} className="text-green-500">Inregistrati-va

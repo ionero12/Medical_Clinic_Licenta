@@ -41,11 +41,12 @@ function PatientProfile() {
         }
     };
 
-    return (<div>
+    return (<div className="p-6">
             <PatientMenu/>
             <div className="pt-5 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
-                <div className="flex items-start mt-8">
-                    <div className="flex flex-col items-center max-w-md bg-white p-5 rounded shadow-md mb-4 mr-4">
+                <div className="flex flex-col md:flex-row items-start mt-8 space-x-0 md:space-x-4">
+                    <div
+                        className="flex flex-col items-center max-w-md bg-white p-5 rounded shadow-md mb-4 md:mb-0 w-full md:w-1/2">
                         <h2 className="text-2xl p-3">{numePacient} {prenumePacient}</h2>
                         <div
                             className="w-32 h-32 rounded-full border border-cyan-300 flex items-center justify-center mb-4">
@@ -84,7 +85,7 @@ function PatientProfile() {
                             />
                         </label>
                     </div>
-                    <div className="flex flex-col max-w-md bg-white p-5 rounded shadow-md">
+                    <div className="flex flex-col max-w-md bg-white p-5 rounded shadow-md mt-4 md:mt-0 w-full md:w-1/2">
                         <label className="block mb-2">
                             Nume:
                             <input
