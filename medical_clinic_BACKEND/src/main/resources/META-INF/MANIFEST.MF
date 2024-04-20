@@ -1,0 +1,46 @@
+Manifest-Version: 1.0
+Main-Class: com.example.medical_clinic_BACKEND.MedicalClinicProjectAppli
+ cation
+Class-Path: spring-webmvc-6.1.1.jar java-cup-runtime-11b-20160615.jar sp
+ ring-security-core-6.2.0.jar netlib-native_system-win-x86_64-1.1-native
+ s.jar spring-expression-6.1.1.jar HikariCP-5.0.1.jar spring-boot-starte
+ r-data-jpa-3.2.5.jar netlib-native_ref-osx-x86_64-1.1-natives.jar jakar
+ ta.activation-api-2.1.2.jar spring-boot-autoconfigure-3.2.0.jar angus-a
+ ctivation-2.0.1.jar spring-boot-starter-web-3.2.5.jar spring-data-jpa-3
+ .2.0.jar spring-boot-3.2.0.jar logback-classic-1.4.11.jar weka-stable-3
+ .8.6.jar spring-boot-starter-aop-3.2.0.jar jakarta.persistence-api-3.1.
+ 0.jar spring-boot-starter-security-3.2.5.jar netlib-native_system-osx-x
+ 86_64-1.1-natives.jar jakarta.inject-api-2.0.1.jar jakarta.xml.bind-api
+ -4.0.1.jar spring-security-web-6.2.0.jar netlib-native_ref-win-i686-1.1
+ -natives.jar spring-security-crypto-6.2.0.jar java-cup-11b-20160615.jar
+  jjwt-jackson-0.12.5.jar spring-core-6.1.1.jar log4j-api-2.21.1.jar jul
+ -to-slf4j-2.0.9.jar spring-jdbc-6.1.1.jar tomcat-embed-websocket-10.1.1
+ 6.jar bounce-0.18.jar netlib-native_system-linux-armhf-1.1-natives.jar 
+ spring-security-config-6.2.0.jar jackson-databind-2.15.3.jar hibernate-
+ commons-annotations-6.0.6.Final.jar jniloader-1.1.jar validation-api-2.
+ 0.1.Final.jar netlib-native_ref-win-x86_64-1.1-natives.jar istack-commo
+ ns-runtime-4.1.2.jar byte-buddy-1.14.10.jar micrometer-commons-1.12.0.j
+ ar spring-boot-starter-logging-3.2.0.jar spring-jcl-6.1.1.jar jackson-d
+ atatype-jsr310-2.17.0.jar spring-orm-6.1.1.jar spring-boot-starter-tomc
+ at-3.2.0.jar tomcat-embed-el-10.1.16.jar jaxb-core-4.0.4.jar jaxb-runti
+ me-4.0.4.jar antlr4-runtime-4.10.1.jar jackson-core-2.15.3.jar jfilecho
+ oser-bookmarks-0.1.6.jar aspectjweaver-1.9.20.1.jar jackson-module-para
+ meter-names-2.15.3.jar spring-context-6.1.1.jar log4j-to-slf4j-2.21.1.j
+ ar netlib-native_ref-linux-x86_64-1.1-natives.jar jackson-annotations-2
+ .15.3.jar mtj-1.0.4.jar logback-core-1.4.11.jar tomcat-embed-core-10.1.
+ 16.jar txw2-4.0.4.jar flatlaf-2.0.jar jjwt-api-0.12.5.jar jclipboardhel
+ per-0.1.0.jar arpack_combined_all-0.1.jar hibernate-core-6.3.1.Final.ja
+ r spring-data-commons-3.2.0.jar jjwt-0.12.5.jar jjwt-impl-0.12.5.jar jb
+ oss-logging-3.5.3.Final.jar spring-tx-6.1.1.jar jakarta.annotation-api-
+ 2.1.1.jar snakeyaml-2.2.jar micrometer-observation-1.12.0.jar netlib-na
+ tive_ref-linux-i686-1.1-natives.jar netlib-java-1.1.jar spring-web-6.1.
+ 1.jar spring-aop-6.1.1.jar netlib-native_system-linux-i686-1.1-natives.
+ jar jackson-datatype-jdk8-2.15.3.jar spring-boot-devtools-3.2.5.jar spr
+ ing-aspects-6.1.1.jar native_system-java-1.1.jar netlib-native_system-w
+ in-i686-1.1-natives.jar spring-boot-starter-3.2.0.jar netlib-native_ref
+ -linux-armhf-1.1-natives.jar spring-boot-starter-json-3.2.0.jar netlib-
+ native_system-linux-x86_64-1.1-natives.jar jandex-3.1.2.jar jakarta.tra
+ nsaction-api-2.0.1.jar classmate-1.6.0.jar native_ref-java-1.1.jar spri
+ ng-beans-6.1.1.jar slf4j-api-2.0.9.jar core-1.1.jar spring-boot-starter
+ -jdbc-3.2.0.jar ojdbc8-19.22.0.0.jar
+
