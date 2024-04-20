@@ -51,8 +51,7 @@ public class ID3 {
         eval.evaluateModel(model, testData);
         System.out.println("Accuracy: " + (1.0 - eval.errorRate()));
 
-        SerializationHelper.write("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\trained_model.model", model);
-
+        SerializationHelper.write("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\resources\\trained_model.model", model);
 
     }
 }

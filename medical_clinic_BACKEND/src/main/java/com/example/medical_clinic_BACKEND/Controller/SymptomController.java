@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import weka.classifiers.trees.J48;
 import weka.core.*;
 import weka.core.converters.CSVLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
+import java.io.InputStream;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,7 +30,10 @@ public class SymptomController {
     @Autowired
     public SymptomController(SymptomService symptomService) throws Exception {
         this.symptomService = symptomService;
-        this.model = (J48) SerializationHelper.read("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\trained_model.model");
+
+        Resource modelResource = new ClassPathResource("trained_model.model");
+        InputStream modelInputStream = modelResource.getInputStream();
+        this.model = (J48) SerializationHelper.read(modelInputStream);
 
         // Load training data
         CSVLoader loader = new CSVLoader();
