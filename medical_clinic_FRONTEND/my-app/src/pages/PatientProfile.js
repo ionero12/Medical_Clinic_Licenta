@@ -6,17 +6,17 @@ import profilePic from '../assets/images/profilePic.png';
 
 function PatientProfile() {
     const {user} = useUser();
-    const idPacient = user ? user.idPacient : null;
-    const [emailPacient, setEmailPacient] = useState(user ? user.emailPacient : '');
-    const [parolaPacient, setParolaPacient] = useState(user ? user.parolaPacient : '');
-    const [numePacient, setNumePacient] = useState(user ? user.numePacient : '');
-    const [prenumePacient, setPrenumePacient] = useState(user ? user.prenumePacient : '');
-    const [telefonPacient, setTelefonPacient] = useState(user ? user.telefonPacient : '');
-    const [greutatePacient, setGreutatePacient] = useState(user ? user.greutatePacient : '');
-    const [inaltimePacient, setInaltimePacient] = useState(user ? user.inaltimePacient : '');
-    const [varstaPacient, setVarstaPacient] = useState(user ? user.varstaPacient : '');
-    const [asigurat, setAsigurat] = useState(user ? user.asigurat : '');
-    const [abonamentPacient, setAbonamentPacient] = useState(user ? user.abonamentPacient : '');
+    const idPacient = user ? user.userData.idPacient : null;
+    const [emailPacient, setEmailPacient] = useState(user ? user.userData.emailPacient : '');
+    const [parolaPacient, setParolaPacient] = useState(user ? user.userData.parolaPacient : '');
+    const [numePacient, setNumePacient] = useState(user ? user.userData.numePacient : '');
+    const [prenumePacient, setPrenumePacient] = useState(user ? user.userData.prenumePacient : '');
+    const [telefonPacient, setTelefonPacient] = useState(user ? user.userData.telefonPacient : '');
+    const [greutatePacient, setGreutatePacient] = useState(user ? user.userData.greutatePacient : '');
+    const [inaltimePacient, setInaltimePacient] = useState(user ? user.userData.inaltimePacient : '');
+    const [varstaPacient, setVarstaPacient] = useState(user ? user.userData.varstaPacient : '');
+    const [asigurat, setAsigurat] = useState(user ? user.userData.asigurat : '');
+    const [abonamentPacient, setAbonamentPacient] = useState(user ? user.userData.abonamentPacient : '');
 
     const updatePacientProfile = async () => {
         try {

@@ -85,4 +85,8 @@ public class MedicService {
         Optional<Medic> medicOptional = medicRepository.findMedicByEmail(emailMedic);
         return medicOptional.orElse(null);
     }
+
+    public Medic getMedicById(Long idMedic) {
+        return medicRepository.findById(idMedic).orElseThrow(() -> new IllegalStateException("Medicul cu id-ul " + idMedic + " nu exista"));
+    }
 }

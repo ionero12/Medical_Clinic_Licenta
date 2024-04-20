@@ -6,12 +6,12 @@ import MedicMenu from "../components/MedicMenu";
 
 function MedicProfile() {
     const {user} = useUser();
-    const idMedic = user ? user.idMedic : null;  // get medicId from the user
-    const [emailMedic, setEmailMedic] = useState(user ? user.emailMedic : '');
-    const [parolaMedic, setParolaMedic] = useState(user ? user.parolaMedic : '');
-    const [numeMedic, setNumeMedic] = useState(user ? user.numeMedic : '');
-    const [prenumeMedic, setPrenumeMedic] = useState(user ? user.prenumeMedic : '');
-    const [telefonMedic, setTelefonMedic] = useState(user ? user.telefonMedic : '');
+    const idMedic = user ? user.userData.idMedic : null;  // get medicId from the user
+    const [emailMedic, setEmailMedic] = useState(user ? user.userData.emailMedic : '');
+    const [parolaMedic, setParolaMedic] = useState(user ? user.userData.parolaMedic : '');
+    const [numeMedic, setNumeMedic] = useState(user ? user.userData.numeMedic : '');
+    const [prenumeMedic, setPrenumeMedic] = useState(user ? user.userData.prenumeMedic : '');
+    const [telefonMedic, setTelefonMedic] = useState(user ? user.userData.telefonMedic : '');
 
     console.log(user);  // print user to the console
 

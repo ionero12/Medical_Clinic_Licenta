@@ -1,12 +1,20 @@
 package com.example.medical_clinic_BACKEND.Controller;
 
 import com.example.medical_clinic_BACKEND.Model.Medic;
+import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Service.MedicService;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
+import javax.crypto.SecretKey;
+import java.util.Date;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,21 +33,51 @@ public class MedicController {
         return medicService.getMedici();
     }
 
+    @GetMapping(path = "{idMedic}")
+    public Medic getMedicById(@PathVariable("idMedic") Long idMedic) {
+        return medicService.getMedicById(idMedic);
+    }
+
     @PostMapping
-    public ResponseEntity<Medic> addMedic(@RequestBody Medic medic) {
+    public ResponseEntity<?> addMedic(@RequestBody Medic medic) {
         medicService.addMedic(medic);
-        return ResponseEntity.ok(medic);
+
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        String jwtToken = Jwts.builder()
+                .setSubject(medic.getEmailMedic())
+                .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                .signWith(key)
+                .compact();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("jwtToken", jwtToken);
+        response.put("medic", medic);
+
+        return ResponseEntity.ok(response);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
-    public ResponseEntity<Medic> loginMedic(@RequestBody Map<String, String> credentials) {
-        System.out.println(credentials);
+    public ResponseEntity<?> loginMedic(@RequestBody Map<String, String> credentials) {
         String emailMedic = credentials.get("emailMedic");
         String parolaMedic = credentials.get("parolaMedic");
         if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
             Medic medic = medicService.findByEmail(emailMedic);
-            return ResponseEntity.ok(medic);
+
+            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+            String jwtToken = Jwts.builder()
+                    .setSubject(emailMedic)
+                    .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                    .signWith(key)
+                    .compact();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("jwtToken", jwtToken);
+            response.put("medic", medic);
+
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

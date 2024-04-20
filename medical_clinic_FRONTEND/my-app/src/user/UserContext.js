@@ -1,19 +1,33 @@
-// UserContext.js
-import React, {createContext, useContext, useState} from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-// Create a context for the user's information
-const UserContext = createContext();
+export const UserContext = createContext();
 
-// Create a provider component for the user's information
-export const UserProvider = ({children}) => {
+// Define UserProvider
+export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    return (<UserContext.Provider value={{user, setUser}}>
+    // Load user data from local storage when the application is loaded
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser && storedUser !== 'undefined') {
+            setUser(JSON.parse(storedUser));
+        } else {
+            // Set a default user value if no user data is found
+            setUser({ userType: '', userData: null });
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log('User state has changed:', user);
+    }, [user]);
+
+
+    return (
+        <UserContext.Provider value={{ user, setUser }}>
             {children}
-        </UserContext.Provider>);
+        </UserContext.Provider>
+    );
 };
 
-// Create a hook to use the user's information
+// Define useUser hook
 export const useUser = () => useContext(UserContext);
-
-export default UserContext;

@@ -19,7 +19,7 @@ function PatientRegister() {
     const [asigurat, setAsigurat] = useState('Y');
     const [abonamentPacient, setAbonamentPacient] = useState('Y');
     const navigate = useNavigate();
-    const {setUser} = useUser();  // get setUser from the user context
+    const {setUser} = useUser();
 
 
     const handleRegistration = async () => {
@@ -40,10 +40,6 @@ function PatientRegister() {
                 abonamentPacient
             };
 
-            console.log(newUser.asigurat);
-            console.log(newUser.abonamentPacient);
-            console.log(newUser.numePacient);
-
             const response = await fetch('http://localhost:8081/api/pacient', {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json'
@@ -51,9 +47,13 @@ function PatientRegister() {
             });
 
             if (response.ok) {
-                console.log('User registered successfully');
-                const user = await response.json();  // parse the response as JSON
-                setUser(user);  // set the user's data in the user context
+                const data = await response.json();
+                console.log('Logged in:', data);
+
+                localStorage.setItem('jwtToken', data.jwtToken);
+                localStorage.setItem('user', JSON.stringify({userType: 'pacient', userData: data.pacient}));
+                setUser({userType: 'pacient', userData: data.pacient});
+
                 navigate('/pacient/dashboard');
             } else {
                 console.log('Registration failed');

@@ -4,14 +4,16 @@ import com.example.medical_clinic_BACKEND.Model.Consultatie;
 import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Service.ConsultatieService;
 import com.example.medical_clinic_BACKEND.Service.PacientService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import javax.crypto.SecretKey;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,19 +48,44 @@ public class PacientController {
     }
 
     @PostMapping
-    public ResponseEntity<Pacient> addPacient(@RequestBody Pacient pacient) {
+    public ResponseEntity<?> addPacient(@RequestBody Pacient pacient) {
         pacientService.addPacient(pacient);
-        return ResponseEntity.ok(pacient);
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        String jwtToken = Jwts.builder()
+                .setSubject(pacient.getEmailPacient())
+                .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                .signWith(key)
+                .compact();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("jwtToken", jwtToken);
+        response.put("pacient", pacient);
+
+        return ResponseEntity.ok(response);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://192.168.1.128:3000")
     @PostMapping("/login")
-    public ResponseEntity<Pacient> loginPacient(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<?> loginPacient(@RequestBody Map<String, String> credentials) {
         String emailPacient = credentials.get("emailPacient");
         String parolaPacient = credentials.get("parolaPacient");
         if (pacientService.isValidCredentials(emailPacient, parolaPacient)) {
             Pacient pacient = pacientService.findByEmail(emailPacient);
-            return ResponseEntity.ok(pacient);
+
+            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+            String jwtToken = Jwts.builder()
+                    .setSubject(emailPacient)
+                    .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                    .signWith(key)
+                    .compact();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("jwtToken", jwtToken);
+            response.put("pacient", pacient);
+
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

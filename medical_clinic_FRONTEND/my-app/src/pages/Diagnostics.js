@@ -5,7 +5,7 @@ import PatientMenu from "../components/PatientMenu";
 
 const Diagnostics = () => {
     const {user} = useUser();
-    const idPacient = user ? user.idPacient : null;
+    const idPacient = user ? user.userData.idPacient : null;
 
     const [diagnostics, setDiagnostics] = useState([]);
     const [valoariAnalize, setValoareAnalize] = useState([]);
@@ -38,7 +38,7 @@ const Diagnostics = () => {
                 <h2 className="text-2xl font-bold mb-2">Diagnostice</h2>
                 <ul>
                     {diagnostics.map((diagnostic) => (
-                        <li key={diagnostic.idDiagnostic} className="border-b py-2">
+                        <li key={diagnostic.idDiagnostic} className="border-sky-500 border-2 mb-1 p-2">
                             Nume diagnostic: {diagnostic.numeDiagnostic}
                             <br/>
                             ID diagnostic: {diagnostic.idDiagnostic}, Data: {diagnostic.dataDiagnostic}
@@ -50,7 +50,7 @@ const Diagnostics = () => {
                 <ul>
                     {valoariAnalize.map((valoareAnaliza) => (
                         <li key={`${valoareAnaliza.analizeIdAnaliza}-${valoareAnaliza.valoare.idValoare}`}
-                            className="border-b py-2">
+                            className="border-sky-500 border-2 mb-1 p-2">
                             Nume analiza: {valoareAnaliza.valoare.numeValoare}
                             <br/>
                             Valoare analiza: {valoareAnaliza.valoare.rezultatValoare},
