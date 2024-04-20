@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Appointment({ appointment }) {
+function AppointmentMedic({ appointment }) {
     // Parse the date and time
     let date = new Date(appointment.dataConsultatiei);
     let dateString = date.toLocaleDateString();
@@ -19,4 +19,4 @@ function Appointment({ appointment }) {
     );
 }
 
-export default Appointment;
+export default AppointmentMedic;

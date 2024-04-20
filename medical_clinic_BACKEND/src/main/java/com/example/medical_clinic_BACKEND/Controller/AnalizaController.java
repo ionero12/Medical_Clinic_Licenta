@@ -3,6 +3,7 @@ package com.example.medical_clinic_BACKEND.Controller;
 import com.example.medical_clinic_BACKEND.Model.Analiza;
 import com.example.medical_clinic_BACKEND.Service.AnalizaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class AnalizaController {
     }
 
     @PostMapping
-    public void addAnaliza(@RequestBody Analiza analiza) {
+    public ResponseEntity<Analiza> addAnaliza(@RequestBody Analiza analiza) {
         analizaService.addAnaliza(analiza);
+        return ResponseEntity.ok(analiza);
     }
 
     @DeleteMapping(path = "{analizaId}")
