@@ -21,8 +21,6 @@ function SpecializationDropdown(props) {
             return (<option key={props.idSpecializare || context} value={props.idSpecializare}>
                     {props.numeSpecializare}
                 </option>
-
-
             );
         })}
     </select>);
