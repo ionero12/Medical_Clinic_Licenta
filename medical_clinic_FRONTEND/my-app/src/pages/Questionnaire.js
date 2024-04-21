@@ -42,7 +42,7 @@ const Questionnaire = () => {
     return (
         <div className="pt-5 pb-12 px-4 md:px-0">
             <PatientMenu/>
-            <div className="max-w-full md:max-w-md mx-auto bg-white p-5 rounded shadow-md text-center">
+            <div className="max-w-full md:max-w-md mx-auto bg-white p-5 rounded shadow-md text-center mt-4">
                 <h2 className="text-center text-2xl font-bold text-gray-800 pb-8">Symptoms Form</h2>
                 <form onSubmit={handleSubmit}>
                     {symptomNames.map(symptom => (

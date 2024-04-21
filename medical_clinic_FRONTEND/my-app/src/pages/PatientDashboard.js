@@ -53,8 +53,8 @@ const PatientDashboard = () => {
 
     return (<div className="p-6">
         <PatientMenu/>
-        <div className="grid grid-cols-2 gap-4 pt-4">
-            <div className="bg-white p-4 rounded-2xl shadow">
+        <div className="flex flex-col md:flex-row mt-4">
+            <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                 <h2 className="text-2xl font-bold mb-2">Medici</h2>
                 <div className="flex flex-wrap -m-4">
                     {medics.map((medic) => (
@@ -73,7 +73,7 @@ const PatientDashboard = () => {
                     ))}
                 </div>
             </div>
-            <div className="bg-white p-4 rounded-2xl shadow">
+            <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                 <h2 className="text-2xl font-bold mb-2">Consultatii Viitoare</h2>
                 <ul>
                     {upcomingAppointments.map(appointment => (

@@ -20,8 +20,7 @@ const Prices = () => {
     return (
         <div className="p-6">
             <PatientMenu />
-            <h1 className="text-3xl font-bold mb-4">Preturi Consultatii</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded shadow">
                     <h2 className="text-2xl font-bold mb-2">Preturi Cu Abonament</h2>
                     <table className="table-auto border-collapse border border-blue-800 w-full">

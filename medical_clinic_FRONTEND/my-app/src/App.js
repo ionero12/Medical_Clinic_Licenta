@@ -14,12 +14,13 @@ import Questionnaire from './pages/Questionnaire';
 import MedicProfile from './pages/MedicProfile';
 import PatientProfile from './pages/PatientProfile';
 import Patient from './pages/Patient';
+import Medic from './pages/Medic';
 import {UserProvider} from './user/UserContext';
 
 
 function App() {
     return (<Router>
-        <UserProvider>  {/* Wrap your routes with UserProvider */}
+        <UserProvider>
             <Routes>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/medic/register" element={<MedicRegister/>}/>
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/pacient/chestionar" element={<Questionnaire/>}/>
                 <Route path="/medic/profile" element={<MedicProfile/>}/>
                 <Route path="/pacient/profile" element={<PatientProfile/>}/>
+                <Route path="/medic/:idMedic" element={<Medic/>}/>
                 <Route path="/pacient/:idPacient" element={<Patient/>}/>
                 <Route path="*" element={<Navigate to="/login"/>}/>
             </Routes>

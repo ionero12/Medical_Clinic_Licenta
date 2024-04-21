@@ -41,26 +41,31 @@ const MedicDashboard = () => {
 
     return (<div className="p-6">
         <MedicMenu/>
-        <h1 className="text-3xl font-bold mb-4">Dashboard Medic</h1>
-        <div className="grid grid-cols-2 gap-4 pt-4">
-            <div className="bg-white p-4 rounded shadow">
+        <div className="flex flex-col md:flex-row mt-4">
+            <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                 <h2 className="text-2xl font-bold mb-2">Pacienti</h2>
-                <ul>
-                    {patients.map((pacient) => (<li key={pacient.idPacient} className="border-sky-500 border-2 mb-1 p-2">
-                        <Link to={`/pacient/${pacient.idPacient}`}>
-                            {pacient.numePacient} {pacient.prenumePacient}
-                        </Link>
-                        <br/>
-                        Varsta: {pacient.varstaPacient}
-                    </li>))}
-                </ul>
+                <div className="flex flex-wrap -m-4">
+                    {patients.map((pacient) => (<div key={pacient.idPacient} className="w-1/2 p-4">
+                        <div className="border-sky-500 border-2 p-4 rounded-md shadow-lg">
+                            <Link to={`/pacient/${pacient.idPacient}`}
+                                  className="flex flex-col items-center text-center">
+                                <h3 className="text-xl font-bold mb-2">{pacient.numePacient} {pacient.prenumePacient}</h3>
+                                <button
+                                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Vezi profilul
+                                </button>
+                            </Link>
+                        </div>
+                    </div>))}
+                </div>
             </div>
-            <div className="bg-white p-4 rounded shadow">
+            <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                 <h2 className="text-2xl font-bold mb-2">Consultatii Viitoare</h2>
                 <ul>
-                    {upcomingAppointments.map(appointment => (<div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-2">
-                        <AppointmentMedic appointment={appointment}/>
-                    </div>))}
+                    {upcomingAppointments.map(appointment => (
+                        <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-2">
+                            <AppointmentMedic appointment={appointment}/>
+                        </div>))}
                 </ul>
             </div>
         </div>
