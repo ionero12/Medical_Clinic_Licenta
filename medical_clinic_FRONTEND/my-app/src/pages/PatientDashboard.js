@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useUser} from '../user/UserContext'; // import useUser
 import PatientMenu from '../components/PatientMenu';
-import AppointmentPatient from "../components/AppointmentPatient";
 import {Link} from "react-router-dom";
 
 const PatientDashboard = () => {
@@ -14,7 +13,7 @@ const PatientDashboard = () => {
 
     useEffect(() => {
         if (user && idPacient) {
-            const urlConsultations = `http://localhost:8081/api/consultatie?idPacient=${idPacient}`;
+            const urlConsultations = `http://localhost:8081/api/consultatie/pacient?idPacient=${idPacient}`;
             const urlMedics = `http://localhost:8081/api/medic`;
 
             fetch(urlMedics)
@@ -78,7 +77,12 @@ const PatientDashboard = () => {
                 <ul>
                     {upcomingAppointments.map(appointment => (
                         <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-2">
-                            <AppointmentPatient appointment={appointment}/>
+                            Nume consultatie: {appointment.numeConsultatie}
+                            <br/>
+                            Nume medic: {appointment.numeMedic} {appointment.prenumeMedic}
+                            <br/>
+                            Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()}, Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                            <br/>
                         </div>))}
                 </ul>
             </div>
