@@ -89,4 +89,8 @@ public class MedicService {
     public Medic getMedicById(Long idMedic) {
         return medicRepository.findById(idMedic).orElseThrow(() -> new IllegalStateException("Medicul cu id-ul " + idMedic + " nu exista"));
     }
+
+    public List<Medic> findBySpecializare(String specializare) {
+        return medicRepository.findBySpecializare(specializare);
+    }
 }

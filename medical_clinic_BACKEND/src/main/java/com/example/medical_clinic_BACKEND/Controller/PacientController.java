@@ -29,18 +29,19 @@ public class PacientController {
     }
 
     @GetMapping
-    public List<Pacient> getPacienti(@RequestParam(required = false) Long idMedic) {
-        if (idMedic == null) return pacientService.getPacienti();
-        else {
-            List<Consultatie> consultatii = consultatieService.findByIdMedic(idMedic);
-            if (consultatii != null) {
-                return consultatii.stream().map(Consultatie::getPacient).distinct().collect(Collectors.toList());
-            } else {
-                return new ArrayList<>();
-            }
-        }
+    public List<Pacient> getPacienti() {
+        return pacientService.getPacienti();
     }
 
+    @GetMapping(path = "/medic")
+    public List<Pacient> getPacientiByMedicId(@RequestParam(required = false) Long idMedic) {
+        List<Consultatie> consultatii = consultatieService.findByIdMedic(idMedic);
+        if (consultatii != null) {
+            return consultatii.stream().map(Consultatie::getPacient).distinct().collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+    }
 
     @GetMapping(path = "{idPacient}")
     public Pacient getPacientById(@PathVariable("idPacient") Long idPacient) {

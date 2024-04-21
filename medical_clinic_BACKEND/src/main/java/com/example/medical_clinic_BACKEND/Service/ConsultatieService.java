@@ -27,28 +27,7 @@ public class ConsultatieService {
         this.pacientRepository = pacientRepository;
     }
 
-    public List<Consultatie> getConsultatii(Long idMedic, Long idPacient) {
-        if (idPacient == null && idMedic != null) {
-            List<Consultatie> consultatii = consultatieRepository.findByIdMedic(idMedic);
-            for (Consultatie consultatie : consultatii) {
-                Pacient pacient = consultatie.getPacient();
-                String numePacient = pacient != null ? pacient.getNumePacient() : "Unknown";
-                String prenumePacient = pacient != null ? pacient.getPrenumePacient() : "Unknown";
-                consultatie.setNumePacient(numePacient);
-                consultatie.setPrenumePacient(prenumePacient);
-            }
-            return consultatii;
-        } else if (idMedic == null && idPacient != null) {
-            List<Consultatie> consultatii = consultatieRepository.findByIdPacient(idPacient);
-            for (Consultatie consultatie : consultatii) {
-                Medic medic = consultatie.getMedic();
-                String numeMedic = medic != null ? medic.getNumeMedic() : "Unknown";
-                String prenumeMedic = medic != null ? medic.getPrenumeMedic() : "Unknown";
-                consultatie.setNumeMedic(numeMedic);
-                consultatie.setPrenumeMedic(prenumeMedic);
-            }
-            return consultatii;
-        }
+    public List<Consultatie> getConsultatii() {
         return consultatieRepository.findAll();
     }
 
@@ -69,7 +48,7 @@ public class ConsultatieService {
 
 
     public void addConsultatie(Consultatie consultatie) {
-        System.out.println(consultatie.getNumeConsultatie() + " " + consultatie.getDataConsultatiei() + " " + consultatie.getMedic() + " " + consultatie.getPacient() + " " + consultatie.getPret());
+        System.out.println(consultatie.getNumeConsultatie() + " " + consultatie.getMedic().getIdMedic() + " " + consultatie.getPacient().getCnpPacient() + " " + consultatie.getPret());
 
         Pacient pacient = pacientRepository.findByCnp(consultatie.getPacient().getCnpPacient()).orElseThrow(() -> new IllegalStateException("Pacient does not exist"));
         consultatie.setPacient(pacient);
@@ -100,9 +79,6 @@ public class ConsultatieService {
         return consultatieRepository.findByIdMedic(idMedic);
     }
 
-//    public List<Consultatie> findByIdPacient(Long idPacient) {
-//        return consultatieRepository.findByIdPacient(idPacient);
-//    }
 
     @Transactional
     public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei) {
@@ -112,5 +88,30 @@ public class ConsultatieService {
             consultatie.setDataConsultatiei(dataConsultatiei);
         }
         return consultatie;
+    }
+
+    public List<Consultatie> getConsultatiiByMedicId(Long idMedic) {
+        List<Consultatie> consultatii = consultatieRepository.findByIdMedic(idMedic);
+        for (Consultatie consultatie : consultatii) {
+            Pacient pacient = consultatie.getPacient();
+            String numePacient = pacient != null ? pacient.getNumePacient() : "Unknown";
+            String prenumePacient = pacient != null ? pacient.getPrenumePacient() : "Unknown";
+            consultatie.setNumePacient(numePacient);
+            consultatie.setPrenumePacient(prenumePacient);
+        }
+        return consultatii;
+    }
+
+
+    public List<Consultatie> getConsultatiiByPacientId(Long idPacient) {
+        List<Consultatie> consultatii = consultatieRepository.findByIdPacient(idPacient);
+        for (Consultatie consultatie : consultatii) {
+            Medic medic = consultatie.getMedic();
+            String numeMedic = medic != null ? medic.getNumeMedic() : "Unknown";
+            String prenumeMedic = medic != null ? medic.getPrenumeMedic() : "Unknown";
+            consultatie.setNumeMedic(numeMedic);
+            consultatie.setPrenumeMedic(prenumeMedic);
+        }
+        return consultatii;
     }
 }

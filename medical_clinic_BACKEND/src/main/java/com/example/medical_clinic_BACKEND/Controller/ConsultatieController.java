@@ -21,8 +21,18 @@ public class ConsultatieController {
     }
 
     @GetMapping
-    public List<Consultatie> getConsultatii(@RequestParam(required = false) Long idMedic, @RequestParam(required = false) Long idPacient) {
-        return consultatieService.getConsultatii(idMedic,  idPacient);
+    public List<Consultatie> getConsultatii() {
+        return consultatieService.getConsultatii();
+    }
+
+    @GetMapping(path="/medic")
+    public List<Consultatie> getConsultatiiByMedicId(@RequestParam(required = false) Long idMedic){
+        return consultatieService.getConsultatiiByMedicId(idMedic);
+    }
+
+    @GetMapping(path="/pacient")
+    public List<Consultatie> getConsultatiiByPacientId(@RequestParam(required = false) Long idPacient){
+        return consultatieService.getConsultatiiByPacientId(idPacient);
     }
 
     @GetMapping(path = "/preturi")

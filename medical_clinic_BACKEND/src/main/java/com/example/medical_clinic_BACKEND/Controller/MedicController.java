@@ -1,5 +1,6 @@
 package com.example.medical_clinic_BACKEND.Controller;
 
+import com.example.medical_clinic_BACKEND.Model.Consultatie;
 import com.example.medical_clinic_BACKEND.Model.Medic;
 import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Service.MedicService;
@@ -12,11 +13,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/medic")
@@ -31,6 +30,12 @@ public class MedicController {
     @GetMapping
     public List<Medic> getMedici() {
         return medicService.getMedici();
+    }
+
+    @GetMapping(path = "/specializare")
+    public List<Medic> getMediciBySpecializare(@RequestParam(required = false) String specializare) {
+        List<Medic> medici = medicService.findBySpecializare(specializare);
+        return medici;
     }
 
     @GetMapping(path = "{idMedic}")
