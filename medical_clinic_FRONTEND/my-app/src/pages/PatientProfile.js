@@ -4,6 +4,8 @@ import axios from "axios";
 import PatientMenu from "../components/PatientMenu";
 import profilePic from '../assets/images/profilePic.png';
 
+//TODO: repair css for the profile page
+
 function PatientProfile() {
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
