@@ -54,11 +54,11 @@ const MedicAppointments = () => {
         const currentDate = new Date();
 
         if (date < currentDate) {
-            toast.error('Nu se pot adauga programări la o dată din trecut');
+            toast.error('Nu se pot actualiza programări la o dată din trecut');
             return;
         }
         if (date.getDay() === 6 || date.getDay() === 0) {
-            toast.error('Nu se pot face programări în weekend');
+            toast.error('Nu se pot actualiza programări în weekend');
             return;
         }
 
@@ -72,7 +72,7 @@ const MedicAppointments = () => {
         try {
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
             setUpcomingAppointments([...upcomingAppointments, response.data])
-            console.log('AppointmentMedic added successfully:', response.data);
+            toast.success('Programare adăugată cu succes');
             closeAddModal();
         } catch (error) {
             console.error('Error adding appointment:', error);
@@ -92,7 +92,7 @@ const MedicAppointments = () => {
             return;
         }
         if (date.getDay() === 6 || date.getDay() === 0) {
-            toast.error('Nu se pot face programări în weekend');
+            toast.error('Nu se pot actualiza programări în weekend');
             return;
         }
 
@@ -102,9 +102,9 @@ const MedicAppointments = () => {
                     dataConsultatiei: `${selectedDate}T${selectedHour}:00`
                 }
             });
-            console.log('Appointment updated successfully:', response.data);
             setPastAppointments(pastAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
             setUpcomingAppointments(upcomingAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
+            toast.success('Programare actualizată cu succes');
             closeEditModal();
         } catch (error) {
             console.error('Error updating appointment:', error);
@@ -118,6 +118,7 @@ const MedicAppointments = () => {
         }).then(() => {
             setPastAppointments(pastAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
             setUpcomingAppointments(upcomingAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
+            toast.success('Programare ștearsă cu succes');
         });
     };
 

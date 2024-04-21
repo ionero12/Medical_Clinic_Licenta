@@ -64,9 +64,9 @@ const PatientAppointments = () => {
                     dataConsultatiei: `${selectedDate}T${selectedHour}:00`
                 }
             });
-            console.log('Appointment updated successfully:', response.data);
             setPastAppointments(pastAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
             setUpcomingAppointments(upcomingAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
+            toast.success('Programarea a fost actualizată cu succes');
             closeEditModal();
         } catch (error) {
             console.error('Error updating appointment:', error);
@@ -81,6 +81,7 @@ const PatientAppointments = () => {
         }).then(() => {
             setPastAppointments(pastAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
             setUpcomingAppointments(upcomingAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
+            toast.success('Programarea a fost ștearsă cu succes');
         });
     };
 
