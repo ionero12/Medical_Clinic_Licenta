@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import PatientMenu from "../components/PatientMenu";
 
+//TODO: mai vizual pt mobil, sau chiar si laptop (prea repetitiv)
+
 const Prices = () => {
     const [consultatii, setConsultatii] = useState([]);
 
@@ -17,9 +19,8 @@ const Prices = () => {
 
     console.log(consultatii)
 
-    return (
-        <div className="p-6">
-            <PatientMenu />
+    return (<div className="p-6">
+            <PatientMenu/>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded shadow">
                     <h2 className="text-2xl font-bold mb-2">Preturi Cu Abonament</h2>
@@ -31,12 +32,10 @@ const Prices = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {consultatii.map(consultatie => (
-                            <tr key={consultatie.idConsultatie}>
+                        {consultatii.map(consultatie => (<tr key={consultatie.idConsultatie}>
                                 <td className="border border-blue-600 p-2">{consultatie.numeConsultatie}</td>
                                 <td className="border border-blue-600 p-2">{consultatie.pretCuAbonament}</td>
-                            </tr>
-                        ))}
+                            </tr>))}
                         </tbody>
                     </table>
                 </div>
@@ -50,18 +49,15 @@ const Prices = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {consultatii.map(consultatie => (
-                            <tr key={consultatie.idConsultatie}>
+                        {consultatii.map(consultatie => (<tr key={consultatie.idConsultatie}>
                                 <td className="border border-blue-600 p-2">{consultatie.numeConsultatie}</td>
                                 <td className="border border-blue-600 p-2">{consultatie.pretFaraAbonament}</td>
-                            </tr>
-                        ))}
+                            </tr>))}
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default Prices;

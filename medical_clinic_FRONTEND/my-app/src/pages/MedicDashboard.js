@@ -38,19 +38,22 @@ const MedicDashboard = () => {
         }
     }, [user, idMedic]); // Include user in the dependency array
 
+
     return (<div className="p-6">
         <MedicMenu/>
         <div className="flex flex-col md:flex-row mt-4">
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
-                <h2 className="text-2xl font-bold mb-2">Pacienti</h2>
+                <h2 className="text-2xl font-bold mb-2 mt-2">Pacienti</h2>
+
                 <div className="flex flex-wrap -m-4">
                     {patients.map((pacient) => (<div key={pacient.idPacient} className="w-1/2 p-4">
-                        <div className="border-sky-500 border-2 p-4 rounded-md shadow-lg">
+                        <div
+                            className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl">
                             <Link to={`/pacient/${pacient.idPacient}`}
                                   className="flex flex-col items-center text-center">
-                                <h3 className="text-xl font-bold mb-2">{pacient.numePacient} {pacient.prenumePacient}</h3>
+                                <h2 className="text-xl font-bold mb-2">{pacient.numePacient} {pacient.prenumePacient}</h2>
                                 <button
-                                    className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    className="mt-4 bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
                                     Vezi profilul
                                 </button>
                             </Link>
@@ -59,21 +62,22 @@ const MedicDashboard = () => {
                 </div>
             </div>
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
-                <h2 className="text-2xl font-bold mb-2">Consultatii Viitoare</h2>
+            <h2 className="text-2xl font-bold mb-2 mt-2400">Consultatii Viitoare</h2>
                 <ul>
                     {upcomingAppointments.map(appointment => (
-                        <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-2">
+                        <div key={appointment.idConsultatie} className={`border-gray-400 border-2 mb-1 p-2`}>
                             Nume consultatie: {appointment.numeConsultatie}
                             <br/>
                             Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
                             <br/>
-                            Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()}, Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                            Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                            Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                             <br/>
                         </div>))}
                 </ul>
             </div>
         </div>
     </div>);
-};
+}
 
 export default MedicDashboard;

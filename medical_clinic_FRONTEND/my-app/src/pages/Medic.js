@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import PacientMenu from "../components/PatientMenu";
 
+//TODO: adaugat mai multe detalii(nu stiu de unde) si programu medicului facut mai vizual
+
 const Medic = () => {
     const [medic, setMedic] = useState(null);
     const {idMedic} = useParams();

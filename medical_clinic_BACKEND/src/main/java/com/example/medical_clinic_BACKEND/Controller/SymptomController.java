@@ -77,7 +77,7 @@ public class SymptomController {
 
             for (Map.Entry<String, List<String>> entry : diseasesBySpecialization.entrySet()) {
                 if (entry.getValue().contains(predictedDisease)) {
-                    return ResponseEntity.ok("Boala care se potriveste cu simpotomele tale este " +  predictedDisease + ". Te rugam sa consulti un medic de la specializarea " + entry.getKey() + ".");
+                    return ResponseEntity.ok("Boala care se potriveste cu simpotomele tale este " +  predictedDisease + ".\n Te rugam sa consulti un medic de la specializarea " + entry.getKey() + ".");
                 }
             }
 

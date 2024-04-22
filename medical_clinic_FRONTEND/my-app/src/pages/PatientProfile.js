@@ -4,8 +4,6 @@ import axios from "axios";
 import PatientMenu from "../components/PatientMenu";
 import profilePic from '../assets/images/profilePic.png';
 
-//TODO: repair css for the profile page
-
 function PatientProfile() {
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
@@ -46,12 +44,12 @@ function PatientProfile() {
     return (<div className="p-6">
             <PatientMenu/>
             <div className="pt-5 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
-                <div className="flex flex-col md:flex-row items-start mt-8 space-x-0 md:space-x-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div
-                        className="flex flex-col items-center max-w-md bg-white p-5 rounded shadow-md mb-4 md:mb-0 w-full md:w-1/2">
+                        className="flex flex-col items-center max-w-md bg-white p-5 rounded shadow-md mb-4 md:mb-0 w-full">
                         <h2 className="text-2xl p-3">{numePacient} {prenumePacient}</h2>
                         <div
-                            className="w-32 h-32 rounded-full border border-cyan-300 flex items-center justify-center mb-4">
+                            className="w-32 h-32 rounded-full border border-gray-400 flex items-center justify-center mb-4">
                             <img src={profilePic} alt="Profile" className="w-28 h-28 rounded-full"/>
                         </div>
                         <label className="block mb-2 p-2">
@@ -74,7 +72,7 @@ function PatientProfile() {
                                 type="email"
                                 value={emailPacient}
                                 onChange={e => setEmailPacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                         <label className="block mb-2">
@@ -83,18 +81,18 @@ function PatientProfile() {
                                 type="password"
                                 value={parolaPacient}
                                 onChange={e => setParolaPacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                     </div>
-                    <div className="flex flex-col max-w-md bg-white p-5 rounded shadow-md mt-4 md:mt-0 w-full md:w-1/2">
+                    <div className="flex flex-col max-w-md bg-white p-5 rounded shadow-md mt-4 md:mt-0 w-full">
                         <label className="block mb-2">
                             Nume:
                             <input
                                 type="text"
                                 value={numePacient}
                                 onChange={e => setNumePacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                         <label className="block mb-2">
@@ -103,7 +101,7 @@ function PatientProfile() {
                                 type="text"
                                 value={prenumePacient}
                                 onChange={e => setPrenumePacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                         <label className="block mb-2">
@@ -112,7 +110,7 @@ function PatientProfile() {
                                 type="number"
                                 value={greutatePacient}
                                 onChange={e => setGreutatePacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                         <label className="block mb-2">
@@ -121,7 +119,7 @@ function PatientProfile() {
                                 type="number"
                                 value={inaltimePacient}
                                 onChange={e => setInaltimePacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                         <label className="block mb-2">
@@ -130,7 +128,7 @@ function PatientProfile() {
                                 type="number"
                                 value={varstaPacient}
                                 onChange={e => setVarstaPacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
 
@@ -140,14 +138,14 @@ function PatientProfile() {
                                 type="phone"
                                 value={telefonPacient}
                                 onChange={e => setTelefonPacient(e.target.value)}
-                                className="w-full px-2 py-1 mb-2 border border-cyan-300"
+                                className="w-full px-2 py-1 mb-2 border border-gray-400"
                             />
                         </label>
                     </div>
                 </div>
                 <div className="flex justify-center">
                     <button onClick={updatePacientProfile}
-                            className="mt-4 px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Update Profile
+                            className="mt-4 px-4 py-2 bg-gray-300 text-black border-none cursor-pointer">Update Profile
                     </button>
                 </div>
             </div>

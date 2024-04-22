@@ -14,12 +14,18 @@ const MedicMenu = () => {
             </button>
             <div className={`md:flex ${isOpen ? 'block' : 'hidden'}`}>
                 <Link to="/medic/dashboard"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Dashboard</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Dashboard
+                </Link>
                 <Link to="/medic/appointments"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Appointments</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Appointments
+                </Link>
                 {/* Add more menu items as needed */}
                 <Link to="/medic/profile"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Profile</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Profile
+                </Link>
                 {/* Add more menu items as needed */}
             </div>
         </div>);

@@ -9,6 +9,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+//TODO: cand se deschide modal sa nu mai fie selectat nimic
+//TODO: dupa ce se adauga o programare, sa apara numele medicului imediat dupa (nuj dc nu apare)
 
 const MedicAppointments = () => {
     Modal.setAppElement('#root')
@@ -175,7 +177,7 @@ const MedicAppointments = () => {
                     <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
                     <ul>
                         {pastAppointments.map(appointment => (
-                            <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-4">
+                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
                                 Nume consultatie: {appointment.numeConsultatie}
                                 <br/>
                                 Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
@@ -186,17 +188,19 @@ const MedicAppointments = () => {
                     </ul>
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
+                    <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
                     <button
                         onClick={openAddModal}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded mt-4">
+                        className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2">
                         Adauga programare <FontAwesomeIcon icon={faPlus}/>
                     </button>
+                    </div>
                     <Modal
                         isOpen={addModalIsOpen}
                         onRequestClose={closeAddModal}
                         contentLabel="Add AppointmentMedic"
-                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-indigo-300 rounded-2xl p-5 border-2 border-indigo-700 text-center content-center animate__animated animate__zoomIn"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
@@ -225,13 +229,12 @@ const MedicAppointments = () => {
                                 </select>
                             </label>
                             <input type="submit" value="Submit"
-                                   className="mt-7 border-2 border-indigo-700 rounded-3xl w-1/2 mx-auto"/>
+                                   className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
                         </form>
                     </Modal>
-                    <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
                     <ul>
                         {upcomingAppointments.sort((a, b) => new Date(a.data) - new Date(b.data)).map(appointment => (
-                            <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-4">
+                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
                                 Nume consultatie: {appointment.numeConsultatie}
                                 <br/>
                                 Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
@@ -251,7 +254,7 @@ const MedicAppointments = () => {
                                     isOpen={editModalIsOpen}
                                     onRequestClose={closeEditModal}
                                     contentLabel="Update AppointmentMedic"
-                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-indigo-300 rounded-2xl p-5 border-2 border-indigo-700 text-center content-center animate__animated animate__zoomIn"
+                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">
@@ -274,7 +277,7 @@ const MedicAppointments = () => {
                                             </select>
                                         </label>
                                         <input type="submit" value="Update"
-                                               className="mt-7 border-2 border-indigo-700 rounded-3xl w-1/2 mx-auto"/>
+                                               className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
                                     </form>
                                 </Modal>
                                 <button onClick={() => deleteAppointment(appointment.idConsultatie)}

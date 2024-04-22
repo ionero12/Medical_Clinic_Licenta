@@ -32,13 +32,13 @@ const Diagnostics = () => {
 
     return (<div className="p-6">
         <PatientMenu/>
-        <h1 className="text-3xl font-bold mb-4">Detalii pacient</h1>
+        <h1 className="text-3xl font-bold mb-4 text-gray-400">Detalii pacient</h1>
         <div className="flex flex-col md:flex-row">
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                 <h2 className="text-2xl font-bold mb-2">Diagnostice</h2>
                 <ul>
                     {diagnostics.map((diagnostic) => (
-                        <li key={diagnostic.idDiagnostic} className="border-sky-500 border-2 mb-1 p-2">
+                        <li key={diagnostic.idDiagnostic} className="border-gray-400 border-2 mb-1 p-2">
                             Nume diagnostic: {diagnostic.numeDiagnostic}
                             <br/>
                             ID diagnostic: {diagnostic.idDiagnostic}, Data: {diagnostic.dataDiagnostic}
@@ -50,13 +50,12 @@ const Diagnostics = () => {
                 <ul>
                     {valoariAnalize.map((valoareAnaliza) => (
                         <li key={`${valoareAnaliza.analizeIdAnaliza}-${valoareAnaliza.valoare.idValoare}`}
-                            className="border-sky-500 border-2 mb-1 p-2">
+                            className="border-gray-400 border-2 mb-1 p-2">
                             Nume analiza: {valoareAnaliza.valoare.numeValoare}
                             <br/>
                             Valoare analiza: {valoareAnaliza.valoare.rezultatValoare},
                             Data: {valoareAnaliza.analiza.dataAnaliza}
-                        </li>
-                    ))}
+                        </li>))}
 
                 </ul>
             </div>

@@ -20,8 +20,7 @@ function SpecializationDropdown(props) {
         {specializations.map(function Component(props, context) {
             return (<option key={props.idSpecializare || context} value={props.idSpecializare}>
                     {props.numeSpecializare}
-                </option>
-            );
+                </option>);
         })}
     </select>);
 }

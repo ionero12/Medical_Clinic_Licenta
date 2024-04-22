@@ -197,7 +197,7 @@ const PatientAppointments = () => {
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
                     {pastAppointments.map(appointment => (
-                        <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-4">
+                        <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
                             Nume consultatie: {appointment.numeConsultatie}
                             <br/>
                             Nume medic: {appointment.numeMedic} {appointment.prenumeMedic}
@@ -208,16 +208,19 @@ const PatientAppointments = () => {
                         </div>))}
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
-                    <button
-                        onClick={openAddModal}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded mt-4">
-                        Adauga programare <FontAwesomeIcon icon={faPlus}/>
-                    </button>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
+                        <button
+                            onClick={openAddModal}
+                            className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2`}>
+                            Adauga programare <FontAwesomeIcon icon={faPlus}/>
+                        </button>
+                    </div>
                     <Modal
                         isOpen={addModalIsOpen}
                         onRequestClose={closeAddModal}
                         contentLabel="Add AppointmentMedic"
-                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-indigo-300 rounded-2xl p-5 border-2 border-indigo-700 text-center content-center animate__animated animate__zoomIn"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
@@ -236,8 +239,8 @@ const PatientAppointments = () => {
                                 <select onChange={e => setSelectedMedic(e.target.value)} value={selectedMedic}>
                                     <option value="">Select doctor</option>
                                     {medics.map(medic => (<option key={medic.idMedic} value={medic.idMedic}>
-                                            {medic.numeMedic} {medic.prenumeMedic}
-                                        </option>))}
+                                        {medic.numeMedic} {medic.prenumeMedic}
+                                    </option>))}
                                 </select>
                             </label>
                             <label className="mb-2">
@@ -260,13 +263,12 @@ const PatientAppointments = () => {
                                 </select>
                             </label>
                             <input type="submit" value="Submit"
-                                   className="mt-7 border-2 border-indigo-700 rounded-3xl w-1/2 mx-auto"/>
+                                   className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
                         </form>
                     </Modal>
-                    <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
                     <ul>
                         {upcomingAppointments.map(appointment => (
-                            <div key={appointment.idConsultatie} className="border-sky-500 border-2 mb-1 p-2">
+                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-2">
                                 Nume consultatie: {appointment.numeConsultatie}
                                 <br/>
                                 Nume medic: {appointment.numeMedic} {appointment.prenumeMedic}
@@ -279,14 +281,14 @@ const PatientAppointments = () => {
                                         setIdConsultatie(appointment.idConsultatie);
                                         openEditModal();
                                     }}
-                                    className="bg-sky-500 hover:bg-sky-600 text-white rounded px-2.5 py-2 transition duration-200">
+                                    className={`bg-blue-500 hover:bg-sky-700 text-white rounded px-2.5 py-2 transition duration-200`}>
                                     Update <FontAwesomeIcon icon={faEdit}/>
                                 </button>
                                 <Modal
                                     isOpen={editModalIsOpen}
                                     onRequestClose={closeEditModal}
                                     contentLabel="Update AppointmentMedic"
-                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-indigo-300 rounded-2xl p-5 border-2 border-indigo-700 text-center content-center animate__animated animate__zoomIn"
+                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">
@@ -309,11 +311,11 @@ const PatientAppointments = () => {
                                             </select>
                                         </label>
                                         <input type="submit" value="Update"
-                                               className="mt-7 border-2 border-indigo-700 rounded-3xl w-1/2 mx-auto"/>
+                                               className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
                                     </form>
                                 </Modal>
                                 <button onClick={() => deleteAppointment(appointment.idConsultatie)}
-                                        className="bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-5 transition duration-200">
+                                        className={`bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-5 transition duration-200`}>
                                     Delete <FontAwesomeIcon icon={faTrash}/>
                                 </button>
                             </div>))}

@@ -4,9 +4,8 @@ import MedicMenu from "../components/MedicMenu";
 import Modal from "react-modal";
 import axios from "axios";
 import 'animate.css/animate.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 
 const Patient = () => {
@@ -139,14 +138,14 @@ const Patient = () => {
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                 <button
                     onClick={openAddAnalizaModal}
-                    className="bg-indigo-600 hover:bg-indigo-800 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
+                    className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
                     Adauga analiza <FontAwesomeIcon icon={faPlus}/>
                 </button>
                 <Modal
                     isOpen={addAnalizaModalIsOpen}
                     onRequestClose={closeAddAnalizaModal}
                     contentLabel="Add analiza"
-                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-indigo-300 rounded-2xl p-5 border-2 border-indigo-700 text-center content-center animate__animated animate__zoomIn"
+                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                 >
                     <form onSubmit={handleAddAnaliza} className="flex flex-col">
                         <label className="mb-2">
@@ -156,10 +155,10 @@ const Patient = () => {
                                    className="mt-1"/>
                         </label>
                         <input type="submit" value="Submit"
-                               className="mt-7 border-2 border-indigo-700 rounded-3xl w-1/2 mx-auto"/>
+                               className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
                     </form>
                 </Modal>
-                <div className="border-sky-500 border-2 mt-2 p-4 rounded-md shadow-lg">
+                <div className="border-gray-400 border-2 mt-2 p-4 rounded-md shadow-lg">
                     <h4><strong>Analize:</strong></h4>
                     <ul>
                         {analize.map((analiza) => (
@@ -178,14 +177,14 @@ const Patient = () => {
                 <br/>
                 <button
                     onClick={openAddDiagnosticModal}
-                    className="bg-indigo-600 hover:bg-indigo-800 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
+                    className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
                     Adauga diagnostic <FontAwesomeIcon icon={faPlus}/>
                 </button>
                 <Modal
                     isOpen={addDiagnosticModalIsOpen}
                     onRequestClose={closeAddDiagnosticModal}
                     contentLabel="Add diagnostic"
-                    className="w-80 h-80 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-indigo-300 rounded-2xl p-5 border-2 border-indigo-700 text-center content-center animate__animated animate__zoomIn"
+                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                 >
                     <form onSubmit={handleAddDiagnostic} className="flex flex-col">
                         <label className="mb-2">
@@ -201,7 +200,7 @@ const Patient = () => {
                                    className="mt-1"/>
                         </label>
                         <input type="submit" value="Submit"
-                               className="mt-7 border-2 border-indigo-700 rounded-3xl w-1/2 mx-auto"/>
+                               className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
                     </form>
                 </Modal>
                 <div className="border-sky-500 border-2 mt-2 p-4 rounded-md shadow-lg">

@@ -15,21 +15,14 @@ function MedicRegister() {
     const [dataNastereMedic, setDataNastereMedic] = useState('');
     const [selectedSpecializationId, setSelectedSpecializationId] = useState('');
     const navigate = useNavigate();
-    const { setUser } = useUser();
+    const {setUser} = useUser();
 
     const handleRegistration = async () => {
         try {
             const newUser = {
-                numeMedic,
-                prenumeMedic,
-                cnpMedic,
-                dataNastereMedic,
-                specializare: {
+                numeMedic, prenumeMedic, cnpMedic, dataNastereMedic, specializare: {
                     idSpecializare: selectedSpecializationId
-                },
-                telefonMedic,
-                emailMedic,
-                parolaMedic
+                }, telefonMedic, emailMedic, parolaMedic
             };
 
             const response = await fetch('http://localhost:8081/api/medic', {
@@ -43,8 +36,8 @@ function MedicRegister() {
                 console.log('Logged in:', data);
 
                 localStorage.setItem('jwtToken', data.jwtToken);
-                localStorage.setItem('user', JSON.stringify({ userType: 'medic', userData: data.medic }));
-                setUser({ userType: 'medic', userData: data.medic });
+                localStorage.setItem('user', JSON.stringify({userType: 'medic', userData: data.medic}));
+                setUser({userType: 'medic', userData: data.medic});
 
                 navigate('/medic/dashboard');
             } else {

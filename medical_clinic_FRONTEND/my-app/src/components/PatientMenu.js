@@ -14,17 +14,29 @@ const PatientMenu = () => {
             </button>
             <div className={`md:flex ${isOpen ? 'block' : 'hidden'}`}>
                 <Link to="/pacient/dashboard"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Dashboard</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Dashboard
+                </Link>
                 <Link to="/pacient/appointments"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Appointments</Link>
-                <Link to ="/pacient/diagnostics"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Diagnostics</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Appointments
+                </Link>
+                <Link to="/pacient/diagnostics"
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Diagnostics
+                </Link>
                 <Link to="/pacient/chestionar"
-                        className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Questionnaire</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Questionnaire
+                </Link>
                 <Link to="/pacient/prices"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Prices</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Prices
+                </Link>
                 <Link to="/pacient/profile"
-                      className="text-white text-xl hover:underline block px-4 py-3 md:inline-block">Profile</Link>
+                      className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                    Profile
+                </Link>
             </div>
         </div>);
 };
