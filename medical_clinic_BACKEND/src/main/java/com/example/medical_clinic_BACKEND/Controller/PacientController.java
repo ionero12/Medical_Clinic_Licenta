@@ -43,6 +43,11 @@ public class PacientController {
         }
     }
 
+    @GetMapping(path = "/cnp")
+    public Pacient getPacientByCnp(@RequestParam(required = false) String cnpPacient) {
+        return pacientService.getPacientByCnp(cnpPacient);
+    }
+
     @GetMapping(path = "{idPacient}")
     public Pacient getPacientById(@PathVariable("idPacient") Long idPacient) {
         return pacientService.getPacientById(idPacient);
@@ -72,7 +77,7 @@ public class PacientController {
         String emailPacient = credentials.get("emailPacient");
         String parolaPacient = credentials.get("parolaPacient");
         if (pacientService.isValidCredentials(emailPacient, parolaPacient)) {
-            Pacient pacient = pacientService.findByEmail(emailPacient);
+            Pacient pacient = pacientService.getPacientByEmail(emailPacient);
 
             SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
