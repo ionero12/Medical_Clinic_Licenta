@@ -90,8 +90,13 @@ public class PacientService {
         return pacientRepository.findById(idPacient).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + idPacient + " nu exista"));
     }
 
-    public Pacient findByEmail(String emailPacient) {
+    public Pacient getPacientByEmail(String emailPacient) {
         Optional<Pacient> pacientOptional = pacientRepository.findPacientByEmailPacient(emailPacient);
+        return pacientOptional.orElse(null);
+    }
+
+    public Pacient getPacientByCnp(String cnpPacient) {
+        Optional<Pacient> pacientOptional = pacientRepository.findPacientByCnp(cnpPacient);
         return pacientOptional.orElse(null);
     }
 }
