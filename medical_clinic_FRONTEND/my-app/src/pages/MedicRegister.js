@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import '../styles/RegisterPage.css';
 import {useUser} from "../user/UserContext";
 
+//TODO: de testat daca merge regiter cu noile coloane
 
 function MedicRegister() {
     const [emailMedic, setEmailMedic] = useState('');
@@ -13,6 +14,8 @@ function MedicRegister() {
     const [cnpMedic, setCnpMedic] = useState('');
     const [telefonMedic, setTelefonMedic] = useState('');
     const [dataNastereMedic, setDataNastereMedic] = useState('');
+    const [experienta, setExperienta] = useState('');
+    const [universitate, setUniversitate] = useState('');
     const [selectedSpecializationId, setSelectedSpecializationId] = useState('');
     const navigate = useNavigate();
     const {setUser} = useUser();
@@ -22,7 +25,7 @@ function MedicRegister() {
             const newUser = {
                 numeMedic, prenumeMedic, cnpMedic, dataNastereMedic, specializare: {
                     idSpecializare: selectedSpecializationId
-                }, telefonMedic, emailMedic, parolaMedic
+                }, telefonMedic, emailMedic, parolaMedic, experienta, universitate
             };
 
             const response = await fetch('http://localhost:8081/api/medic', {
@@ -90,6 +93,24 @@ function MedicRegister() {
             <label className="block mb-2">
                 Specializare:
                 <SpecializationDropdown onSelectSpecialization={setSelectedSpecializationId}/>
+            </label>
+            <label className="block mb-2">
+                Experienta:
+                <input
+                    type="number"
+                    value={experienta}
+                    onChange={e => setExperienta(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Universitate:
+                <input
+                    type="text"
+                    value={universitate}
+                    onChange={e => setUniversitate(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
             </label>
             <label className="block mb-2">
                 Telefon:

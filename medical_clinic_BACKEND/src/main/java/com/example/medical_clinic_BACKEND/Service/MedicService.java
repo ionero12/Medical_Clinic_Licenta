@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -53,7 +54,7 @@ public class MedicService {
     }
 
     @Transactional
-    public void updateMedic(Long medicId, String numeMedic, String prenumeMedic, String telefonMedic, String emailMedic, String parolaMedic) {
+    public void updateMedic(Long medicId, String numeMedic, String prenumeMedic, String telefonMedic, String emailMedic, String parolaMedic, Integer experienta) {
         Medic medic = medicRepository.findById(medicId).orElseThrow(() -> new IllegalStateException("Medicul cu id-ul " + medicId + " nu exista"));
         if (numeMedic != null && !numeMedic.isEmpty() && !medic.getNumeMedic().equals(numeMedic)) {
             medic.setNumeMedic(numeMedic);
@@ -69,6 +70,9 @@ public class MedicService {
         }
         if (parolaMedic != null && !parolaMedic.isEmpty() && !passwordEncoder.matches(parolaMedic, medic.getParolaMedic())) {
             medic.setParolaMedic(passwordEncoder.encode(parolaMedic));
+        }
+        if (experienta != null && !Objects.equals(medic.getExperienta(), experienta)) {
+            medic.setExperienta(experienta);
         }
     }
 

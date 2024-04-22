@@ -55,11 +55,17 @@ public class Medic {
     @OneToMany(mappedBy = "medic")
     private List<Consultatie> consultatii = new ArrayList<>();
 
+    @Column(name = "experienta")
+    private Integer experienta;
+
+    @Column(name = "universitate", length = 128)
+    private String universitate;
+
     public Medic() {
 
     }
 
-    public Medic(Long idMedic, String numeMedic, String prenumeMedic, LocalDate dataNastereMedic, String cnpMedic, String telefonMedic, String emailMedic, Specializare specializare, String parolaMedic, List<Consultatie> consultatii) {
+    public Medic(Long idMedic, String numeMedic, String prenumeMedic, LocalDate dataNastereMedic, String cnpMedic, String telefonMedic, String emailMedic, Specializare specializare, String parolaMedic, List<Consultatie> consultatii, Integer experienta, String universitate) {
         this.idMedic = idMedic;
         this.numeMedic = numeMedic;
         this.prenumeMedic = prenumeMedic;
@@ -70,6 +76,8 @@ public class Medic {
         this.specializare = specializare;
         this.parolaMedic = parolaMedic;
         this.consultatii = consultatii;
+        this.experienta = experienta;
+        this.universitate = universitate;
     }
 
     public Long getIdMedic() {
@@ -150,6 +158,22 @@ public class Medic {
 
     public void setConsultatii(List<Consultatie> consultatii) {
         this.consultatii = consultatii;
+    }
+
+    public Integer getExperienta() {
+        return experienta;
+    }
+
+    public void setExperienta(Integer experienta) {
+        this.experienta = experienta;
+    }
+
+    public String getUniversitate() {
+        return universitate;
+    }
+
+    public void setUniversitate(String universitate) {
+        this.universitate = universitate;
     }
 }
 

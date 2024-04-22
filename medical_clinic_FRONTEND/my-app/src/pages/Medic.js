@@ -3,6 +3,8 @@ import {useParams} from 'react-router-dom';
 import PacientMenu from "../components/PatientMenu";
 
 //TODO: adaugat mai multe detalii(nu stiu de unde) si programu medicului facut mai vizual
+//TODO: de adaugat experienta si universitatea la medic
+//TODO: de implementat ratingurile si feedbackurile(api la consultatie/medic si apoi afisat pe pagina rating si feedback)
 
 const Medic = () => {
     const [medic, setMedic] = useState(null);
@@ -28,7 +30,13 @@ const Medic = () => {
                 <h2 className="text-3xl font-bold mb-4">{medic.numeMedic} {medic.prenumeMedic}</h2>
                 <p className="mb-2"><strong>Email:</strong> {medic.emailMedic}</p>
                 <p className="mb-2"><strong>Telefon:</strong> {medic.telefonMedic}</p>
-                <p className="mb-2"><strong>Program:</strong> Luni-Vineri: 08:00-18:00</p>
+                <div className="mb-2">
+                    <strong>Program:</strong>
+                    <div className="mt-2 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                        <p className="font-bold">Luni-Vineri:</p>
+                        <p>08:00-18:00</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>);
