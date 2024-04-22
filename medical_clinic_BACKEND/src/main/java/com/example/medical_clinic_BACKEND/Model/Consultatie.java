@@ -37,16 +37,24 @@ public class Consultatie {
     @JoinColumn(name = "preturi_id_pret", nullable = false)
     private Pret pret;
 
+    @Column(name="rating")
+    private Integer rating;
+
+    @Column(name="feedback", length = 256)
+    private String feedback;
+
     public Consultatie() {
     }
 
-    public Consultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret) {
+    public Consultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret, Integer rating, String feedback) {
         this.idConsultatie = idConsultatie;
         this.dataConsultatiei = dataConsultatiei;
         this.pacient = pacient;
         this.medic = medic;
         this.numeConsultatie = numeConsultatie;
         this.pret = pret;
+        this.rating = rating;
+        this.feedback = feedback;
     }
 
     public Long getIdConsultatie() {
@@ -143,5 +151,21 @@ public class Consultatie {
 
     public Double getPretCuAbonament() {
         return this.pret.getPretCuAbonament();
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }
