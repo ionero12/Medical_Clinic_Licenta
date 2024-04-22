@@ -1,38 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import {useUser} from '../user/UserContext';
-import PatientMenu from '../components/PatientMenu';
 import axios from "axios";
 import Modal from "react-modal";
+import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css/animate.min.css';
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {toast, ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import {useUser} from '../user/UserContext';
+import PatientMenu from '../components/PatientMenu';
 
-//TODO: cand se deschide modal sa nu mai fie selectat nimic
-//TODO: dupa ce se adauga o programare, sa apara numele medicului imediat dupa (nuj dc nu apare)
+//TODO: de adaugat la consultatiile anterioare buton de adaugare rating si feedback
 
 const PatientAppointments = () => {
     Modal.setAppElement('#root')
 
-    const [pastAppointments, setPastAppointments] = useState([]);
-    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
 
+    const [appointments, setAppointments] = useState([]);
+    const [pastAppointments, setPastAppointments] = useState([]);
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
+    const [medics, setMedics] = useState([]);
+    const [idMedic, setIdMedic] = useState("");
+    const [idConsultatie, setIdConsultatie] = useState('');
+    const [numeConsultatie, setNumeConsultatie] = useState("");
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedHour, setSelectedHour] = useState('08:00'); // Default to 08:00
-    const [idConsultatie, setIdConsultatie] = useState('');
 
     const [addModalIsOpen, setAddModalIsOpen] = useState(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
 
-    const [appointments, setAppointments] = useState([]);
-    const [selectedAppointment, setSelectedAppointment] = useState("");
-    const [medics, setMedics] = useState([]);
-    const [selectedMedic, setSelectedMedic] = useState("");
 
     useEffect(() => {
         if (idPacient) {
@@ -58,8 +56,8 @@ const PatientAppointments = () => {
     }, []);
 
     useEffect(() => {
-        if (selectedAppointment) {
-            const specialization = selectedAppointment.split(" ")[1];
+        if (numeConsultatie) {
+            const specialization = numeConsultatie.split(" ")[1];
             fetch(`http://localhost:8081/api/medic/specializare?specializare=${specialization}`)
                 .then(response => response.json())
                 .then(data => {
@@ -67,7 +65,7 @@ const PatientAppointments = () => {
                 })
                 .catch(error => console.error('Error fetching doctors:', error));
         }
-    }, [selectedAppointment]);
+    }, [numeConsultatie]);
 
     const handleAddAppointment = async (event) => {
         event.preventDefault();
@@ -84,12 +82,18 @@ const PatientAppointments = () => {
             return;
         }
 
+        const medicResponse = await axios.get(`http://localhost:8081/api/medic/${idMedic}`);
+        const medicData = medicResponse.data;
+
         const newAppointment = {
             pacient: {
                 cnpPacient: user.userData.cnpPacient
             }, medic: {
-                idMedic: selectedMedic
-            }, numeConsultatie: selectedAppointment, dataConsultatiei: `${selectedDate}T${selectedHour}:00`
+                idMedic,
+                numeMedic: medicData.numeMedic,
+                prenumeMedic: medicData.prenumeMedic
+            }, numeConsultatie,
+            dataConsultatiei: `${selectedDate}T${selectedHour}:00`
         };
         try {
             console.log('Adding appointment:', newAppointment);
@@ -145,9 +149,9 @@ const PatientAppointments = () => {
         });
     };
 
-    const handleAppointmentChange = (medicId, numeConsultatie) => {
-        setSelectedAppointment(numeConsultatie);
-        setSelectedMedic(medicId);
+    const handleAppointmentChange = (idMedic, numeConsultatie) => {
+        setNumeConsultatie(numeConsultatie);
+        setIdMedic(idMedic);
     };
 
     const takenHours = new Set(upcomingAppointments
@@ -170,10 +174,16 @@ const PatientAppointments = () => {
     }
 
     function closeAddModal() {
+        setNumeConsultatie('');
+        setIdMedic('');
+        setSelectedDate('');
+        setSelectedHour('08:00');
         setAddModalIsOpen(false);
     }
 
-    function openEditModal() {
+    const openEditModal = (appointment) => {
+        setSelectedDate(appointment.dataConsultatiei.split('T')[0]);
+        setSelectedHour(appointment.dataConsultatiei.split('T')[1].slice(0, 5));
         setEditModalIsOpen(true);
     }
 
@@ -236,7 +246,7 @@ const PatientAppointments = () => {
                             </label>
                             <label className="mb-2">
                                 Selectati medicul:
-                                <select onChange={e => setSelectedMedic(e.target.value)} value={selectedMedic}>
+                                <select onChange={e => setIdMedic(e.target.value)} value={idMedic}>
                                     <option value="">Select doctor</option>
                                     {medics.map(medic => (<option key={medic.idMedic} value={medic.idMedic}>
                                         {medic.numeMedic} {medic.prenumeMedic}
@@ -279,7 +289,7 @@ const PatientAppointments = () => {
                                 <button
                                     onClick={() => {
                                         setIdConsultatie(appointment.idConsultatie);
-                                        openEditModal();
+                                        openEditModal(appointment);
                                     }}
                                     className={`bg-blue-500 hover:bg-sky-700 text-white rounded px-2.5 py-2 transition duration-200`}>
                                     Update <FontAwesomeIcon icon={faEdit}/>

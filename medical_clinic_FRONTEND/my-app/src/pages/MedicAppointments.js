@@ -1,32 +1,30 @@
 import React, {useEffect, useState} from 'react';
-import {useUser} from '../user/UserContext'; // import useUser
-import MedicMenu from '../components/MedicMenu';
 import axios from "axios";
 import Modal from "react-modal";
+import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css/animate.min.css';
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {toast, ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import {useUser} from '../user/UserContext';
+import MedicMenu from '../components/MedicMenu';
 
-//TODO: cand se deschide modal sa nu mai fie selectat nimic
-//TODO: dupa ce se adauga o programare, sa apara numele medicului imediat dupa (nuj dc nu apare)
 
 const MedicAppointments = () => {
     Modal.setAppElement('#root')
 
-    const [pastAppointments, setPastAppointments] = useState([]);
-    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-
     const {user} = useUser();
     const idMedic = user ? user.userData.idMedic : null;
 
-    const [cnpPacient, setCnpPacient] = useState('');
+    const [pastAppointments, setPastAppointments] = useState([]);
+    const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
+
+    const [cnpPacient, setCnpPacient] = useState('');
+    const [idConsultatie, setIdConsultatie] = useState('');
     const [numeConsultatie, setNumeConsultatie] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedHour, setSelectedHour] = useState('08:00');
-    const [idConsultatie, setIdConsultatie] = useState('');
 
     const [addModalIsOpen, setAddModalIsOpen] = useState(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
@@ -64,9 +62,14 @@ const MedicAppointments = () => {
             return;
         }
 
+        const patientResponse = await axios.get(`http://localhost:8081/api/pacient/cnp?cnpPacient=${cnpPacient}`);
+        const patientData = patientResponse.data;
+
         const newAppointment = {
             pacient: {
-                cnpPacient
+                cnpPacient,
+                numePacient: patientData.numePacient,
+                prenumePacient: patientData.prenumePacient
             },
             medic: {
                 idMedic
@@ -148,10 +151,15 @@ const MedicAppointments = () => {
     }
 
     function closeAddModal() {
+        setCnpPacient('');
+        setSelectedDate('');
+        setSelectedHour('08:00');
         setAddModalIsOpen(false);
     }
 
-    function openEditModal() {
+    const openEditModal = (appointment) => {
+        setSelectedDate(appointment.dataConsultatiei.split('T')[0]);
+        setSelectedHour(appointment.dataConsultatiei.split('T')[1].slice(0, 5));
         setEditModalIsOpen(true);
     }
 
@@ -245,7 +253,7 @@ const MedicAppointments = () => {
                                 <button
                                     onClick={() => {
                                         setIdConsultatie(appointment.idConsultatie);
-                                        openEditModal();
+                                        openEditModal(appointment);
                                     }}
                                     className="bg-sky-500 hover:bg-sky-600 text-white rounded px-2.5 py-2 transition duration-200">
                                     Update <FontAwesomeIcon icon={faEdit}/>
