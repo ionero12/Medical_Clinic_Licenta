@@ -4,8 +4,6 @@ import {useNavigate} from 'react-router-dom';
 import '../styles/RegisterPage.css';
 import {useUser} from "../user/UserContext";
 
-//TODO: de testat daca merge regiter cu noile coloane
-
 function MedicRegister() {
     const [emailMedic, setEmailMedic] = useState('');
     const [parolaMedic, setParolaMedic] = useState('');
