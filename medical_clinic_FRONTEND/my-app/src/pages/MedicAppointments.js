@@ -208,7 +208,7 @@ const MedicAppointments = () => {
                         isOpen={addModalIsOpen}
                         onRequestClose={closeAddModal}
                         contentLabel="Add AppointmentMedic"
-                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
@@ -262,7 +262,7 @@ const MedicAppointments = () => {
                                     isOpen={editModalIsOpen}
                                     onRequestClose={closeEditModal}
                                     contentLabel="Update AppointmentMedic"
-                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">
