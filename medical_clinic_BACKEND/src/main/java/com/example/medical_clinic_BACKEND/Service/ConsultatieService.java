@@ -81,11 +81,17 @@ public class ConsultatieService {
 
 
     @Transactional
-    public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei) {
-        System.out.println(idConsultatie + " " + dataConsultatiei);
+    public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Integer rating, String feedback) {
+        System.out.println(idConsultatie + " " + dataConsultatiei + " " + rating + " " + feedback);
         Consultatie consultatie = consultatieRepository.findById(idConsultatie).orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
         if (dataConsultatiei != null && !dataConsultatiei.equals(consultatie.getDataConsultatiei())) {
             consultatie.setDataConsultatiei(dataConsultatiei);
+        }
+        if (rating != null && !rating.equals(consultatie.getRating())) {
+            consultatie.setRating(rating);
+        }
+        if (feedback != null && !feedback.isEmpty() && !feedback.equals(consultatie.getFeedback())) {
+            consultatie.setFeedback(feedback);
         }
         return consultatie;
     }

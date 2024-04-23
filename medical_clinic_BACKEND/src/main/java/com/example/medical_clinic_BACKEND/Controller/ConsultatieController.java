@@ -52,8 +52,8 @@ public class ConsultatieController {
     }
 
     @PutMapping(path = "{idConsultatie}")
-    public Consultatie updateConsultatie(@PathVariable("idConsultatie") Long idConsultatie, @RequestParam(required = false) LocalDateTime dataConsultatiei) {
-        return consultatieService.updateConsultatie(idConsultatie, dataConsultatiei);
+    public Consultatie updateConsultatie(@PathVariable("idConsultatie") Long idConsultatie, @RequestParam(required = false) LocalDateTime dataConsultatiei, @RequestParam(required = false) Integer rating, @RequestParam(required = false) String feedback){
+        return consultatieService.updateConsultatie(idConsultatie, dataConsultatiei, rating, feedback);
     }
 }
 

@@ -8,8 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {toast, ToastContainer} from "react-toastify";
 import {useUser} from '../user/UserContext';
 import PatientMenu from '../components/PatientMenu';
-
-//TODO: de adaugat la consultatiile anterioare buton de adaugare rating si feedback
+import StarRating from '../components/StarRating';
 
 const PatientAppointments = () => {
     Modal.setAppElement('#root')
@@ -27,8 +26,11 @@ const PatientAppointments = () => {
     const [numeConsultatie, setNumeConsultatie] = useState("");
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedHour, setSelectedHour] = useState('08:00'); // Default to 08:00
+    const [rating, setRating] = useState('');
+    const [feedback, setFeedback] = useState('');
 
-    const [addModalIsOpen, setAddModalIsOpen] = useState(false);
+    const [addAppointmentModalIsOpen, setAddAppointmentModalIsOpen] = useState(false);
+    const [addFeedbackModalIsOpen, setAddFeedbackModalIsOpen] = useState(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
 
 
@@ -89,20 +91,34 @@ const PatientAppointments = () => {
             pacient: {
                 cnpPacient: user.userData.cnpPacient
             }, medic: {
-                idMedic,
-                numeMedic: medicData.numeMedic,
-                prenumeMedic: medicData.prenumeMedic
-            }, numeConsultatie,
-            dataConsultatiei: `${selectedDate}T${selectedHour}:00`
+                idMedic, numeMedic: medicData.numeMedic, prenumeMedic: medicData.prenumeMedic
+            }, numeConsultatie, dataConsultatiei: `${selectedDate}T${selectedHour}:00`
         };
         try {
             console.log('Adding appointment:', newAppointment);
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
             setUpcomingAppointments([...upcomingAppointments, response.data])
             toast.success('Programare adăugată cu succes');
-            closeAddModal();
+            closeAddAppointmentModal();
         } catch (error) {
             console.error('Error adding appointment:', error);
+        }
+    };
+
+    const handleAddFeedback = async (event) => {
+        event.preventDefault();
+
+        try {
+            await axios.put(`http://localhost:8081/api/consultatie/${idConsultatie}`, null, {
+                params: {
+                    feedback: feedback, rating: rating
+                }
+            });
+            console.log(rating, feedback)
+            toast.success('Feedback adăugat cu succes');
+            closeAddFeedbackModal();
+        } catch (error) {
+            console.error('Error adding feedback:', error);
         }
     };
 
@@ -154,6 +170,10 @@ const PatientAppointments = () => {
         setIdMedic(idMedic);
     };
 
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+    };
+
     const takenHours = new Set(upcomingAppointments
         .filter(appointment => appointment.dataConsultatiei.startsWith(selectedDate))
         .map(appointment => new Date(appointment.dataConsultatiei).getHours()));
@@ -169,16 +189,26 @@ const PatientAppointments = () => {
         }
     }
 
-    function openAddModal() {
-        setAddModalIsOpen(true);
+    function openAddAppointmentModal() {
+        setAddAppointmentModalIsOpen(true);
     }
 
-    function closeAddModal() {
+    function closeAddAppointmentModal() {
         setNumeConsultatie('');
         setIdMedic('');
         setSelectedDate('');
         setSelectedHour('08:00');
-        setAddModalIsOpen(false);
+        setAddAppointmentModalIsOpen(false);
+    }
+
+    function openAddFeedbackModal() {
+        setAddFeedbackModalIsOpen(true);
+    }
+
+    function closeAddFeedbackModal() {
+        setFeedback('');
+        setRating('');
+        setAddFeedbackModalIsOpen(false);
     }
 
     const openEditModal = (appointment) => {
@@ -207,30 +237,62 @@ const PatientAppointments = () => {
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
                     {pastAppointments.map(appointment => (
-                        <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
+                        <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4 flex justify-between items-start">
+                            <div>
                             Nume consultatie: {appointment.numeConsultatie}
                             <br/>
                             Nume medic: {appointment.numeMedic} {appointment.prenumeMedic}
                             <br/>
                             Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
                             Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
-                            <br/>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setIdConsultatie(appointment.idConsultatie);
+                                    openAddFeedbackModal();
+                                }}
+                                className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
+                                Adauga feedback <FontAwesomeIcon icon={faPlus}/>
+                            </button>
+                            <Modal
+                                isOpen={addFeedbackModalIsOpen}
+                                onRequestClose={closeAddFeedbackModal}
+                                contentLabel="Add Feedback Medic"
+                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                            >
+                                <form onSubmit={handleAddFeedback} className="flex flex-col">
+                                    <label className="mb-2">
+                                        Selectati rating-ul:
+                                        <StarRating onRatingChange={handleRatingChange} />
+                                    </label>
+                                    <label className="mb-2">
+                                        Adaugati feedback-ul:
+                                        <input
+                                            type="text"
+                                            value={feedback}
+                                            onChange={(e) => setFeedback(e.target.value)}
+                                        />
+                                    </label>
+                                    <input type="submit" value="Submit"
+                                           className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                                </form>
+                            </Modal>
                         </div>))}
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <div className="flex justify-between items-center">
                         <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
                         <button
-                            onClick={openAddModal}
-                            className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2`}>
+                            onClick={openAddAppointmentModal}
+                            className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2 transition duration-200`}>
                             Adauga programare <FontAwesomeIcon icon={faPlus}/>
                         </button>
                     </div>
                     <Modal
-                        isOpen={addModalIsOpen}
-                        onRequestClose={closeAddModal}
+                        isOpen={addAppointmentModalIsOpen}
+                        onRequestClose={closeAddAppointmentModal}
                         contentLabel="Add AppointmentMedic"
-                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
@@ -298,7 +360,7 @@ const PatientAppointments = () => {
                                     isOpen={editModalIsOpen}
                                     onRequestClose={closeEditModal}
                                     contentLabel="Update AppointmentMedic"
-                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl p-5 border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">
