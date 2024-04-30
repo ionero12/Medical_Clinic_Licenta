@@ -6,6 +6,9 @@ import {useUser} from '../user/UserContext';
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+//todo: sa mearga loginu cu enter
+//todo: sa mearga remember me
+
 function LoginPage() {
     const [emailMedic, setEmailMedic] = useState('');
     const [emailPacient, setEmailPacient] = useState('');
@@ -82,28 +85,27 @@ function LoginPage() {
                 <div className="w-full md:w-2/6 p-2 border border-black flex flex-col items-center justify-center">
                     <h1 className="text-2xl font-bold mb-20">Login</h1>
                     <p className="text-sm">
-                        Nu aveti un cont? <a href={`/${userType}/register`} className="text-green-500">Inregistrati-va
-                        aici</a>
+                        You don't have an account? <a href={`/${userType}/register`} className="text-green-500">Register here</a>
                     </p>
                     <select value={userType} onChange={e => setUserType(e.target.value)}>
                         <option value="medic">Medic</option>
-                        <option value="pacient">Pacient</option>
+                        <option value="pacient">Patient</option>
                     </select>
                     <div className="w-full flex flex-col items-center justify-center p-5">
                         {userType === 'medic' && (<>
-                            <input type="text" placeholder="Email Medic" value={emailMedic}
+                            <input type="text" placeholder="Email" value={emailMedic}
                                    onChange={e => setEmailMedic(e.target.value)}
                                    className="border border-gray-600 rounded p-2 mb-4 text-sm"/>
-                            <input type="password" placeholder="Parola Medic" value={parolaMedic}
+                            <input type="password" placeholder="Password" value={parolaMedic}
                                    onChange={e => setParolaMedic(e.target.value)}
                                    className="border border-gray-600 rounded p-2 mb-4 text-sm"/>
                         </>)}
 
                         {userType === 'pacient' && (<>
-                            <input type="text" placeholder="Email Pacient" value={emailPacient}
+                            <input type="text" placeholder="Email" value={emailPacient}
                                    onChange={e => setEmailPacient(e.target.value)}
                                    className="border border-gray-600 rounded p-2 mb-4 text-sm"/>
-                            <input type="password" placeholder="Parola Pacient" value={parolaPacient}
+                            <input type="password" placeholder="Password" value={parolaPacient}
                                    onChange={e => setParolaPacient(e.target.value)}
                                    className="border border-gray-600 rounded p-2 mb-4 text-sm"/>
                         </>)}

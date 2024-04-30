@@ -50,7 +50,7 @@ function MedicProfile() {
                         />
                     </label>
                     <label className="block mb-2">
-                        Parola:
+                        Password:
                         <input
                             type="password"
                             value={parolaMedic}
@@ -59,7 +59,7 @@ function MedicProfile() {
                         />
                     </label>
                     <label className="block mb-2">
-                        Nume:
+                        Second name:
                         <input
                             type="text"
                             value={numeMedic}
@@ -68,7 +68,7 @@ function MedicProfile() {
                         />
                     </label>
                     <label className="block mb-2">
-                        Prenume:
+                        First name:
                         <input
                             type="text"
                             value={prenumeMedic}
@@ -77,7 +77,7 @@ function MedicProfile() {
                         />
                     </label>
                     <label className="block mb-2">
-                        Telefon:
+                        Phone number:
                         <input
                             type="phone"
                             value={telefonMedic}
@@ -87,8 +87,7 @@ function MedicProfile() {
                     </label>
                     <div className="flex justify-center">
                         <button onClick={updateMedicProfile}
-                                className="mt-4 px-4 py-2 bg-blue-700 text-white border-none cursor-pointer">Update
-                            Profile
+                                className="mt-4 px-4 py-2 bg-blue-700 text-white border-none cursor-pointer">Update Profile
                         </button>
                     </div>
                 </div>

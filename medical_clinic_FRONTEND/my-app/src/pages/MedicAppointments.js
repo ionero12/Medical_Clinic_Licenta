@@ -54,11 +54,11 @@ const MedicAppointments = () => {
         const currentDate = new Date();
 
         if (date < currentDate) {
-            toast.error('Nu se pot actualiza programări la o dată din trecut');
+            toast.error('Cannot update appointments to a date in the past');
             return;
         }
         if (date.getDay() === 6 || date.getDay() === 0) {
-            toast.error('Nu se pot actualiza programări în weekend');
+            toast.error('Weekend appointments cannot be updated');
             return;
         }
 
@@ -80,7 +80,7 @@ const MedicAppointments = () => {
         try {
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
             setUpcomingAppointments([...upcomingAppointments, response.data])
-            toast.success('Programare adăugată cu succes');
+            toast.success('Appointment added successfully');
             closeAddModal();
         } catch (error) {
             console.error('Error adding appointment:', error);
@@ -96,11 +96,11 @@ const MedicAppointments = () => {
         const currentDate = new Date();
 
         if (date < currentDate) {
-            toast.error('Nu se pot actualiza programări la o dată din trecut');
+            toast.error('Cannot update appointments to a date in the past');
             return;
         }
         if (date.getDay() === 6 || date.getDay() === 0) {
-            toast.error('Nu se pot actualiza programări în weekend');
+            toast.error('Weekend appointments cannot be updated');
             return;
         }
 
@@ -112,7 +112,7 @@ const MedicAppointments = () => {
             });
             setPastAppointments(pastAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
             setUpcomingAppointments(upcomingAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
-            toast.success('Programare actualizată cu succes');
+            toast.success('The appointment has been updated successfully');
             closeEditModal();
         } catch (error) {
             console.error('Error updating appointment:', error);
@@ -126,7 +126,7 @@ const MedicAppointments = () => {
         }).then(() => {
             setPastAppointments(pastAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
             setUpcomingAppointments(upcomingAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
-            toast.success('Programare ștearsă cu succes');
+            toast.success('The appointment has been successfully deleted');
         });
     };
 
@@ -182,26 +182,26 @@ const MedicAppointments = () => {
             <MedicMenu/>
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
-                    <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
+                    <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
                     <ul>
                         {pastAppointments.map(appointment => (
                             <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
-                                Nume consultatie: {appointment.numeConsultatie}
+                                Appointment name: {appointment.numeConsultatie}
                                 <br/>
-                                Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
+                                Patient name: {appointment.numePacient} {appointment.prenumePacient}
                                 <br/>
-                                Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()}, Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()}, Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                                 <br/>
                             </div>))}
                     </ul>
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
+                    <h2 className="text-2xl font-bold mb-2">Upcoming appointments</h2>
                     <button
                         onClick={openAddModal}
                         className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2">
-                        Adauga programare <FontAwesomeIcon icon={faPlus}/>
+                        Add appointment <FontAwesomeIcon icon={faPlus}/>
                     </button>
                     </div>
                     <Modal
@@ -212,13 +212,13 @@ const MedicAppointments = () => {
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
-                                CNP-ul pacientului:
+                                Patient CNP:
                                 <input type="text" value={cnpPacient}
                                        onChange={e => setCnpPacient(e.target.value)} required
                                        className="mt-1"/>
                             </label>
                             <label className="mb-2">
-                                Selectati data:
+                                Select the date:
                                 <input
                                     type="date"
                                     value={selectedDate}
@@ -227,7 +227,7 @@ const MedicAppointments = () => {
                                 />
                             </label>
                             <label className="mb-2">
-                                Selectati ora:
+                                Select the hour:
                                 <select
                                     value={selectedHour}
                                     onChange={(e) => setSelectedHour(e.target.value)}
@@ -243,12 +243,12 @@ const MedicAppointments = () => {
                     <ul>
                         {upcomingAppointments.sort((a, b) => new Date(a.data) - new Date(b.data)).map(appointment => (
                             <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
-                                Nume consultatie: {appointment.numeConsultatie}
+                                Appointment name: {appointment.numeConsultatie}
                                 <br/>
-                                Nume pacient: {appointment.numePacient} {appointment.prenumePacient}
+                                Patient name: {appointment.numePacient} {appointment.prenumePacient}
                                 <br/>
-                                Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                                Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                                Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                                 <br/>
                                 <button
                                     onClick={() => {
@@ -266,7 +266,7 @@ const MedicAppointments = () => {
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">
-                                            Selectati data:
+                                            Select the date:
                                             <input
                                                 type="date"
                                                 value={selectedDate}
@@ -275,7 +275,7 @@ const MedicAppointments = () => {
                                             />
                                         </label>
                                         <label className="mb-2">
-                                            Selectati ora:
+                                            Select the hour:
                                             <select
                                                 value={selectedHour}
                                                 onChange={(e) => setSelectedHour(e.target.value)}

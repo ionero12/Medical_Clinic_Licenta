@@ -53,20 +53,20 @@ function MedicRegister() {
         <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
             <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
             <label className="block mb-2">
-                Nume:
-                <input
-                    type="text"
-                    value={numeMedic}
-                    onChange={e => setNumeMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Prenume:
+                First Name:
                 <input
                     type="text"
                     value={prenumeMedic}
                     onChange={e => setPrenumeMedic(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Second Name:
+                <input
+                    type="text"
+                    value={numeMedic}
+                    onChange={e => setNumeMedic(e.target.value)}
                     className="w-full px-2 py-1 mb-4 border border-gray-300"
                 />
             </label>
@@ -80,7 +80,7 @@ function MedicRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Data nasterii:
+                Date of Birth:
                 <input
                     type="date"
                     value={dataNastereMedic}
@@ -89,11 +89,11 @@ function MedicRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Specializare:
+                Specialization:
                 <SpecializationDropdown onSelectSpecialization={setSelectedSpecializationId}/>
             </label>
             <label className="block mb-2">
-                Experienta:
+                Experience
                 <input
                     type="number"
                     value={experienta}
@@ -102,7 +102,7 @@ function MedicRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Universitate:
+                University:
                 <input
                     type="text"
                     value={universitate}
@@ -111,7 +111,7 @@ function MedicRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Telefon:
+                Phone number:
                 <input
                     type="phone"
                     value={telefonMedic}
@@ -129,7 +129,7 @@ function MedicRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Parola:
+                Password:
                 <input
                     type="password"
                     value={parolaMedic}

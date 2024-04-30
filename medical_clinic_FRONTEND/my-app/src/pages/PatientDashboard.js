@@ -19,7 +19,7 @@ const PatientDashboard = () => {
                 .then(data => {
                     const medicsWithSpecialization = data.map(medic => {
                         if (medic.consultatii.length > 0) {
-                            const specializare = medic.consultatii[0].numeConsultatie.split(' ')[1];
+                            const specializare = medic.consultatii[0].numeConsultatie.split(' ')[0];
                             return {...medic, specializare};
                         } else {
                             return {...medic, specializare: 'Unknown'};
@@ -32,7 +32,7 @@ const PatientDashboard = () => {
 
     return (<div className="p-6">
         <PatientMenu/>
-        <h2 className="text-3xl font-bold mb-2 mt-2 text-gray-400">Medici</h2>
+        <h2 className="text-3xl font-bold mb-2 mt-2 text-gray-400">Medics</h2>
         <div className="bg-white p-4 rounded shadow w-full md:w-full mr-2 mb-4 md:mb-0">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {medics.map((medic) => (<div key={medic.idMedic} className="p-4">
@@ -41,10 +41,10 @@ const PatientDashboard = () => {
                         <Link to={`/medic/${medic.idMedic}`}
                               className="flex flex-col items-center text-center ">
                             <h2 className="text-xl font-bold mb-2">{medic.numeMedic} {medic.prenumeMedic}</h2>
-                            <p className="text-gray-700">Specializare: {medic.specializare}</p>
+                            <p className="text-gray-700">Specialization: {medic.specializare}</p>
                             <button
                                 className="mt-4 bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-                                Vezi profilul
+                                See profile
                             </button>
                         </Link>
                     </div>

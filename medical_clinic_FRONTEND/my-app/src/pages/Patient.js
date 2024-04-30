@@ -119,19 +119,19 @@ const Patient = () => {
 
     return (<div className="p-6">
         <MedicMenu/>
-        <h1 className="text-3xl font-bold mb-4">Detalii pacient</h1>
+        <h1 className="text-3xl font-bold mb-4">Patient details</h1>
         <div className="flex flex-col md:flex-row">
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
                 <h2 className="text-3xl font-bold mb-4">{patient.numePacient} {patient.prenumePacient}</h2>
                 <p className="mb-2"><strong>CNP:</strong> {patient.cnpPacient}</p>
-                <p className="mb-2"><strong>Varsta:</strong> {patient.varstaPacient}</p>
+                <p className="mb-2"><strong>Age:</strong> {patient.varstaPacient}</p>
                 <p className="mb-2"><strong>Sex:</strong> {patient.sexPacient}</p>
-                <p className="mb-2"><strong>Greutate:</strong> {patient.greutatePacient}</p>
-                <p className="mb-2"><strong>Inaltime:</strong> {patient.inaltimePacient}</p>
-                <p className="mb-2"><strong>Data nastere:</strong> {patient.dataNasterePacient}</p>
-                <p className="mb-2"><strong>Asigurat:</strong> {patient.asigurat}</p>
-                <p className="mb-2"><strong>Abonament:</strong> {patient.abonamentPacient}</p>
-                <p className="mb-2"><strong>Telefon:</strong> {patient.telefonPacient}</p>
+                <p className="mb-2"><strong>Weight:</strong> {patient.greutatePacient}</p>
+                <p className="mb-2"><strong>Height:</strong> {patient.inaltimePacient}</p>
+                <p className="mb-2"><strong>Date of Birth:</strong> {patient.dataNasterePacient}</p>
+                <p className="mb-2"><strong>Assured:</strong> {patient.asigurat}</p>
+                <p className="mb-2"><strong>Subscription:</strong> {patient.abonamentPacient}</p>
+                <p className="mb-2"><strong>Phone number:</strong> {patient.telefonPacient}</p>
                 <p className="mb-2"><strong>Email:</strong> {patient.emailPacient}</p>
             </div>
 
@@ -139,7 +139,7 @@ const Patient = () => {
                 <button
                     onClick={openAddAnalizaModal}
                     className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
-                    Adauga analiza <FontAwesomeIcon icon={faPlus}/>
+                    Add analysis <FontAwesomeIcon icon={faPlus}/>
                 </button>
                 <Modal
                     isOpen={addAnalizaModalIsOpen}
@@ -149,7 +149,7 @@ const Patient = () => {
                 >
                     <form onSubmit={handleAddAnaliza} className="flex flex-col">
                         <label className="mb-2">
-                            Data si ora analizei:
+                            Date and hour:
                             <input type="datetime-local" value={dataAnaliza}
                                    onChange={e => setDataAnaliza(e.target.value)} required
                                    className="mt-1"/>
@@ -159,13 +159,13 @@ const Patient = () => {
                     </form>
                 </Modal>
                 <div className="border-gray-400 border-2 mt-2 p-4 rounded-md shadow-lg">
-                    <h4><strong>Analize:</strong></h4>
+                    <h4><strong>Analyses:</strong></h4>
                     <ul>
                         {analize.map((analiza) => (
                             <li key={analiza.idAnaliza} className="flex items-center justify-between mb-4">
                                 <div>
-                                    <p><strong>ID Analiza:</strong> {analiza.idAnaliza}</p>
-                                    <p><strong>Data:</strong> {analiza.dataAnaliza}</p>
+                                    <p><strong>Analysis ID:</strong> {analiza.idAnaliza}</p>
+                                    <p><strong>Date:</strong> {analiza.dataAnaliza}</p>
                                 </div>
                                 <button onClick={() => deleteAnaliza(analiza.idAnaliza)}
                                         className="bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 transition duration-200">
@@ -178,7 +178,7 @@ const Patient = () => {
                 <button
                     onClick={openAddDiagnosticModal}
                     className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
-                    Adauga diagnostic <FontAwesomeIcon icon={faPlus}/>
+                    Add diagnostic <FontAwesomeIcon icon={faPlus}/>
                 </button>
                 <Modal
                     isOpen={addDiagnosticModalIsOpen}
@@ -188,13 +188,13 @@ const Patient = () => {
                 >
                     <form onSubmit={handleAddDiagnostic} className="flex flex-col">
                         <label className="mb-2">
-                            Data diagnosticului:
+                            Date:
                             <input type="date" value={dataDiagnostic}
                                    onChange={e => setDataDiagnostic(e.target.value)} required
                                    className="mt-1"/>
                         </label>
                         <label>
-                            Nume diagnostic:
+                            Diagnostic name:
                             <input type="text" value={numeDiagnostic}
                                    onChange={e => setNumeDiagnostic(e.target.value)} required
                                    className="mt-1"/>
@@ -210,9 +210,9 @@ const Patient = () => {
                         {diagnostice.map((diagnostic) => (
                             <li key={diagnostic.idDiagnostic} className="flex items-center justify-between mb-4">
                                 <div>
-                                    <p><strong>ID Diagnostic:</strong> {diagnostic.idDiagnostic}</p>
-                                    <p><strong>Data:</strong> {diagnostic.dataDiagnostic}</p>
-                                    <p><strong>Nume:</strong> {diagnostic.numeDiagnostic}</p>
+                                    <p><strong>Diagnostic ID:</strong> {diagnostic.idDiagnostic}</p>
+                                    <p><strong>Date:</strong> {diagnostic.dataDiagnostic}</p>
+                                    <p><strong>Name:</strong> {diagnostic.numeDiagnostic}</p>
                                 </div>
                                 <button onClick={() => deleteDiganostic(diagnostic.idDiagnostic)}
                                         className="bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 transition duration-200">

@@ -67,20 +67,20 @@ function PatientRegister() {
         <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
             <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
             <label className="block mb-2">
-                Nume:
-                <input
-                    type="text"
-                    value={numePacient}
-                    onChange={e => setNumePacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Prenume:
+                First Name:
                 <input
                     type="text"
                     value={prenumePacient}
                     onChange={e => setPrenumePacient(e.target.value)}
+                    className="w-full px-2 py-1 mb-4 border border-gray-300"
+                />
+            </label>
+            <label className="block mb-2">
+                Second Name:
+                <input
+                    type="text"
+                    value={numePacient}
+                    onChange={e => setNumePacient(e.target.value)}
                     className="w-full px-2 py-1 mb-4 border border-gray-300"
                 />
             </label>
@@ -94,7 +94,7 @@ function PatientRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Data nasterii:
+                Date of Birth:
                 <input
                     type="date"
                     value={dataNasterePacient}
@@ -110,7 +110,7 @@ function PatientRegister() {
                 </select>
             </label>
             <label className="block mb-2">
-                Greutate:
+                Weight:
                 <input
                     type="number"
                     value={greutatePacient}
@@ -119,7 +119,7 @@ function PatientRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Inaltime:
+                Height:
                 <input
                     type="number"
                     value={inaltimePacient}
@@ -128,7 +128,7 @@ function PatientRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Varsta:
+                Age:
                 <input
                     type="number"
                     value={varstaPacient}
@@ -137,21 +137,21 @@ function PatientRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Asigurat:
+                Assured:
                 <select value={asigurat} onChange={e => setAsigurat(e.target.value)}>
-                    <option value="Y">Da</option>
-                    <option value="N">Nu</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
                 </select>
             </label>
             <label className="block mb-2">
-                Abonament:
+                Subscription:
                 <select value={abonamentPacient} onChange={e => setAbonamentPacient(e.target.value)}>
-                    <option value="Y">Da</option>
-                    <option value="N">Nu</option>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
                 </select>
             </label>
             <label className="block mb-2">
-                Telefon:
+                Phone number:
                 <input
                     type="phone"
                     value={telefonPacient}
@@ -169,7 +169,7 @@ function PatientRegister() {
                 />
             </label>
             <label className="block mb-2">
-                Parola:
+                Password:
                 <input
                     type="password"
                     value={parolaPacient}

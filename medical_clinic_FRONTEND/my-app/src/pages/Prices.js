@@ -23,12 +23,12 @@ const Prices = () => {
             <PatientMenu/>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded shadow">
-                    <h2 className="text-2xl font-bold mb-2">Preturi Cu Abonament</h2>
+                    <h2 className="text-2xl font-bold mb-2">Prices with subscription</h2>
                     <table className="table-auto border-collapse border border-blue-800 w-full">
                         <thead>
                         <tr>
-                            <th className="border border-blue-600 p-2">Consultatie</th>
-                            <th className="border border-blue-600 p-2">Pret</th>
+                            <th className="border border-blue-600 p-2">Appointment</th>
+                            <th className="border border-blue-600 p-2">Price</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,12 +40,12 @@ const Prices = () => {
                     </table>
                 </div>
                 <div className="bg-white p-4 rounded shadow">
-                    <h2 className="text-2xl font-bold mb-2">Preturi Fara Abonament</h2>
+                    <h2 className="text-2xl font-bold mb-2">Prices without subscription</h2>
                     <table className="table-auto border-collapse border border-blue-800 w-full">
                         <thead>
                         <tr>
-                            <th className="border border-blue-600 p-2">Consultatie</th>
-                            <th className="border border-blue-600 p-2">Pret</th>
+                            <th className="border border-blue-600 p-2">Appointment</th>
+                            <th className="border border-blue-600 p-2">Price</th>
                         </tr>
                         </thead>
                         <tbody>

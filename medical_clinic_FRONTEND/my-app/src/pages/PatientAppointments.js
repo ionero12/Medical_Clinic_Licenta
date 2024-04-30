@@ -33,6 +33,8 @@ const PatientAppointments = () => {
     const [addFeedbackModalIsOpen, setAddFeedbackModalIsOpen] = useState(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
 
+    const [uniqueAppointments, setUniqueAppointments] = useState([]);
+
 
     useEffect(() => {
         if (idPacient) {
@@ -53,16 +55,25 @@ const PatientAppointments = () => {
             .then(response => response.json())
             .then(data => {
                 setAppointments(data);
+                const uniqueAppointments = data.filter((appointment, index, self) =>
+                        index === self.findIndex((t) => (
+                            t.numeConsultatie === appointment.numeConsultatie
+                        ))
+                );
+                setUniqueAppointments(uniqueAppointments);
+                console.log(uniqueAppointments)
             })
             .catch(error => console.error('Error fetching appointments:', error));
     }, []);
 
     useEffect(() => {
         if (numeConsultatie) {
-            const specialization = numeConsultatie.split(" ")[1];
+            const specialization = numeConsultatie.split(" ")[0];
+            console.log(specialization);
             fetch(`http://localhost:8081/api/medic/specializare?specializare=${specialization}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data)
                     setMedics(data);
                 })
                 .catch(error => console.error('Error fetching doctors:', error));
@@ -76,11 +87,11 @@ const PatientAppointments = () => {
         const currentDate = new Date();
 
         if (date < currentDate) {
-            toast.error('Nu se pot actualiza programări la o dată din trecut');
+            toast.error('Cannot update appointments to a date in the past');
             return;
         }
         if (date.getDay() === 6 || date.getDay() === 0) {
-            toast.error('Nu se pot actualiza programări în weekend');
+            toast.error('Weekend appointments cannot be updated');
             return;
         }
 
@@ -98,7 +109,7 @@ const PatientAppointments = () => {
             console.log('Adding appointment:', newAppointment);
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
             setUpcomingAppointments([...upcomingAppointments, response.data])
-            toast.success('Programare adăugată cu succes');
+            toast.success('Appointment added successfully');
             closeAddAppointmentModal();
         } catch (error) {
             console.error('Error adding appointment:', error);
@@ -115,7 +126,7 @@ const PatientAppointments = () => {
                 }
             });
             console.log(rating, feedback)
-            toast.success('Feedback adăugat cu succes');
+            toast.success('Feedback successfully added');
             closeAddFeedbackModal();
         } catch (error) {
             console.error('Error adding feedback:', error);
@@ -130,11 +141,11 @@ const PatientAppointments = () => {
         const currentDate = new Date();
 
         if (date < currentDate) {
-            toast.error('Nu se pot actualiza programări la o dată din trecut');
+            toast.error('Cannot update appointments to a date in the past');
             return;
         }
         if (date.getDay() === 6 || date.getDay() === 0) {
-            toast.error('Nu se pot actualiza programări în weekend');
+            toast.error('Weekend appointments cannot be updated');
             return;
         }
 
@@ -146,7 +157,7 @@ const PatientAppointments = () => {
             });
             setPastAppointments(pastAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
             setUpcomingAppointments(upcomingAppointments.map(appointment => appointment.idConsultatie === idConsultatie ? response.data : appointment));
-            toast.success('Programarea a fost actualizată cu succes');
+            toast.success('The appointment has been updated successfully');
             closeEditModal();
         } catch (error) {
             console.error('Error updating appointment:', error);
@@ -161,7 +172,7 @@ const PatientAppointments = () => {
         }).then(() => {
             setPastAppointments(pastAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
             setUpcomingAppointments(upcomingAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
-            toast.success('Programarea a fost ștearsă cu succes');
+            toast.success('The appointment has been successfully deleted');
         });
     };
 
@@ -235,16 +246,16 @@ const PatientAppointments = () => {
             <PatientMenu/>
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
-                    <h2 className="text-2xl font-bold mb-2">Programari anterioare</h2>
+                    <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
                     {pastAppointments.map(appointment => (
                         <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4 flex justify-between items-start">
                             <div>
-                            Nume consultatie: {appointment.numeConsultatie}
+                            Appointment name: {appointment.numeConsultatie}
                             <br/>
-                            Nume medic: {appointment.numeMedic} {appointment.prenumeMedic}
+                            Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
                             <br/>
-                            Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                            Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                            Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                            Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                             </div>
                             <button
                                 onClick={() => {
@@ -252,7 +263,7 @@ const PatientAppointments = () => {
                                     openAddFeedbackModal();
                                 }}
                                 className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
-                                Adauga feedback <FontAwesomeIcon icon={faPlus}/>
+                                Add feedback <FontAwesomeIcon icon={faPlus}/>
                             </button>
                             <Modal
                                 isOpen={addFeedbackModalIsOpen}
@@ -262,11 +273,11 @@ const PatientAppointments = () => {
                             >
                                 <form onSubmit={handleAddFeedback} className="flex flex-col">
                                     <label className="mb-2">
-                                        Selectati rating-ul:
+                                        Select the rating:
                                         <StarRating onRatingChange={handleRatingChange} />
                                     </label>
                                     <label className="mb-2">
-                                        Adaugati feedback-ul:
+                                        Add feedback:
                                         <input
                                             type="text"
                                             value={feedback}
@@ -281,11 +292,11 @@ const PatientAppointments = () => {
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold mb-2">Programari viitoare</h2>
+                        <h2 className="text-2xl font-bold mb-2">Upcoming Appointments</h2>
                         <button
                             onClick={openAddAppointmentModal}
                             className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2 transition duration-200`}>
-                            Adauga programare <FontAwesomeIcon icon={faPlus}/>
+                            Add appointment <FontAwesomeIcon icon={faPlus}/>
                         </button>
                     </div>
                     <Modal
@@ -296,18 +307,19 @@ const PatientAppointments = () => {
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
-                                Selectati consultatia:
+                                Select the appointment:
                                 <select
                                     onChange={e => handleAppointmentChange(e.target.value, e.target.options[e.target.selectedIndex].text)}>
                                     <option value="">Select appointment</option>
-                                    {appointments.map(appointment => (
+                                    {uniqueAppointments.map(appointment => (
                                         <option key={appointment.idConsultatie} value={appointment.idConsultatie}>
                                             {appointment.numeConsultatie}
-                                        </option>))}
+                                        </option>
+                                    ))}
                                 </select>
                             </label>
                             <label className="mb-2">
-                                Selectati medicul:
+                                Select the doctor:
                                 <select onChange={e => setIdMedic(e.target.value)} value={idMedic}>
                                     <option value="">Select doctor</option>
                                     {medics.map(medic => (<option key={medic.idMedic} value={medic.idMedic}>
@@ -316,7 +328,7 @@ const PatientAppointments = () => {
                                 </select>
                             </label>
                             <label className="mb-2">
-                                Selectati data:
+                                Select the date:
                                 <input
                                     type="date"
                                     value={selectedDate}
@@ -325,7 +337,7 @@ const PatientAppointments = () => {
                                 />
                             </label>
                             <label className="mb-2">
-                                Selectati ora:
+                                Select the hour:
                                 <select
                                     value={selectedHour}
                                     onChange={(e) => setSelectedHour(e.target.value)}
@@ -341,12 +353,12 @@ const PatientAppointments = () => {
                     <ul>
                         {upcomingAppointments.map(appointment => (
                             <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-2">
-                                Nume consultatie: {appointment.numeConsultatie}
+                                Appointment name: {appointment.numeConsultatie}
                                 <br/>
-                                Nume medic: {appointment.numeMedic} {appointment.prenumeMedic}
+                                Doctor name: {appointment.numeMedic} {appointment.prenumeMedic}
                                 <br/>
-                                Data: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                                Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                                Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                                 <br/>
                                 <button
                                     onClick={() => {
@@ -364,7 +376,7 @@ const PatientAppointments = () => {
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">
-                                            Selectati data:
+                                            Select the date
                                             <input
                                                 type="date"
                                                 value={selectedDate}
@@ -373,7 +385,7 @@ const PatientAppointments = () => {
                                             />
                                         </label>
                                         <label className="mb-2">
-                                            Selectati ora:
+                                            Select the hour:
                                             <select
                                                 value={selectedHour}
                                                 onChange={(e) => setSelectedHour(e.target.value)}
