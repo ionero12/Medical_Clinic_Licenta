@@ -1,89 +1,85 @@
 package com.example.medical_clinic_BACKEND.Controller;
 
-import com.example.medical_clinic_BACKEND.Service.SymptomService;
 import com.example.medical_clinic_BACKEND.Model.Symptoms;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.dmg.pmml.FieldName;
+import org.dmg.pmml.PMML;
+import org.jpmml.evaluator.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import weka.classifiers.trees.J48;
-import weka.core.*;
-import weka.core.converters.CSVLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
-import java.io.InputStream;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/pacient/chestionar")
 public class SymptomController {
 
-    private final SymptomService symptomService;
-    private J48 model;
-    private Instances trainData;
+    private final SpecializareController specializareController;
+    private final Evaluator evaluator;
 
-    @Autowired
-    public SymptomController(SymptomService symptomService) throws Exception {
-        this.symptomService = symptomService;
+    public SymptomController(SpecializareController specializareController) throws Exception {
+        PMML pmml;
+        try (InputStream in = new FileInputStream("src/main/resources/gaussian_nb_model.pmml")) {
+            pmml = org.jpmml.model.PMMLUtil.unmarshal(in);
+        }
 
-        Resource modelResource = new ClassPathResource("trained_model.model");
-        InputStream modelInputStream = modelResource.getInputStream();
-        this.model = (J48) SerializationHelper.read(modelInputStream);
-
-        // Load training data
-        CSVLoader loader = new CSVLoader();
-        loader.setSource(new File("D:\\Facultate\\Licenta\\Medical_Clinic_Licenta\\medical_clinic_BACKEND\\src\\main\\java\\com\\example\\medical_clinic_BACKEND\\Machine_Learning\\training_data1.csv"));
-        this.trainData = loader.getDataSet();
-        this.trainData.setClassIndex(this.trainData.numAttributes() - 1);
+        ModelEvaluatorBuilder modelEvaluatorBuilder = new ModelEvaluatorBuilder(pmml);
+        this.evaluator = modelEvaluatorBuilder.build();
+        this.specializareController = specializareController;
     }
 
     @PostMapping
     public ResponseEntity<String> receiveSymptoms(@RequestBody Symptoms symptoms) throws Exception {
-        Map<String, List<String>> diseasesBySpecialization = new HashMap<>();
-        diseasesBySpecialization.put("Dermatologie", Arrays.asList("Acnee", "Psoriazis", "Impetigo", "Infectie fungica"));
-        diseasesBySpecialization.put("Gastroenterologie", Arrays.asList("Boala de reflux gastroesofagian", "Colestaza cronica", "Boala ulcerului peptic", "Gastroenterita", "Hepatita A", "Hepatita B", "Hepatita C", "Hepatita D", "Hepatita E", "Hepatita alcoolica"));
-        diseasesBySpecialization.put("Cardiologie", Arrays.asList("Hipertensiune", "Atac de cord", "Varice"));
-        diseasesBySpecialization.put("Endocrinologie", Arrays.asList("Diabet", "Hipotiroidism", "Hipertiroidism", "Hipoglicemie"));
-        diseasesBySpecialization.put("Reumatologie", Arrays.asList("Osteoartrita", "Artrita"));
-        diseasesBySpecialization.put("Neurologie", Arrays.asList("Migrena", "Spondiloza cervicala", "Paralizie", "Vertij pozițional paroxistic"));
-        diseasesBySpecialization.put("Infectioase", Arrays.asList("HIV", "Icter", "Malarie", "Varicela", "Dengue", "Tifoida", "Tuberculoza", "Raceala comuna", "Pneumonie"));
-        diseasesBySpecialization.put("Urologie", List.of("Infectii ale tractului urinar"));
-        diseasesBySpecialization.put("Pneumologie", List.of("Astm bronsic"));
-        diseasesBySpecialization.put("Hematologie", List.of("Hemoroizi dimorfi"));
-        diseasesBySpecialization.put("Alergologie", List.of("Alergie"));
-        diseasesBySpecialization.put("Farmacologie", List.of("Reactie la medicamente"));
+        Map<String, List<String>> specializationToDiseases = new HashMap<>();
+        specializationToDiseases.put("Dermatology", Arrays.asList("Acne", "Psoriasis", "Fungal infection", "Impetigo"));
+        specializationToDiseases.put("Cardiology", Arrays.asList("Hypertension", "Varicose Veins"));
+        specializationToDiseases.put("Neurology", Arrays.asList("Migraine", "Cervical spondylosis"));
+        specializationToDiseases.put("Orthopedics", List.of("Arthritis"));
+        specializationToDiseases.put("Gastroenterology", Arrays.asList("gastroesophageal reflux disease", "peptic ulcer disease", "Jaundice"));
+        specializationToDiseases.put("Urology", List.of("urinary tract infection"));
+        specializationToDiseases.put("Pharmacology", List.of("drug reaction"));
+        specializationToDiseases.put("Endocrinology", List.of("diabetes"));
+        specializationToDiseases.put("Allergology", List.of("allergy"));
+        specializationToDiseases.put("Infectious", Arrays.asList("Typhoid", "Malaria", "Chicken pox", "Dengue", "Common Cold"));
+        specializationToDiseases.put("Pneumology", Arrays.asList("Pneumonia", "Bronchial Asthma"));
+        specializationToDiseases.put("Hematology", List.of("Dimorphic Hemorrhoids"));
 
-        if (symptoms != null && symptoms.getSymptoms() != null) {
-            System.out.println("Received Symptoms: " + symptoms);
-            Instance newInstance = new DenseInstance(symptoms.getSymptoms().size());
-            for (Map.Entry<String, Integer> entry : symptoms.getSymptoms().entrySet()) {
-                Attribute att = trainData.attribute(entry.getKey());
-                if (att != null) {
-                    newInstance.setValue(att, entry.getValue());
-                } else {
-                    System.out.println("Atributul nu există în trainData: " + entry.getKey());
-                }
-            }
-            Instances instances = new Instances(trainData, 0);
-            instances.add(newInstance);
-            instances.setClassIndex(instances.numAttributes() - 1);
-            double predictedClass = model.classifyInstance(instances.firstInstance());
-            String predictedDisease = trainData.classAttribute().value((int) predictedClass);
 
-            for (Map.Entry<String, List<String>> entry : diseasesBySpecialization.entrySet()) {
-                if (entry.getValue().contains(predictedDisease)) {
-                    return ResponseEntity.ok("Boala care se potriveste cu simpotomele tale este " +  predictedDisease + ".\n Te rugam sa consulti un medic de la specializarea " + entry.getKey() + ".");
-                }
+        if (symptoms != null && symptoms.getPatientDescriptionOfSymptoms() != null) {
+            System.out.println("Received Symptom: " + symptoms.getPatientDescriptionOfSymptoms());
+
+            Map<FieldName, FieldValue> arguments = new LinkedHashMap<>();
+            for (InputField inputField : evaluator.getActiveFields()) {
+                FieldName activeField = inputField.getName();
+                FieldValue activeValue = inputField.prepare(symptoms.getPatientDescriptionOfSymptoms());
+                arguments.put(activeField, activeValue);
             }
 
-            return ResponseEntity.ok("Boala prezisa: " + predictedDisease);
+            Map<FieldName, ?> results = evaluator.evaluate(arguments);
+
+            TargetField targetField = evaluator.getTargetFields().get(0);
+            FieldName targetName = targetField.getName();
+            Object targetValue = results.get(targetName);
+
+            if (targetValue instanceof ProbabilityDistribution distribution) {
+                String predictedDisease = (String) distribution.getResult();
+                System.out.println("Predicted disease: " + predictedDisease);
+                for (Map.Entry<String, List<String>> entry : specializationToDiseases.entrySet()) {
+                    if (entry.getValue().contains(predictedDisease)) {
+                        return ResponseEntity.ok("The disease that matches your symptoms is: " + predictedDisease + ".\n Please consult a doctor from " + entry.getKey() + " for further evaluation.");
+                    }
+                }
+                return ResponseEntity.ok("The disease that matches your symptoms is: " + predictedDisease);
+            } else {
+                System.out.println("The model did not return a probability distribution.");
+                return ResponseEntity.badRequest().build();
+            }
         } else {
-            System.out.println("Received Symptoms: null");
+            System.out.println("Received Symptom: null");
             return ResponseEntity.badRequest().build();
         }
     }

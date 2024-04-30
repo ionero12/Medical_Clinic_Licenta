@@ -1,31 +1,22 @@
 package com.example.medical_clinic_BACKEND.Model;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Symptoms {
-    private Map<String, Integer> symptoms;
+    String patientDescriptionOfSymptoms;
 
     public Symptoms() {
-        symptoms = new HashMap<>();
     }
 
-    public Symptoms(Map<String, Integer> symptoms) {
-        this.symptoms = symptoms;
+    public Symptoms(String patientDescriptionOfSymptoms) {
+        this.patientDescriptionOfSymptoms = patientDescriptionOfSymptoms;
     }
 
-    public Map<String, Integer> getSymptoms() {
-        return symptoms;
+    public String getPatientDescriptionOfSymptoms() {
+        return patientDescriptionOfSymptoms;
     }
 
-    public void setSymptoms(Map<String, Integer> symptoms) {
-        this.symptoms = symptoms;
+    public void setPatientDescriptionOfSymptoms(String patientDescriptionOfSymptoms) {
+        this.patientDescriptionOfSymptoms = patientDescriptionOfSymptoms;
     }
-
-    @Override
-    public String toString() {
-        return "Symptoms: " + symptoms.toString();
-    }
-
 }
 
