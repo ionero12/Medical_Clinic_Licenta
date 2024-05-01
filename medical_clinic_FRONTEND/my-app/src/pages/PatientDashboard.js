@@ -32,8 +32,7 @@ const PatientDashboard = () => {
 
     return (<div className="p-6">
         <PatientMenu/>
-        <h2 className="text-3xl font-bold mb-2 mt-2 text-gray-400">Medics</h2>
-        <div className="bg-white p-4 rounded shadow w-full md:w-full mr-2 mb-4 md:mb-0">
+        <div className="bg-white p-4 rounded shadow w-full md:w-full mt-2 mb-4 md:mb-0">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {medics.map((medic) => (<div key={medic.idMedic} className="p-4">
                     <div
