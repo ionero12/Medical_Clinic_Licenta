@@ -40,8 +40,8 @@ const Questionnaire = () => {
             />
             <div className="pt-5 pb-12 px-4 md:px-0">
                 <PatientMenu/>
-                <h2 className="text-3xl font-bold text-gray-400 mt-2 mb-2 text-center">Diagnose Symptoms</h2>
                 <div className="max-w-full md:max-w-md mx-auto bg-white p-5 rounded-2xl shadow-md text-center mt-4">
+                    <h2 className="text-3xl font-bold mt-2 mb-2 text-center">Diagnose Symptoms</h2>
                     <div className="text-center p-3 rounded-lg shadow-md">
                         <p className="text-gray-700  leading-relaxed mb-4">
                             Welcome to our symptom diagnosis tool. Please describe your symptoms below to receive
