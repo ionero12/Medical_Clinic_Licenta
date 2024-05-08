@@ -21,7 +21,6 @@ function LoginPage() {
         const storedUser = localStorage.getItem('user');
         if (storedUser && storedUser !== 'undefined') {
             const user = JSON.parse(storedUser);
-            console.log('Retrieved user:', user);
             setUser(user);
         } else {
             setUser({ userType: '', userData: null });
@@ -52,7 +51,6 @@ function LoginPage() {
                 const newUser = { userType: userType, userData: data.medic || data.pacient };
                 localStorage.setItem('jwtToken', data.jwtToken);
                 localStorage.setItem('user', JSON.stringify(newUser));
-                console.log('Stored user:', JSON.parse(localStorage.getItem('user')));
 
                 setUser(newUser);
 
