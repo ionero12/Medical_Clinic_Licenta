@@ -7,9 +7,7 @@ const PatientDashboard = () => {
     const [medics, setMedics] = useState([]);
     const {user} = useUser(); // get user from the user context
     const idPacient = user ? user.userData.idPacient : null; // get patient ID from the user
-
-    console.log('User from context:', user);
-
+    
     useEffect(() => {
         if (user && idPacient) {
             const urlMedics = `http://localhost:8081/api/medic`;
