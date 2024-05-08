@@ -16,7 +16,7 @@ const PatientAppointments = () => {
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
 
-    const [appointments, setAppointments] = useState([]);
+    //const [appointments, setAppointments] = useState([]);
     const [pastAppointments, setPastAppointments] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
@@ -54,14 +54,13 @@ const PatientAppointments = () => {
         fetch('http://localhost:8081/api/consultatie')
             .then(response => response.json())
             .then(data => {
-                setAppointments(data);
+                //setAppointments(data);
                 const uniqueAppointments = data.filter((appointment, index, self) =>
                         index === self.findIndex((t) => (
                             t.numeConsultatie === appointment.numeConsultatie
                         ))
                 );
                 setUniqueAppointments(uniqueAppointments);
-                console.log(uniqueAppointments)
             })
             .catch(error => console.error('Error fetching appointments:', error));
     }, []);
@@ -73,7 +72,6 @@ const PatientAppointments = () => {
             fetch(`http://localhost:8081/api/medic/specializare?specializare=${specialization}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
                     setMedics(data);
                 })
                 .catch(error => console.error('Error fetching doctors:', error));
@@ -250,12 +248,12 @@ const PatientAppointments = () => {
                     {pastAppointments.map(appointment => (
                         <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4 flex justify-between items-start">
                             <div>
-                            Appointment name: {appointment.numeConsultatie}
-                            <br/>
-                            Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
-                            <br/>
-                            Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                            Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                                Appointment name: {appointment.numeConsultatie}
+                                <br/>
+                                Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
+                                <br/>
+                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                                Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                             </div>
                             <button
                                 onClick={() => {
