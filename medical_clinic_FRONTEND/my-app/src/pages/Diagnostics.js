@@ -1,14 +1,17 @@
 import {useUser} from "../user/UserContext";
 import React, {useEffect, useState} from 'react';
 import PatientMenu from "../components/PatientMenu";
-
+import TemperatureChart from "../components/ChartComponent";
+// import TemperatureCharts from "../components/ChartsComponent";
 
 const Diagnostics = () => {
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
 
+    const [data, setData] = useState([]);
     const [diagnostics, setDiagnostics] = useState([]);
     const [valoariAnalize, setValoareAnalize] = useState([]);
+
 
     useEffect(() => {
         if (idPacient) {
@@ -22,10 +25,12 @@ const Diagnostics = () => {
 
     useEffect(() => {
         if (idPacient) {
-            fetch(`http://localhost:8081/api/valoare_analize?idPacient=${idPacient}`)
+            fetch(`http://localhost:8081/api/valoare_analize/${idPacient}`)
                 .then(response => response.json())
                 .then(data => {
-                    setValoareAnalize(data);
+                    setData(data);
+                    let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperatura" && item.valoare.numeValoare !== "Ritm cardiac" && item.valoare.numeValoare !== "Glucoza" && item.valoare.numeValoare !== "Presiune sistolica" && item.valoare.numeValoare !== "Presiune diastolica");
+                    setValoareAnalize(valoareAnalizeData);
                 });
         }
     }, [idPacient]);
@@ -40,7 +45,7 @@ const Diagnostics = () => {
                         <li key={diagnostic.idDiagnostic} className="border-gray-400 border-2 mb-1 p-2">
                             Diagnostic name: {diagnostic.numeDiagnostic}
                             <br/>
-                            Diagnostic ID: {diagnostic.idDiagnostic}, Data: {diagnostic.dataDiagnostic}
+                            ID: {diagnostic.idDiagnostic}, Date: {diagnostic.dataDiagnostic}
                         </li>))}
                 </ul>
             </div>
@@ -52,13 +57,17 @@ const Diagnostics = () => {
                             className="border-gray-400 border-2 mb-1 p-2">
                             Analysis name: {valoareAnaliza.valoare.numeValoare}
                             <br/>
-                            Analysis value: {valoareAnaliza.valoare.rezultatValoare},
+                            Analysis value: {valoareAnaliza.valoare.rezultatValoare}
+                            <br/>
                             Date: {valoareAnaliza.analiza.dataAnaliza}
                         </li>))}
                 </ul>
             </div>
         </div>
+        <TemperatureChart data={data}/>
     </div>);
 };
 
 export default Diagnostics;
+
+//todo: pacientu isi poate adauga date in charts

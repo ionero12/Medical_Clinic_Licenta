@@ -19,9 +19,9 @@ public class ValoareAnalizeController {
         this.valoareAnalizeService = valoareAnalizeService;
     }
 
-    @GetMapping
-    public List<ValoareAnalize> getValoareAnalize(@RequestParam(required = false) Long idPacient) {
-        return valoareAnalizeService.getValoareAnalize(idPacient);
+    @GetMapping(path = "{idPacient}")
+    public List<ValoareAnalize> getValoareAnalizeByIdPacient(@PathVariable("idPacient") Long idPacient) {
+        return valoareAnalizeService.getValoareAnalizeByIdPacient(idPacient);
     }
 
     @PostMapping

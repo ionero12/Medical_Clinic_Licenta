@@ -19,15 +19,6 @@ public class ValoareAnalizeService {
         this.valoareAnalizeRepository = valoareAnalizeRepository;
     }
 
-    public List<ValoareAnalize> getValoareAnalize(Long idPacient) {
-        if(idPacient != null) {
-            return valoareAnalizeRepository.findAll().stream()
-                    .filter(valoareAnalize -> valoareAnalize.getAnaliza().getPacient().getIdPacient().equals(idPacient))
-                    .collect(Collectors.toList());
-        }
-        return valoareAnalizeRepository.findAll();
-    }
-
     public void addValoareAnalize(ValoareAnalize valoareAnalize) {
         valoareAnalizeRepository.save(valoareAnalize);
     }
@@ -40,4 +31,9 @@ public class ValoareAnalizeService {
         valoareAnalizeRepository.deleteById(id);
     }
 
+    public List<ValoareAnalize> getValoareAnalizeByIdPacient(Long idPacient) {
+        return valoareAnalizeRepository.findAll().stream()
+                .filter(valoareAnalize -> valoareAnalize.getAnaliza().getPacient().getIdPacient().equals(idPacient))
+                .collect(Collectors.toList());
+    }
 }
