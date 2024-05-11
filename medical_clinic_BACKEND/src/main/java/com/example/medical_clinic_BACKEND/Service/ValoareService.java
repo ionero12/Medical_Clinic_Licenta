@@ -31,4 +31,8 @@ public class ValoareService {
         }
         valoareRepository.deleteById(valoareId);
     }
+
+    public Valoare getValoareById(Long idValoare) {
+        return valoareRepository.findById(idValoare).orElseThrow(() -> new IllegalStateException("Valoarea cu id-ul " + idValoare + " nu exista"));
+    }
 }

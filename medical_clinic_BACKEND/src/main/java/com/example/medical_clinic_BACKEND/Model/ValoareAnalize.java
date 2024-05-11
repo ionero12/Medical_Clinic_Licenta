@@ -9,12 +9,12 @@ public class ValoareAnalize {
     @EmbeddedId
     private ValoareAnalizeId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("analizeIdAnaliza")
     @JoinColumn(name = "analize_id_analiza")
     private Analiza analiza;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("valoriIdValoare")
     @JoinColumn(name = "valori_id_valoare")
     private Valoare valoare;

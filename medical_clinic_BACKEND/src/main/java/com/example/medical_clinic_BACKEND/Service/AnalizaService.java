@@ -31,4 +31,8 @@ public class AnalizaService {
         }
         analizaRepository.deleteById(analizaId);
     }
+
+    public Analiza getAnalizaById(Long idAnaliza) {
+        return analizaRepository.findById(idAnaliza).orElseThrow(() -> new IllegalStateException("Analiza cu id-ul " + idAnaliza + " nu exista"));
+    }
 }

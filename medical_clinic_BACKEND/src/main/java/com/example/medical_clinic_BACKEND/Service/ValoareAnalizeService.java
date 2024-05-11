@@ -32,8 +32,10 @@ public class ValoareAnalizeService {
     }
 
     public List<ValoareAnalize> getValoareAnalizeByIdPacient(Long idPacient) {
-        return valoareAnalizeRepository.findAll().stream()
-                .filter(valoareAnalize -> valoareAnalize.getAnaliza().getPacient().getIdPacient().equals(idPacient))
-                .collect(Collectors.toList());
+        return valoareAnalizeRepository.findAll().stream().filter(valoareAnalize -> valoareAnalize.getAnaliza().getPacient().getIdPacient().equals(idPacient)).collect(Collectors.toList());
+    }
+
+    public List<ValoareAnalize> getValoareAnalize() {
+        return valoareAnalizeRepository.findAll();
     }
 }

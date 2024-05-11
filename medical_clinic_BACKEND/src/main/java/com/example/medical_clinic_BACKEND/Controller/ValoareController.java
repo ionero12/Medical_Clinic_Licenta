@@ -3,6 +3,7 @@ package com.example.medical_clinic_BACKEND.Controller;
 import com.example.medical_clinic_BACKEND.Model.Valoare;
 import com.example.medical_clinic_BACKEND.Service.ValoareService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class ValoareController {
     }
 
     @PostMapping
-    public void addValoare(@RequestBody Valoare valoare) {
+    public ResponseEntity<Valoare> addValoare(@RequestBody Valoare valoare) {
         valoareService.addValoare(valoare);
+        return ResponseEntity.ok(valoare);
     }
 
     @DeleteMapping(path = "{valoareId}")
