@@ -9,8 +9,6 @@ const MedicDashboard = () => {
     const {user} = useUser();  // get user from the user context
     const idMedic = user ? user.userData.idMedic : null;  // get medicId from the user
 
-    console.log("user", user); // Print user to the console
-
     useEffect(() => {
         if (user && idMedic) {
             const urlPacient = `http://localhost:8081/api/pacient/medic?idMedic=${idMedic}`;
@@ -39,16 +37,14 @@ const MedicDashboard = () => {
     }, [user, idMedic]); // Include user in the dependency array
 
 
-    return (
-        <div className="p-6">
+    return (<div className="p-6">
             <MedicMenu/>
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2 mt-2">Patients</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {patients.map((pacient) => (
-                            <div key={pacient.idPacient} className="p-4">
+                        {patients.map((pacient) => (<div key={pacient.idPacient} className="p-4">
                                 <div
                                     className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl">
                                     <Link
@@ -64,15 +60,14 @@ const MedicDashboard = () => {
                                         </button>
                                     </Link>
                                 </div>
-                            </div>
-                        ))}
+                            </div>))}
                     </div>
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <h2 className="text-2xl font-bold mb-2 mt-4">Upcoming Appointments</h2>
                     <ul>
-                        {upcomingAppointments.map((appointment) => (
-                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-2">
+                        {upcomingAppointments.map((appointment) => (<div key={appointment.idConsultatie}
+                                                                         className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
                                 Appointment name: {appointment.numeConsultatie}
                                 <br/>
                                 Patient name: {appointment.numePacient} {appointment.prenumePacient}
@@ -80,13 +75,11 @@ const MedicDashboard = () => {
                                 Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()}, Hour:{' '}
                                 {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
                                 <br/>
-                            </div>
-                        ))}
+                            </div>))}
                     </ul>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 }
 
 export default MedicDashboard;

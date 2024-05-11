@@ -9,7 +9,6 @@ function SpecializationDropdown(props) {
         fetch('http://localhost:8081/api/specializare')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setSpecializations(data);
             })
             .catch(error => console.error('Error fetching specializations:', error));
@@ -19,8 +18,8 @@ function SpecializationDropdown(props) {
         <option value="">Select specialization</option>
         {specializations.map(function Component(props, context) {
             return (<option key={props.idSpecializare || context} value={props.idSpecializare}>
-                    {props.numeSpecializare}
-                </option>);
+                {props.numeSpecializare}
+            </option>);
         })}
     </select>);
 }

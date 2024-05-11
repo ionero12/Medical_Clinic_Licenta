@@ -35,7 +35,7 @@ const PatientDashboard = () => {
                 {medics.map((medic) => (<div key={medic.idMedic} className="p-4">
                     <div
                         className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl">
-                        <Link to={`/medic/${medic.idMedic}`}
+                    <Link to={`/medic/${medic.idMedic}`}
                               className="flex flex-col items-center text-center ">
                             <h2 className="text-xl font-bold mb-2">{medic.numeMedic} {medic.prenumeMedic}</h2>
                             <p className="text-gray-700">Specialization: {medic.specializare}</p>

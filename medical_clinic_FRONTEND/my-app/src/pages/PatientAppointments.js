@@ -55,11 +55,7 @@ const PatientAppointments = () => {
             .then(response => response.json())
             .then(data => {
                 //setAppointments(data);
-                const uniqueAppointments = data.filter((appointment, index, self) =>
-                        index === self.findIndex((t) => (
-                            t.numeConsultatie === appointment.numeConsultatie
-                        ))
-                );
+                const uniqueAppointments = data.filter((appointment, index, self) => index === self.findIndex((t) => (t.numeConsultatie === appointment.numeConsultatie)));
                 setUniqueAppointments(uniqueAppointments);
             })
             .catch(error => console.error('Error fetching appointments:', error));
@@ -68,7 +64,6 @@ const PatientAppointments = () => {
     useEffect(() => {
         if (numeConsultatie) {
             const specialization = numeConsultatie.split(" ")[0];
-            console.log(specialization);
             fetch(`http://localhost:8081/api/medic/specializare?specializare=${specialization}`)
                 .then(response => response.json())
                 .then(data => {
@@ -104,7 +99,6 @@ const PatientAppointments = () => {
             }, numeConsultatie, dataConsultatiei: `${selectedDate}T${selectedHour}:00`
         };
         try {
-            console.log('Adding appointment:', newAppointment);
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
             setUpcomingAppointments([...upcomingAppointments, response.data])
             toast.success('Appointment added successfully');
@@ -123,7 +117,6 @@ const PatientAppointments = () => {
                     feedback: feedback, rating: rating
                 }
             });
-            console.log(rating, feedback)
             toast.success('Feedback successfully added');
             closeAddFeedbackModal();
         } catch (error) {
@@ -245,48 +238,48 @@ const PatientAppointments = () => {
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
-                    {pastAppointments.map(appointment => (
-                        <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4 flex justify-between items-start">
-                            <div>
-                                Appointment name: {appointment.numeConsultatie}
-                                <br/>
-                                Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
-                                <br/>
-                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                                Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
-                            </div>
-                            <button
-                                onClick={() => {
-                                    setIdConsultatie(appointment.idConsultatie);
-                                    openAddFeedbackModal();
-                                }}
-                                className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
-                                Add feedback <FontAwesomeIcon icon={faPlus}/>
-                            </button>
-                            <Modal
-                                isOpen={addFeedbackModalIsOpen}
-                                onRequestClose={closeAddFeedbackModal}
-                                contentLabel="Add Feedback Medic"
-                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
-                            >
-                                <form onSubmit={handleAddFeedback} className="flex flex-col">
-                                    <label className="mb-2">
-                                        Select the rating:
-                                        <StarRating onRatingChange={handleRatingChange} />
-                                    </label>
-                                    <label className="mb-2">
-                                        Add feedback:
-                                        <input
-                                            type="text"
-                                            value={feedback}
-                                            onChange={(e) => setFeedback(e.target.value)}
-                                        />
-                                    </label>
-                                    <input type="submit" value="Submit"
-                                           className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
-                                </form>
-                            </Modal>
-                        </div>))}
+                    {pastAppointments.map(appointment => (<div key={appointment.idConsultatie}
+                                                               className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
+                        <div>
+                            Appointment name: {appointment.numeConsultatie}
+                            <br/>
+                            Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
+                            <br/>
+                            Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                            Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                        </div>
+                        <button
+                            onClick={() => {
+                                setIdConsultatie(appointment.idConsultatie);
+                                openAddFeedbackModal();
+                            }}
+                            className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
+                            Add feedback <FontAwesomeIcon icon={faPlus}/>
+                        </button>
+                        <Modal
+                            isOpen={addFeedbackModalIsOpen}
+                            onRequestClose={closeAddFeedbackModal}
+                            contentLabel="Add Feedback Medic"
+                            className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        >
+                            <form onSubmit={handleAddFeedback} className="flex flex-col">
+                                <label className="mb-2">
+                                    Select the rating:
+                                    <StarRating onRatingChange={handleRatingChange}/>
+                                </label>
+                                <label className="mb-2">
+                                    Add feedback:
+                                    <input
+                                        type="text"
+                                        value={feedback}
+                                        onChange={(e) => setFeedback(e.target.value)}
+                                    />
+                                </label>
+                                <input type="submit" value="Submit"
+                                       className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                            </form>
+                        </Modal>
+                    </div>))}
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <div className="flex justify-between items-center">
@@ -312,8 +305,7 @@ const PatientAppointments = () => {
                                     {uniqueAppointments.map(appointment => (
                                         <option key={appointment.idConsultatie} value={appointment.idConsultatie}>
                                             {appointment.numeConsultatie}
-                                        </option>
-                                    ))}
+                                        </option>))}
                                 </select>
                             </label>
                             <label className="mb-2">
@@ -349,58 +341,58 @@ const PatientAppointments = () => {
                         </form>
                     </Modal>
                     <ul>
-                        {upcomingAppointments.map(appointment => (
-                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-2">
-                                Appointment name: {appointment.numeConsultatie}
-                                <br/>
-                                Doctor name: {appointment.numeMedic} {appointment.prenumeMedic}
-                                <br/>
-                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                                Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
-                                <br/>
-                                <button
-                                    onClick={() => {
-                                        setIdConsultatie(appointment.idConsultatie);
-                                        openEditModal(appointment);
-                                    }}
-                                    className={`bg-blue-500 hover:bg-sky-700 text-white rounded px-2.5 py-2 transition duration-200`}>
-                                    Update <FontAwesomeIcon icon={faEdit}/>
-                                </button>
-                                <Modal
-                                    isOpen={editModalIsOpen}
-                                    onRequestClose={closeEditModal}
-                                    contentLabel="Update AppointmentMedic"
-                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
-                                >
-                                    <form onSubmit={handleUpdateAppointment} className="flex flex-col">
-                                        <label className="mb-2">
-                                            Select the date
-                                            <input
-                                                type="date"
-                                                value={selectedDate}
-                                                onChange={(e) => setSelectedDate(e.target.value)}
-                                                required
-                                            />
-                                        </label>
-                                        <label className="mb-2">
-                                            Select the hour:
-                                            <select
-                                                value={selectedHour}
-                                                onChange={(e) => setSelectedHour(e.target.value)}
-                                                required
-                                            >
-                                                {hoursOptions}
-                                            </select>
-                                        </label>
-                                        <input type="submit" value="Update"
-                                               className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
-                                    </form>
-                                </Modal>
-                                <button onClick={() => deleteAppointment(appointment.idConsultatie)}
-                                        className={`bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-5 transition duration-200`}>
-                                    Delete <FontAwesomeIcon icon={faTrash}/>
-                                </button>
-                            </div>))}
+                        {upcomingAppointments.map(appointment => (<div key={appointment.idConsultatie}
+                                                                       className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
+                            Appointment name: {appointment.numeConsultatie}
+                            <br/>
+                            Doctor name: {appointment.numeMedic} {appointment.prenumeMedic}
+                            <br/>
+                            Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                            Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                            <br/>
+                            <button
+                                onClick={() => {
+                                    setIdConsultatie(appointment.idConsultatie);
+                                    openEditModal(appointment);
+                                }}
+                                className={`bg-blue-500 hover:bg-sky-700 text-white rounded px-2.5 py-2 transition duration-200`}>
+                                Update <FontAwesomeIcon icon={faEdit}/>
+                            </button>
+                            <Modal
+                                isOpen={editModalIsOpen}
+                                onRequestClose={closeEditModal}
+                                contentLabel="Update AppointmentMedic"
+                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                            >
+                                <form onSubmit={handleUpdateAppointment} className="flex flex-col">
+                                    <label className="mb-2">
+                                        Select the date
+                                        <input
+                                            type="date"
+                                            value={selectedDate}
+                                            onChange={(e) => setSelectedDate(e.target.value)}
+                                            required
+                                        />
+                                    </label>
+                                    <label className="mb-2">
+                                        Select the hour:
+                                        <select
+                                            value={selectedHour}
+                                            onChange={(e) => setSelectedHour(e.target.value)}
+                                            required
+                                        >
+                                            {hoursOptions}
+                                        </select>
+                                    </label>
+                                    <input type="submit" value="Update"
+                                           className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                                </form>
+                            </Modal>
+                            <button onClick={() => deleteAppointment(appointment.idConsultatie)}
+                                    className={`bg-red-500 text-white rounded px-2.5 py-2 hover:bg-red-700 ml-5 transition duration-200`}>
+                                Delete <FontAwesomeIcon icon={faTrash}/>
+                            </button>
+                        </div>))}
                     </ul>
                 </div>
             </div>

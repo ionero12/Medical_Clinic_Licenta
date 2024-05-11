@@ -48,7 +48,6 @@ const MedicAppointments = () => {
 
     const handleAddAppointment = async (event) => {
         event.preventDefault();
-        console.log('Adding appointment:', idConsultatie, selectedDate, selectedHour);
 
         const date = new Date(selectedDate);
         const currentDate = new Date();
@@ -67,19 +66,15 @@ const MedicAppointments = () => {
 
         const newAppointment = {
             pacient: {
-                cnpPacient,
-                numePacient: patientData.numePacient,
-                prenumePacient: patientData.prenumePacient
-            },
-            medic: {
+                cnpPacient, numePacient: patientData.numePacient, prenumePacient: patientData.prenumePacient
+            }, medic: {
                 idMedic
-            },
-            numeConsultatie,
-            dataConsultatiei: `${selectedDate}T${selectedHour}:00`
+            }, numeConsultatie, dataConsultatiei: `${selectedDate}T${selectedHour}:00`
         };
         try {
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
-            setUpcomingAppointments([...upcomingAppointments, response.data])
+            setUpcomingAppointments([...upcomingAppointments, response.data]);
+
             toast.success('Appointment added successfully');
             closeAddModal();
         } catch (error) {
@@ -90,7 +85,6 @@ const MedicAppointments = () => {
 
     const handleUpdateAppointment = async (event) => {
         event.preventDefault();
-        console.log('Updating appointment:', idConsultatie, selectedDate, selectedHour);
 
         const date = new Date(selectedDate);
         const currentDate = new Date();
@@ -127,6 +121,8 @@ const MedicAppointments = () => {
             setPastAppointments(pastAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
             setUpcomingAppointments(upcomingAppointments.filter(appointment => appointment.idConsultatie !== idConsultatie));
             toast.success('The appointment has been successfully deleted');
+        }).catch((error) => {
+            console.error('Error deleting appointment:', error);
         });
     };
 
@@ -184,25 +180,26 @@ const MedicAppointments = () => {
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
                     <ul>
-                        {pastAppointments.map(appointment => (
-                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
-                                Appointment name: {appointment.numeConsultatie}
-                                <br/>
-                                Patient name: {appointment.numePacient} {appointment.prenumePacient}
-                                <br/>
-                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()}, Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
-                                <br/>
-                            </div>))}
+                        {pastAppointments.map(appointment => (<div key={appointment.idConsultatie}
+                                                                   className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
+                            Appointment name: {appointment.numeConsultatie}
+                            <br/>
+                            Patient name: {appointment.numePacient} {appointment.prenumePacient}
+                            <br/>
+                            Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                            Ora: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                            <br/>
+                        </div>))}
                     </ul>
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-bold mb-2">Upcoming appointments</h2>
-                    <button
-                        onClick={openAddModal}
-                        className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2">
-                        Add appointment <FontAwesomeIcon icon={faPlus}/>
-                    </button>
+                        <h2 className="text-2xl font-bold mb-2">Upcoming appointments</h2>
+                        <button
+                            onClick={openAddModal}
+                            className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2">
+                            Add appointment <FontAwesomeIcon icon={faPlus}/>
+                        </button>
                     </div>
                     <Modal
                         isOpen={addModalIsOpen}
@@ -242,7 +239,8 @@ const MedicAppointments = () => {
                     </Modal>
                     <ul>
                         {upcomingAppointments.sort((a, b) => new Date(a.data) - new Date(b.data)).map(appointment => (
-                            <div key={appointment.idConsultatie} className="border-gray-400 border-2 mb-1 p-4">
+                            <div key={appointment.idConsultatie}
+                                 className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
                                 Appointment name: {appointment.numeConsultatie}
                                 <br/>
                                 Patient name: {appointment.numePacient} {appointment.prenumePacient}

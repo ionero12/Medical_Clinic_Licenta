@@ -16,13 +16,11 @@ const Prices = () => {
             });
     }, []);
 
-    console.log(consultatii)
-
     return (<div className="p-6">
-            <PatientMenu/>
-            <div className="flex justify-center mt-2">
-                <div className="bg-white p-4 rounded shadow w-full md:max-w-2xl">
-                    <div className="overflow-x-auto">
+        <PatientMenu/>
+        <div className="flex justify-center mt-2">
+            <div className="bg-white p-4 rounded shadow w-full md:max-w-2xl">
+                <div className="overflow-x-auto">
                     <table className="table-auto border-collapse border border-blue-800 w-full">
                         <thead>
                         <tr>
@@ -41,7 +39,7 @@ const Prices = () => {
                     </table>
                 </div>
             </div>
-                </div>
+        </div>
     </div>);
 
 }

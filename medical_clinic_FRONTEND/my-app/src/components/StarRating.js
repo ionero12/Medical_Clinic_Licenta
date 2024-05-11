@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { FaStar } from 'react-icons/fa';
+import React, {useState} from 'react';
+import {FaStar} from 'react-icons/fa';
 
-const StarRating = ({ onRatingChange, rating: initialRating }) => {
+const StarRating = ({onRatingChange, rating: initialRating}) => {
     const [rating, setRating] = useState(initialRating);
     const [hover, setHover] = useState(null);
 
@@ -10,19 +10,17 @@ const StarRating = ({ onRatingChange, rating: initialRating }) => {
         onRatingChange(ratingValue);
     };
 
-    return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+    return (<div style={{display: 'flex', justifyContent: 'center'}}>
             {[...Array(5)].map((star, i) => {
                 const ratingValue = i + 1;
 
-                return (
-                    <label key={i}>
+                return (<label key={i}>
                         <input
                             type="radio"
                             name="rating"
                             value={ratingValue}
                             onClick={() => handleRatingChange(ratingValue)}
-                            style={{ display: 'none' }}
+                            style={{display: 'none'}}
                         />
                         <FaStar
                             className="star"
@@ -31,11 +29,9 @@ const StarRating = ({ onRatingChange, rating: initialRating }) => {
                             onMouseEnter={() => setHover(ratingValue)}
                             onMouseLeave={() => setHover(null)}
                         />
-                    </label>
-                );
+                    </label>);
             })}
-        </div>
-    );
+        </div>);
 };
 
 export default StarRating;
