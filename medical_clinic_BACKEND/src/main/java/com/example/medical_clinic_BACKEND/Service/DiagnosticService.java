@@ -16,10 +16,7 @@ public class DiagnosticService {
         this.diagnosticRepository = diagnosticRepository;
     }
 
-    public List<Diagnostic> getDiagnostic(Long idPacient) {
-        if (idPacient != null) {
-            return diagnosticRepository.findByIdPacient(idPacient);
-        }
+    public List<Diagnostic> getDiagnostic() {
         return diagnosticRepository.findAll();
     }
 
@@ -33,5 +30,9 @@ public class DiagnosticService {
             throw new IllegalStateException("Fisa medicala cu id-ul " + diagnosticId + " nu exista");
         }
         diagnosticRepository.deleteById(diagnosticId);
+    }
+
+    public List<Diagnostic> getDiagnosticByIdPacient(Long idPacient) {
+        return diagnosticRepository.findByIdPacient(idPacient);
     }
 }
