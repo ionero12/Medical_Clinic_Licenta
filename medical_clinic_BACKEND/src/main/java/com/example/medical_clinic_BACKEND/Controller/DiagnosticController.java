@@ -19,8 +19,13 @@ public class DiagnosticController {
     }
 
     @GetMapping
+    public List<Diagnostic> getDiagnostice() {
+        return diagnosticService.getDiagnostic();
+    }
+
+    @GetMapping(path = "/pacient")
     public List<Diagnostic> getDiagnostice(@RequestParam(required = false) Long idPacient) {
-        return diagnosticService.getDiagnostic(idPacient);
+        return diagnosticService.getDiagnosticByIdPacient(idPacient);
     }
 
     @PostMapping
