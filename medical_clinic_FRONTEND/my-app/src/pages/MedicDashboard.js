@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useUser} from '../user/UserContext'; // import useUser
 import MedicMenu from '../components/MedicMenu';
 
 const MedicDashboard = () => {
+    const navigate = useNavigate();
+    const {setUser} = useUser(); // get setUser from the user context
+
     const [patients, setPatients] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const {user} = useUser();  // get user from the user context
@@ -34,7 +37,15 @@ const MedicDashboard = () => {
                     console.error('Error fetching data:', error);
                 });
         }
-    }, [user, idMedic]); // Include user in the dependency array
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [user, idMedic, navigate, setUser]);
 
 
     return (<div className="p-6">

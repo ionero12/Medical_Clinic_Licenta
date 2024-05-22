@@ -50,7 +50,7 @@ public class MedicController {
 
         String jwtToken = Jwts.builder()
                 .setSubject(medic.getEmailMedic())
-                .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                .setExpiration(new Date(System.currentTimeMillis() + 900000))
                 .signWith(key)
                 .compact();
 
@@ -73,7 +73,7 @@ public class MedicController {
 
             String jwtToken = Jwts.builder()
                     .setSubject(emailMedic)
-                    .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                    .setExpiration(new Date(System.currentTimeMillis() + 900000))
                     .signWith(key)
                     .compact();
 

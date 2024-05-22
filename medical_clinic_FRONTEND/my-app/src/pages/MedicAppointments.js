@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Modal from "react-modal";
+import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css/animate.min.css';
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +13,8 @@ import MedicMenu from '../components/MedicMenu';
 
 const MedicAppointments = () => {
     Modal.setAppElement('#root')
+    const navigate = useNavigate();
+    const {setUser} = useUser();
 
     const {user} = useUser();
     const idMedic = user ? user.userData.idMedic : null;
@@ -43,7 +46,15 @@ const MedicAppointments = () => {
                     setNumeConsultatie(data[0].numeConsultatie);
                 });
         }
-    }, [idMedic]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idMedic, navigate, setUser]);
 
 
     const handleAddAppointment = async (event) => {

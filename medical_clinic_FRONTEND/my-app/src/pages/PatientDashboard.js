@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useUser} from '../user/UserContext'; // import useUser
 import PatientMenu from '../components/PatientMenu';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const PatientDashboard = () => {
+    const navigate = useNavigate();
+    const {setUser} = useUser();
+
     const [medics, setMedics] = useState([]);
     const {user} = useUser(); // get user from the user context
     const idPacient = user ? user.userData.idPacient : null; // get patient ID from the user
@@ -26,7 +29,15 @@ const PatientDashboard = () => {
                     setMedics(medicsWithSpecialization);
                 });
         }
-    }, [user, idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [user, idPacient, navigate, setUser]);
 
     return (<div className="p-6">
         <PatientMenu/>

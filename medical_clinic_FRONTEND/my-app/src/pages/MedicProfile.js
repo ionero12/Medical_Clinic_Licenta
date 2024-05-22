@@ -3,8 +3,12 @@ import {useUser} from "../user/UserContext";
 import axios from "axios";
 import profilePic from '../assets/images/profilePic.png';
 import MedicMenu from "../components/MedicMenu";
+import {useNavigate} from "react-router-dom";
 
 function MedicProfile() {
+    const navigate = useNavigate();
+    const {setUser} = useUser();
+
     const {user} = useUser();
     const idMedic = user ? user.userData.idMedic : null;  // get medicId from the user
     const [emailMedic, setEmailMedic] = useState(user ? user.userData.emailMedic : '');
@@ -24,6 +28,14 @@ function MedicProfile() {
             console.log('Medic profile updated successfully:', response.data);
         } catch (error) {
             console.error('Error updating medic profile:', error);
+        }
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
         }
     };
 

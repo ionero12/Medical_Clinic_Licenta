@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import MedicMenu from "../components/MedicMenu";
+import {useUser} from "../user/UserContext";
 import Modal from "react-modal";
 import axios from "axios";
 import 'animate.css/animate.min.css';
@@ -11,6 +12,8 @@ import {toast, ToastContainer} from "react-toastify";
 
 const Patient = () => {
     Modal.setAppElement('#root')
+    const navigate = useNavigate();
+    const {setUser} = useUser();
 
     const [patient, setPatient] = useState(null);
     const {idPacient} = useParams();
@@ -39,7 +42,15 @@ const Patient = () => {
                     console.error('Error fetching patient data:', error);
                 });
         }
-    }, [idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idPacient, navigate, setUser]);
 
     useEffect(() => {
         if (idPacient) {
@@ -52,7 +63,15 @@ const Patient = () => {
                     console.error('Error fetching diagnostic data:', error);
                 });
         }
-    }, [idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idPacient, navigate, setUser]);
 
     useEffect(() => {
         if (idPacient) {
@@ -67,7 +86,15 @@ const Patient = () => {
                     console.error('Error fetching valoare analize data:', error);
                 });
         }
-    }, [idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idPacient, navigate, setUser]);
 
 
     const handleAddAnaliza = async (event) => {
@@ -201,8 +228,7 @@ const Patient = () => {
         />
         <div className="p-6">
             <MedicMenu/>
-            <h1 className="text-3xl font-bold mb-4">Patient details</h1>
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row mt-2">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
                     <h2 className="text-3xl font-bold mb-4">{patient?.numePacient} {patient?.prenumePacient}</h2>
                     <p className="mb-2"><strong>CNP:</strong> {patient?.cnpPacient}</p>

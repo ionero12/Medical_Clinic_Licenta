@@ -46,6 +46,7 @@ function LoginPage() {
 
                 const newUser = {userType: userType, userData: data.medic || data.pacient};
                 localStorage.setItem('jwtToken', data.jwtToken);
+                localStorage.setItem('jwtTokenExpiry', Date.now() + 900 * 1000);
                 localStorage.setItem('user', JSON.stringify(newUser));
 
                 setUser(newUser);

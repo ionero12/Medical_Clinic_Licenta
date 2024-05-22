@@ -3,8 +3,12 @@ import {useUser} from "../user/UserContext";
 import axios from "axios";
 import PatientMenu from "../components/PatientMenu";
 import profilePic from '../assets/images/profilePic.png';
+import {useNavigate} from "react-router-dom";
 
 function PatientProfile() {
+    const navigate = useNavigate();
+    const {setUser} = useUser();
+
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
     const [emailPacient, setEmailPacient] = useState(user ? user.userData.emailPacient : '');
@@ -38,6 +42,14 @@ function PatientProfile() {
             console.log('Patient profile updated successfully:', response.data);
         } catch (error) {
             console.error('Error updating patient profile:', error);
+        }
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
         }
     };
 

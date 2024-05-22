@@ -37,6 +37,7 @@ function MedicRegister() {
                 console.log('Logged in:', data);
 
                 localStorage.setItem('jwtToken', data.jwtToken);
+                localStorage.setItem('jwtTokenExpiry', Date.now() + 900 * 1000);
                 localStorage.setItem('user', JSON.stringify({userType: 'medic', userData: data.medic}));
                 setUser({userType: 'medic', userData: data.medic});
 

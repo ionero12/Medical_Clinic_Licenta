@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import PatientMenu from "../components/PatientMenu";
+import {useNavigate} from "react-router-dom";
+import {useUser} from "../user/UserContext";
 
 
 const Prices = () => {
+    const navigate = useNavigate();
+    const {setUser} = useUser();
+
     const [consultatii, setConsultatii] = useState([]);
 
     useEffect(() => {
@@ -14,7 +19,15 @@ const Prices = () => {
             .catch(error => {
                 console.error('There was an error!', error);
             });
-    }, []);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [navigate, setUser]);
 
     return (<div className="p-6">
         <PatientMenu/>

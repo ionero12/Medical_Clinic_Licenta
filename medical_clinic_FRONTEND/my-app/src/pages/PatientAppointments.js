@@ -9,14 +9,16 @@ import {toast, ToastContainer} from "react-toastify";
 import {useUser} from '../user/UserContext';
 import PatientMenu from '../components/PatientMenu';
 import StarRating from '../components/StarRating';
+import {useNavigate} from "react-router-dom";
 
 const PatientAppointments = () => {
     Modal.setAppElement('#root')
+    const navigate = useNavigate();
+    const {setUser} = useUser();
 
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
 
-    //const [appointments, setAppointments] = useState([]);
     const [pastAppointments, setPastAppointments] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
@@ -48,18 +50,33 @@ const PatientAppointments = () => {
                     setUpcomingAppointments(upcoming);
                 });
         }
-    }, [idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idPacient, navigate, setUser]);
 
     useEffect(() => {
         fetch('http://localhost:8081/api/consultatie')
             .then(response => response.json())
             .then(data => {
-                //setAppointments(data);
                 const uniqueAppointments = data.filter((appointment, index, self) => index === self.findIndex((t) => (t.numeConsultatie === appointment.numeConsultatie)));
                 setUniqueAppointments(uniqueAppointments);
             })
             .catch(error => console.error('Error fetching appointments:', error));
-    }, []);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [navigate, setUser]);
 
     useEffect(() => {
         if (numeConsultatie) {
@@ -71,7 +88,15 @@ const PatientAppointments = () => {
                 })
                 .catch(error => console.error('Error fetching doctors:', error));
         }
-    }, [numeConsultatie]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [numeConsultatie, navigate, setUser]);
 
     const handleAddAppointment = async (event) => {
         event.preventDefault();

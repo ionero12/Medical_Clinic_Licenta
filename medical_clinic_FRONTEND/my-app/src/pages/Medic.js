@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import PacientMenu from "../components/PatientMenu";
 import StarRating from "../components/StarRating";
+import {useUser} from "../user/UserContext";
 
 const Medic = () => {
+    const navigate = useNavigate();
+    const {setUser} = useUser();
+
     const [medic, setMedic] = useState(null);
     const [consultatii, setConsultatii] = useState([]);
     const {idMedic} = useParams();
@@ -14,7 +18,15 @@ const Medic = () => {
             .then(data => {
                 setMedic(data);
             });
-    }, [idMedic]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idMedic, navigate, setUser]);
 
     useEffect(() => {
         fetch(`http://localhost:8081/api/consultatie/medic?idMedic=${idMedic}`)
@@ -22,17 +34,22 @@ const Medic = () => {
             .then(data => {
                 setConsultatii(data);
             });
-    }, [idMedic]);
 
-    if (!medic) {
-        return <div className="flex justify-center items-center h-screen">Loading...</div>;
-    }
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idMedic, navigate, setUser]);
+
 
     return (<div className="p-6">
         <PacientMenu/>
-        <h2 className="text-3xl font-bold mb-4 text-gray-400">{medic.numeMedic} {medic.prenumeMedic}</h2>
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row mt-2">
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
+                <h2 className="text-3xl font-bold mb-4">{medic?.numeMedic} {medic?.prenumeMedic}</h2>
                 <p className="mb-2"><strong>Email:</strong> {medic.emailMedic}</p>
                 <p className="mb-2"><strong>Phone number:</strong> {medic.telefonMedic}</p>
                 <p className="mb-2"><strong>University:</strong> {medic.universitate}</p>

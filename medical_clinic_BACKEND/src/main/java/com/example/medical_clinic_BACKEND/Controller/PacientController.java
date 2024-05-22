@@ -62,7 +62,7 @@ public class PacientController {
 
         String jwtToken = Jwts.builder()
                 .setSubject(pacient.getEmailPacient())
-                .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                .setExpiration(new Date(System.currentTimeMillis() + 900000))
                 .signWith(key)
                 .compact();
 
@@ -85,7 +85,7 @@ public class PacientController {
 
             String jwtToken = Jwts.builder()
                     .setSubject(emailPacient)
-                    .setExpiration(new Date(System.currentTimeMillis() + 120000))
+                    .setExpiration(new Date(System.currentTimeMillis() + 900000))
                     .signWith(key)
                     .compact();
 

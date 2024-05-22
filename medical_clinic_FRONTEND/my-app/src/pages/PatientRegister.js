@@ -51,6 +51,7 @@ function PatientRegister() {
                 console.log('Logged in:', data);
 
                 localStorage.setItem('jwtToken', data.jwtToken);
+                localStorage.setItem('jwtTokenExpiry', Date.now() + 900 * 1000);
                 localStorage.setItem('user', JSON.stringify({userType: 'pacient', userData: data.pacient}));
                 setUser({userType: 'pacient', userData: data.pacient});
 

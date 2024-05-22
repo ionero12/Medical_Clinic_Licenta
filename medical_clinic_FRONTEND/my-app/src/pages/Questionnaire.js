@@ -4,8 +4,13 @@ import PatientMenu from "../components/PatientMenu";
 import DiseaseModal from "../components/DiseaseModal";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {useNavigate} from "react-router-dom";
+import {useUser} from "../user/UserContext";
 
 const Questionnaire = () => {
+    const navigate = useNavigate();
+    const {setUser} = useUser();
+
     const [modalOpen, setModalOpen] = useState(false);
     const [responseData, setResponseData] = useState(null);
     const [symptoms, setSymptoms] = useState('');
@@ -25,6 +30,14 @@ const Questionnaire = () => {
             .catch(error => {
                 console.error('Error:', error);
             });
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
     };
 
     return (<div>

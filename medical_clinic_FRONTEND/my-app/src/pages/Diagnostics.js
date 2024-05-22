@@ -7,9 +7,12 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const Diagnostics = () => {
     Modal.setAppElement('#root');
+    const navigate = useNavigate();
+    const {setUser} = useUser();
 
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
@@ -33,7 +36,15 @@ const Diagnostics = () => {
                     setDiagnostics(data);
                 });
         }
-    }, [idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idPacient, navigate, setUser]);
 
     useEffect(() => {
         if (idPacient) {
@@ -45,7 +56,15 @@ const Diagnostics = () => {
                     setValoareAnalize(valoareAnalizeData);
                 });
         }
-    }, [idPacient]);
+
+        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
+            setUser(null);
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('jwtTokenExpiry');
+            localStorage.removeItem('user');
+            navigate('/login');
+        }
+    }, [idPacient, navigate, setUser]);
 
 
     const handleAddAnaliza = async (event) => {
