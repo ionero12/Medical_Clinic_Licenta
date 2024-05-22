@@ -27,7 +27,7 @@ const PatientMenu = () => {
             </Link>
             <Link to="/pacient/chestionar"
                   className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
-                Questionnaire
+                Symptoms Checker
             </Link>
             <Link to="/pacient/prices"
                   className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">

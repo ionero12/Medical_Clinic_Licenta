@@ -1,9 +1,12 @@
 package com.example.medical_clinic_BACKEND.Controller;
 
+import com.example.medical_clinic_BACKEND.Model.Boala;
 import com.example.medical_clinic_BACKEND.Model.Symptoms;
+import com.example.medical_clinic_BACKEND.Repository.BoalaRepository;
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
 import org.jpmml.evaluator.*;
+import org.jpmml.model.PMMLUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,17 +22,19 @@ import java.util.*;
 public class SymptomController {
 
     private final SpecializareController specializareController;
+    private final BoalaRepository boalaRepository;
     private final Evaluator evaluator;
 
-    public SymptomController(SpecializareController specializareController) throws Exception {
+    public SymptomController(SpecializareController specializareController, BoalaRepository boalaRepository) throws Exception {
         PMML pmml;
         try (InputStream in = new FileInputStream("src/main/resources/gaussian_nb_model.pmml")) {
-            pmml = org.jpmml.model.PMMLUtil.unmarshal(in);
+            pmml = PMMLUtil.unmarshal(in);
         }
 
         ModelEvaluatorBuilder modelEvaluatorBuilder = new ModelEvaluatorBuilder(pmml);
         this.evaluator = modelEvaluatorBuilder.build();
         this.specializareController = specializareController;
+        this.boalaRepository = boalaRepository;
     }
 
     @PostMapping
@@ -47,7 +52,6 @@ public class SymptomController {
         specializationToDiseases.put("Infectious", Arrays.asList("Typhoid", "Malaria", "Chicken pox", "Dengue", "Common Cold"));
         specializationToDiseases.put("Pneumology", Arrays.asList("Pneumonia", "Bronchial Asthma"));
         specializationToDiseases.put("Hematology", List.of("Dimorphic Hemorrhoids"));
-
 
         if (symptoms != null && symptoms.getPatientDescriptionOfSymptoms() != null) {
             System.out.println("Received Symptom: " + symptoms.getPatientDescriptionOfSymptoms());
@@ -67,20 +71,17 @@ public class SymptomController {
 
             if (targetValue instanceof ProbabilityDistribution distribution) {
                 String predictedDisease = (String) distribution.getResult();
-                System.out.println("Predicted disease: " + predictedDisease);
                 for (Map.Entry<String, List<String>> entry : specializationToDiseases.entrySet()) {
                     if (entry.getValue().contains(predictedDisease)) {
-                        return ResponseEntity.ok("The disease that matches your symptoms is: " + predictedDisease + ".\n Please consult a doctor from " + entry.getKey() + " for further evaluation.");
+                        // Fetch the Boala entity that matches your predictedDisease
+                        Boala boala = boalaRepository.findByName(predictedDisease);
+                        if (boala != null) {
+                            return ResponseEntity.ok("The disease that matches your symptoms is: " + boala.getNumeBoala() + ".\nDescription: " + boala.getDescriereBoala() + "\nPlease consult a doctor from " + entry.getKey() + " for further evaluation.");
+                        }
                     }
                 }
-                return ResponseEntity.ok("The disease that matches your symptoms is: " + predictedDisease);
-            } else {
-                System.out.println("The model did not return a probability distribution.");
-                return ResponseEntity.badRequest().build();
             }
-        } else {
-            System.out.println("Received Symptom: null");
-            return ResponseEntity.badRequest().build();
         }
+        return ResponseEntity.badRequest().body("Invalid input");
     }
 }
