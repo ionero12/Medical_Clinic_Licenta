@@ -7,10 +7,12 @@ import com.example.medical_clinic_BACKEND.Service.PacientService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.crypto.SecretKey;
 import java.util.*;
@@ -54,7 +56,7 @@ public class PacientController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addPacient(@RequestBody Pacient pacient) {
+    public ResponseEntity<?> addPacient(@Valid @RequestBody Pacient pacient) {
         pacientService.addPacient(pacient);
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 

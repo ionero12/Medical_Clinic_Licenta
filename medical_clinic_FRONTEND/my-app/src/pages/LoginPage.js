@@ -100,6 +100,7 @@ function LoginPage() {
                                     value={emailMedic}
                                     onChange={(e) => setEmailMedic(e.target.value)}
                                     className="border border-gray-600 rounded p-2 mb-4 text-sm"
+                                    required={true}
                                 />
                                 <input
                                     type="password"
@@ -107,6 +108,8 @@ function LoginPage() {
                                     value={parolaMedic}
                                     onChange={(e) => setParolaMedic(e.target.value)}
                                     className="border border-gray-600 rounded p-2 mb-4 text-sm"
+                                    minLength={4}
+                                    required={true}
                                 />
                             </>)}
 

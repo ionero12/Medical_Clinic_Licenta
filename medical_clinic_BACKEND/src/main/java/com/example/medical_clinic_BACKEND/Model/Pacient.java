@@ -2,10 +2,12 @@ package com.example.medical_clinic_BACKEND.Model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,7 @@ public class Pacient {
     @Column(name = "abonament_pacient", nullable = false)
     private Character abonamentPacient;
 
+    @Size(min=4, message = "Password must have at least 4 characters")
     @Column(name = "parola_pacient", nullable = false)
     private String parolaPacient;
 

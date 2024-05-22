@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,20 +29,20 @@ public class Medic {
     @Column(name = "prenume_medic", nullable = false, length = 64)
     private String prenumeMedic;
 
-    @Past(message = "Date of birth must be a past date")
     @Column(name = "data_nastere_medic", nullable = false)
+    @Past(message = "Date of birth must be a past date")
     private LocalDate dataNastereMedic;
 
-    @Pattern(regexp = "^[1-9][0-9]{12}$", message = "CNP must be a 13-digit number starting from 1 to 9")
     @Column(name = "cnp_medic", nullable = false)
+    @Pattern(regexp = "^[1-9][0-9]{12}$", message = "CNP must be a 13-digit number starting from 1 to 9")
     private String cnpMedic;
 
-    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be a 10-digit number")
     @Column(name = "telefon_medic", nullable = false, length = 16)
+    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be a 10-digit number")
     private String telefonMedic;
 
-    @Email(message = "Email should be valid")
     @Column(name = "email_medic", nullable = false, length = 128)
+    @Email(message = "Email should be valid")
     private String emailMedic;
 
     @JsonBackReference(value="medic-specializare")
@@ -49,6 +51,7 @@ public class Medic {
     private Specializare specializare;
 
     @Column(name = "parola_medic", nullable = false, length = 64)
+    @Size(min=4, message = "Password must have at least 4 characters")
     private String parolaMedic;
 
     @JsonManagedReference(value="medic-consultatii")
