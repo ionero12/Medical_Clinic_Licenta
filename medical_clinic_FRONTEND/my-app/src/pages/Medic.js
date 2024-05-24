@@ -50,10 +50,10 @@ const Medic = () => {
         <div className="flex flex-col md:flex-row mt-2">
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
                 <h2 className="text-3xl font-bold mb-4">{medic?.numeMedic} {medic?.prenumeMedic}</h2>
-                <p className="mb-2"><strong>Email:</strong> {medic.emailMedic}</p>
-                <p className="mb-2"><strong>Phone number:</strong> {medic.telefonMedic}</p>
-                <p className="mb-2"><strong>University:</strong> {medic.universitate}</p>
-                <p className="mb-2"><strong>Experience:</strong> {medic.experienta} years in the field</p>
+                <p className="mb-2"><strong>Email:</strong> {medic?.emailMedic}</p>
+                <p className="mb-2"><strong>Phone number:</strong> {medic?.telefonMedic}</p>
+                <p className="mb-2"><strong>University:</strong> {medic?.universitate}</p>
+                <p className="mb-2"><strong>Experience:</strong> {medic?.experienta} years in the field</p>
                 <div className="mb-4">
                     <table className="table-auto">
                         <thead>
