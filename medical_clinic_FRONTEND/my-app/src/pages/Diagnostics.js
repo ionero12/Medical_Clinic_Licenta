@@ -52,7 +52,7 @@ const Diagnostics = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperatura" && item.valoare.numeValoare !== "Ritm cardiac" && item.valoare.numeValoare !== "Glucoza" && item.valoare.numeValoare !== "Presiune sistolica" && item.valoare.numeValoare !== "Presiune diastolica");
+                    let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperature" && item.valoare.numeValoare !== "Heart Rate" && item.valoare.numeValoare !== "Glucose" && item.valoare.numeValoare !== "Systolic Pressure" && item.valoare.numeValoare !== "Diastolic Pressure");
                     setValoareAnalize(valoareAnalizeData);
                 });
         }
@@ -105,7 +105,7 @@ const Diagnostics = () => {
 
                     setValoareAnalize(prevValoareAnalize => {
                         const updatedValoareAnalize = [...prevValoareAnalize, responseValoareAnaliza.data];
-                        return updatedValoareAnalize.filter(item => item.valoare.numeValoare !== "Temperatura" && item.valoare.numeValoare !== "Ritm cardiac" && item.valoare.numeValoare !== "Glucoza" && item.valoare.numeValoare !== "Presiune sistolica" && item.valoare.numeValoare !== "Presiune diastolica");
+                        return updatedValoareAnalize.filter(item => item.valoare.numeValoare !== "Temperature" && item.valoare.numeValoare !== "Heart Rate" && item.valoare.numeValoare !== "Glucose" && item.valoare.numeValoare !== "Systolic Pressure" && item.valoare.numeValoare !== "Diastolic Pressure");
                     });
 
                     toast.success('Analysis added successfully');
@@ -181,11 +181,11 @@ const Diagnostics = () => {
                                 className="mt-1"
                             >
                                 <option value="">Select an analysis</option>
-                                <option value="Temperatura">Temperature</option>
-                                <option value="Glucoza">Glucose</option>
-                                <option value="Ritm cardiac">Heart rate</option>
-                                <option value="Presiune sistolica">Systolic pressure</option>
-                                <option value="Presiune diastolica">Diastolic pressure</option>
+                                <option value="Temperature">Temperature</option>
+                                <option value="Glucose">Glucose</option>
+                                <option value="Heart Rate">Heart rate</option>
+                                <option value="Systolic Pressure">Systolic pressure</option>
+                                <option value="Diastolic Pressure">Diastolic pressure</option>
                             </select>
                         </label>
                         <label className="mb-2">

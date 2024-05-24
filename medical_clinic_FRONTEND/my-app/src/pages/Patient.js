@@ -79,7 +79,7 @@ const Patient = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperatura" && item.valoare.numeValoare !== "Ritm cardiac" && item.valoare.numeValoare !== "Glucoza" && item.valoare.numeValoare !== "Presiune sistolica" && item.valoare.numeValoare !== "Presiune diastolica");
+                    let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperature" && item.valoare.numeValoare !== "Heart Rate" && item.valoare.numeValoare !== "Glucose" && item.valoare.numeValoare !== "Systolic Pressure" && item.valoare.numeValoare !== "Diastolic Pressure");
                     setValoareAnalize(valoareAnalizeData);
                 })
                 .catch(error => {
@@ -135,7 +135,7 @@ const Patient = () => {
 
                     setValoareAnalize(prevValoareAnalize => {
                         const updatedValoareAnalize = [...prevValoareAnalize, responseValoareAnaliza.data];
-                        return updatedValoareAnalize.filter(item => item.valoare.numeValoare !== "Temperatura" && item.valoare.numeValoare !== "Ritm cardiac" && item.valoare.numeValoare !== "Glucoza" && item.valoare.numeValoare !== "Presiune sistolica" && item.valoare.numeValoare !== "Presiune diastolica");
+                        return updatedValoareAnalize.filter(item => item.valoare.numeValoare !== "Temperature" && item.valoare.numeValoare !== "Heart Rate" && item.valoare.numeValoare !== "Glucose" && item.valoare.numeValoare !== "Systolic Pressure" && item.valoare.numeValoare !== "Diastolic Pressure");
                     });
 
                     toast.success('Analysis added successfully');
