@@ -61,31 +61,31 @@ public class MedicController {
         return ResponseEntity.ok(response);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/login")
-    public ResponseEntity<?> loginMedic(@RequestBody Map<String, String> credentials) {
-        String emailMedic = credentials.get("emailMedic");
-        String parolaMedic = credentials.get("parolaMedic");
-        if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
-            Medic medic = medicService.findByEmail(emailMedic);
-
-            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-            String jwtToken = Jwts.builder()
-                    .setSubject(emailMedic)
-                    .setExpiration(new Date(System.currentTimeMillis() + 900000))
-                    .signWith(key)
-                    .compact();
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("jwtToken", jwtToken);
-            response.put("medic", medic);
-
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @PostMapping("/login")
+//    public ResponseEntity<?> loginMedic(@RequestBody Map<String, String> credentials) {
+//        String emailMedic = credentials.get("emailMedic");
+//        String parolaMedic = credentials.get("parolaMedic");
+//        if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
+//            Medic medic = medicService.findByEmail(emailMedic);
+//
+//            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//
+//            String jwtToken = Jwts.builder()
+//                    .setSubject(emailMedic)
+//                    .setExpiration(new Date(System.currentTimeMillis() + 900000))
+//                    .signWith(key)
+//                    .compact();
+//
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("jwtToken", jwtToken);
+//            response.put("medic", medic);
+//
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//    }
 
     @DeleteMapping(path = "{idMedic}")
     public void deleteMedic(@PathVariable("idMedic") Long idMedic) {
