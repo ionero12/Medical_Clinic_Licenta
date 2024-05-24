@@ -32,7 +32,7 @@ function LoginPage() {
             const emailField = userType === 'medic' ? 'emailMedic' : 'emailPacient';
             const parolaField = userType === 'medic' ? 'parolaMedic' : 'parolaPacient';
 
-            const response = await fetch(`http://localhost:8081/api/${userType}/login`, {
+            const response = await fetch(`http://localhost:8081/api/login/${userType}`, {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json',
                 }, body: JSON.stringify({
