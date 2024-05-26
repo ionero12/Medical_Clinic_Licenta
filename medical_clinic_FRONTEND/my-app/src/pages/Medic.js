@@ -90,7 +90,7 @@ const Medic = () => {
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                 {consultatii.filter(consultatie => consultatie.rating !== null).map((consultatie, index) => (
                     <div key={index}
-                         className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl">
+                         className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
                         <StarRating rating={consultatie.rating}/>
                         <p>{consultatie.feedback}</p>
                     </div>))}
