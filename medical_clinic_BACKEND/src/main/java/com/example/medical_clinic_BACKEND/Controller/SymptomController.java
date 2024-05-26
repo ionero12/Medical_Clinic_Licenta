@@ -21,19 +21,17 @@ import java.util.*;
 @RequestMapping("/api/pacient/chestionar")
 public class SymptomController {
 
-    private final SpecializareController specializareController;
     private final BoalaRepository boalaRepository;
     private final Evaluator evaluator;
 
-    public SymptomController(SpecializareController specializareController, BoalaRepository boalaRepository) throws Exception {
+    public SymptomController(BoalaRepository boalaRepository) throws Exception {
         PMML pmml;
-        try (InputStream in = new FileInputStream("src/main/resources/gaussian_nb_model.pmml")) {
+        try (InputStream in = new FileInputStream("src/main/resources/gaussian_nb_model_new2.pmml")) {
             pmml = PMMLUtil.unmarshal(in);
         }
 
         ModelEvaluatorBuilder modelEvaluatorBuilder = new ModelEvaluatorBuilder(pmml);
         this.evaluator = modelEvaluatorBuilder.build();
-        this.specializareController = specializareController;
         this.boalaRepository = boalaRepository;
     }
 
@@ -73,10 +71,10 @@ public class SymptomController {
                 String predictedDisease = (String) distribution.getResult();
                 for (Map.Entry<String, List<String>> entry : specializationToDiseases.entrySet()) {
                     if (entry.getValue().contains(predictedDisease)) {
-                        // Fetch the Boala entity that matches your predictedDisease
                         Boala boala = boalaRepository.findByName(predictedDisease);
                         if (boala != null) {
-                            return ResponseEntity.ok("The disease that matches your symptoms is: " + boala.getNumeBoala() + ".\nDescription: " + boala.getDescriereBoala() + "\nPlease consult a doctor from " + entry.getKey() + " for further evaluation.");
+                            String response = "The disease that matches your symptoms is: " + boala.getNumeBoala() + "\n" + "Description: " + boala.getDescriereBoala() + "\n" + "Please consult a doctor from " + entry.getKey() + " for further evaluation.";
+                            return ResponseEntity.ok(response);
                         }
                     }
                 }

@@ -13,10 +13,22 @@ const Questionnaire = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [responseData, setResponseData] = useState(null);
-    const [symptoms, setSymptoms] = useState('');
+    const [patientSymptoms, setPatientSymptoms] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        const fever = document.querySelector('input[name="fever"]:checked')?.value === "yes" ? "fever" : null;
+        const bloodystool = document.querySelector('input[name="bloody stool"]:checked')?.value === "yes" ? "bloody stool" : null;
+        const runnynose = document.querySelector('input[name="runny nose"]:checked')?.value === "yes" ? "runny nose" : null;
+        const headache = document.querySelector('input[name="headache"]:checked')?.value === "yes" ? "headache" : null;
+        const cough = document.querySelector('input[name="cough"]:checked')?.value === "yes" ? "cough" : null;
+
+        const symptomsArray = [fever, bloodystool, runnynose, headache, cough].filter(Boolean);
+
+        const symptomsText = symptomsArray.length ? ` Symptoms ${symptomsArray.join(', ')}.` : '';
+
+        const symptoms =  patientSymptoms + symptomsText;
 
         axios.post('http://localhost:8081/api/pacient/chestionar', symptoms, {
             headers: {
@@ -65,12 +77,65 @@ const Questionnaire = () => {
                         your condition.
                     </p>
                 </div>
+
+                <div className="text-center mt-4">
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you have fever?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="fever" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="fever" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you have bloody stool?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="bloody stool" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="bloody stool" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you have runny nose?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="runny nose" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="runny nose" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you have a headache?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="headache" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="headache" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you have a cough?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="cough" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="cough" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+                </div>
+
                 <form onSubmit={handleSubmit}>
           <textarea
               className="block w-full h-32 bg-gray-200 text-gray-700 border border-gray-200 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               placeholder="Enter your symptoms here"
-              value={symptoms}
-              onChange={(event) => setSymptoms(event.target.value)}
+              value={patientSymptoms}
+              onChange={(event) => setPatientSymptoms(event.target.value)}
           />
                     <div className="flex justify-center">
                         <input
