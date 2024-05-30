@@ -7,12 +7,11 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom";
+import api from '../user/api.js'
+
 
 const Diagnostics = () => {
     Modal.setAppElement('#root');
-    const navigate = useNavigate();
-    const {setUser} = useUser();
 
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
@@ -27,44 +26,37 @@ const Diagnostics = () => {
     const [numeValoare, setNumeValoare] = useState('');
     const [rezultatValoare, setRezultatValoare] = useState('');
 
+    useEffect(() => {
+        const fetchDiagnostics = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/diagnostic/pacient?idPacient=${idPacient}`);
+                    setDiagnostics(response.data);
+                } catch (error) {
+                    console.error('Failed to fetch diagnostics', error);
+                }
+            }
+        };
+
+        fetchDiagnostics();
+    }, [idPacient]);
 
     useEffect(() => {
-        if (idPacient) {
-            fetch(`http://localhost:8081/api/diagnostic/pacient?idPacient=${idPacient}`)
-                .then(response => response.json())
-                .then(data => {
-                    setDiagnostics(data);
-                });
-        }
-
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idPacient, navigate, setUser]);
-
-    useEffect(() => {
-        if (idPacient) {
-            fetch(`http://localhost:8081/api/valoare_analize/pacient?idPacient=${idPacient}`)
-                .then(response => response.json())
-                .then(data => {
-                    setData(data);
+        const fetchValoriAnalize = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/valoare_analize/pacient?idPacient=${idPacient}`);
+                    setData(response.data);
                     let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperature" && item.valoare.numeValoare !== "Heart Rate" && item.valoare.numeValoare !== "Glucose" && item.valoare.numeValoare !== "Systolic Pressure" && item.valoare.numeValoare !== "Diastolic Pressure");
                     setValoareAnalize(valoareAnalizeData);
-                });
-        }
+                } catch (error) {
+                    console.error('Failed to fetch valoare analize', error);
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idPacient, navigate, setUser]);
+        fetchValoriAnalize();
+    }, [idPacient, data]);
 
 
     const handleAddAnaliza = async (event) => {
@@ -131,7 +123,6 @@ const Diagnostics = () => {
         setRezultatValoare('');
         setAddAnalizaModalIsOpen(false);
     }
-
 
     return (<div className="p-6">
         <PatientMenu/>

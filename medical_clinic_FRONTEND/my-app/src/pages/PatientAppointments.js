@@ -9,12 +9,11 @@ import {toast, ToastContainer} from "react-toastify";
 import {useUser} from '../user/UserContext';
 import PatientMenu from '../components/PatientMenu';
 import StarRating from '../components/StarRating';
-import {useNavigate} from "react-router-dom";
+import api from '../user/api.js'
+
 
 const PatientAppointments = () => {
     Modal.setAppElement('#root')
-    const navigate = useNavigate();
-    const {setUser} = useUser();
 
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
@@ -37,66 +36,55 @@ const PatientAppointments = () => {
 
     const [uniqueAppointments, setUniqueAppointments] = useState([]);
 
-
     useEffect(() => {
-        if (idPacient) {
-            fetch(`http://localhost:8081/api/consultatie/pacient?idPacient=${idPacient}`)
-                .then(response => response.json())
-                .then(data => {
+        const fetchConsultations = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/consultatie/pacient?idPacient=${idPacient}`);
                     const currentDate = new Date();
-                    const past = data.filter(appointment => new Date(appointment.dataConsultatiei) <= currentDate);
-                    const upcoming = data.filter(appointment => new Date(appointment.dataConsultatiei) > currentDate);
+                    const past = response.data.filter(appointment => new Date(appointment.dataConsultatiei) <= currentDate);
+                    const upcoming = response.data.filter(appointment => new Date(appointment.dataConsultatiei) > currentDate);
                     setPastAppointments(past);
                     setUpcomingAppointments(upcoming);
-                });
-        }
+                } catch (error) {
+                    console.error('Error fetching consultations:', error);
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idPacient, navigate, setUser]);
+        fetchConsultations();
+    }, [idPacient]);
 
     useEffect(() => {
-        fetch('http://localhost:8081/api/consultatie')
-            .then(response => response.json())
-            .then(data => {
-                const uniqueAppointments = data.filter((appointment, index, self) => index === self.findIndex((t) => (t.numeConsultatie === appointment.numeConsultatie)));
+        const fetchAppointments = async () => {
+            try {
+                const response = await api.get('/consultatie');
+                const uniqueAppointments = response.data.filter((appointment, index, self) => index === self.findIndex((t) => (t.numeConsultatie === appointment.numeConsultatie)));
                 setUniqueAppointments(uniqueAppointments);
-            })
-            .catch(error => console.error('Error fetching appointments:', error));
+            } catch (error) {
+                console.error('Error fetching appointments:', error);
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [navigate, setUser]);
+        fetchAppointments();
+    }, []);
 
     useEffect(() => {
-        if (numeConsultatie) {
-            const specialization = numeConsultatie.split(" ")[0];
-            fetch(`http://localhost:8081/api/medic/specializare?specializare=${specialization}`)
-                .then(response => response.json())
-                .then(data => {
-                    setMedics(data);
-                })
-                .catch(error => console.error('Error fetching doctors:', error));
-        }
+        const fetchDoctors = async () => {
+            if (numeConsultatie) {
+                const specialization = numeConsultatie.split(" ")[0];
+                try {
+                    const response = await api.get(`/medic/specializare?specializare=${specialization}`);
+                    setMedics(response.data);
+                } catch (error) {
+                    console.error('Error fetching doctors:', error);
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [numeConsultatie, navigate, setUser]);
+        fetchDoctors();
+    }, [numeConsultatie]);
+
 
     const handleAddAppointment = async (event) => {
         event.preventDefault();
@@ -263,9 +251,8 @@ const PatientAppointments = () => {
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
-                    {pastAppointments.map(appointment => (
-                        <div key={appointment.idConsultatie}
-                             className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2 flex justify-between items-center">
+                    {pastAppointments.map(appointment => (<div key={appointment.idConsultatie}
+                                                               className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2 flex justify-between items-center">
                             <div>
                                 <p>
                                     Appointment name: {appointment.numeConsultatie}
@@ -284,46 +271,45 @@ const PatientAppointments = () => {
                                 className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
                                 Add feedback <FontAwesomeIcon icon={faPlus}/>
                             </button>
-                        <Modal
-                        isOpen={addFeedbackModalIsOpen}
-                     onRequestClose={closeAddFeedbackModal}
-                     contentLabel="Add Feedback Medic"
-                     className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
-                >
-                    <form onSubmit={handleAddFeedback} className="flex flex-col">
-                        <label className="mb-2">
-                            Select the rating:
-                            <StarRating onRatingChange={handleRatingChange}/>
-                        </label>
-                        <label className="mb-2">
-                            Add feedback:
-                            <input
-                                type="text"
-                                value={feedback}
-                                onChange={(e) => setFeedback(e.target.value)}
-                            />
-                        </label>
-                        <input type="submit" value="Submit"
-                               className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
-                    </form>
-                </Modal>
-            </div>
-            ))}
-        </div>
-        <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold mb-2">Upcoming Appointments</h2>
-                <button
-                    onClick={openAddAppointmentModal}
-                    className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2 transition duration-200`}>
-                    Add appointment <FontAwesomeIcon icon={faPlus}/>
-                </button>
-            </div>
-            <Modal
-                isOpen={addAppointmentModalIsOpen}
-                onRequestClose={closeAddAppointmentModal}
-                contentLabel="Add AppointmentMedic"
-                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                            <Modal
+                                isOpen={addFeedbackModalIsOpen}
+                                onRequestClose={closeAddFeedbackModal}
+                                contentLabel="Add Feedback Medic"
+                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                            >
+                                <form onSubmit={handleAddFeedback} className="flex flex-col">
+                                    <label className="mb-2">
+                                        Select the rating:
+                                        <StarRating onRatingChange={handleRatingChange}/>
+                                    </label>
+                                    <label className="mb-2">
+                                        Add feedback:
+                                        <input
+                                            type="text"
+                                            value={feedback}
+                                            onChange={(e) => setFeedback(e.target.value)}
+                                        />
+                                    </label>
+                                    <input type="submit" value="Submit"
+                                           className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                                </form>
+                            </Modal>
+                        </div>))}
+                </div>
+                <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-bold mb-2">Upcoming Appointments</h2>
+                        <button
+                            onClick={openAddAppointmentModal}
+                            className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded mb-2 transition duration-200`}>
+                            Add appointment <FontAwesomeIcon icon={faPlus}/>
+                        </button>
+                    </div>
+                    <Modal
+                        isOpen={addAppointmentModalIsOpen}
+                        onRequestClose={closeAddAppointmentModal}
+                        contentLabel="Add AppointmentMedic"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">

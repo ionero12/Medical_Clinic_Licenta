@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import MedicMenu from "../components/MedicMenu";
-import {useUser} from "../user/UserContext";
 import Modal from "react-modal";
 import axios from "axios";
 import 'animate.css/animate.min.css';
@@ -9,11 +8,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import TemperatureChart from "../components/ChartComponent";
 import {toast, ToastContainer} from "react-toastify";
+import api from '../user/api.js'
+import {useUser} from "../user/UserContext";
+
+
 
 const Patient = () => {
     Modal.setAppElement('#root')
-    const navigate = useNavigate();
-    const {setUser} = useUser();
+
+    const {user} = useUser();
+    const idMedic = user ? user.userData.idMedic : null;
 
     const [patient, setPatient] = useState(null);
     const {idPacient} = useParams();
@@ -32,69 +36,51 @@ const Patient = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        if (idPacient) {
-            fetch(`http://localhost:8081/api/pacient/${idPacient}`)
-                .then(response => response.json())
-                .then(data => {
-                    setPatient(data);
-                })
-                .catch(error => {
+        const fetchPatient = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/pacient/${idPacient}`);
+                    setPatient(response.data);
+                } catch (error) {
                     console.error('Error fetching patient data:', error);
-                });
-        }
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idPacient, navigate, setUser]);
+        fetchPatient();
+    }, [idPacient]);
 
     useEffect(() => {
-        if (idPacient) {
-            fetch(`http://localhost:8081/api/diagnostic/pacient?idPacient=${idPacient}`)
-                .then(response => response.json())
-                .then(data => {
-                    setDiagnostics(data);
-                })
-                .catch(error => {
+        const fetchDiagnostics = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/diagnostic/pacient?idPacient=${idPacient}`);
+                    setDiagnostics(response.data);
+                } catch (error) {
                     console.error('Error fetching diagnostic data:', error);
-                });
-        }
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idPacient, navigate, setUser]);
+        fetchDiagnostics();
+    }, [idPacient]);
 
     useEffect(() => {
-        if (idPacient) {
-            fetch(`http://localhost:8081/api/valoare_analize/pacient?idPacient=${idPacient}`)
-                .then(response => response.json())
-                .then(data => {
-                    setData(data);
+        const fetchValoareAnalize = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/valoare_analize/pacient?idPacient=${idPacient}`);
+                    setData(response.data);
                     let valoareAnalizeData = data.filter(item => item.valoare.numeValoare !== "Temperature" && item.valoare.numeValoare !== "Heart Rate" && item.valoare.numeValoare !== "Glucose" && item.valoare.numeValoare !== "Systolic Pressure" && item.valoare.numeValoare !== "Diastolic Pressure");
                     setValoareAnalize(valoareAnalizeData);
-                })
-                .catch(error => {
+                } catch (error) {
                     console.error('Error fetching valoare analize data:', error);
-                });
-        }
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idPacient, navigate, setUser]);
+        fetchValoareAnalize();
+    }, [idPacient, data]);
 
 
     const handleAddAnaliza = async (event) => {
@@ -215,7 +201,6 @@ const Patient = () => {
         setAddDiagnosticModalIsOpen(false);
     }
 
-
     return (<div>
         <ToastContainer
             position="top-right"
@@ -227,7 +212,7 @@ const Patient = () => {
             theme="light"
         />
         <div className="p-6">
-            <MedicMenu/>
+            <MedicMenu medicId = {idMedic}/>
             <div className="flex flex-col md:flex-row mt-2">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
                     <h2 className="text-3xl font-bold mb-4">{patient?.numePacient} {patient?.prenumePacient}</h2>

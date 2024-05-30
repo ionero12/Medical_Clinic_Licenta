@@ -1,24 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {useUser} from '../user/UserContext'; // import useUser
 import PatientMenu from '../components/PatientMenu';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
+import api from '../user/api.js'
+
 
 const PatientDashboard = () => {
-    const navigate = useNavigate();
-    const {setUser} = useUser();
-
     const [medics, setMedics] = useState([]);
     const {user} = useUser(); // get user from the user context
     const idPacient = user ? user.userData.idPacient : null; // get patient ID from the user
-    
-    useEffect(() => {
-        if (user && idPacient) {
-            const urlMedics = `http://localhost:8081/api/medic`;
 
-            fetch(urlMedics)
-                .then(response => response.json())
-                .then(data => {
-                    const medicsWithSpecialization = data.map(medic => {
+    useEffect(() => {
+        const fetchMedics = async () => {
+            if (user && idPacient) {
+                try {
+                    const response = await api.get(`/medic`);
+                    const medicsWithSpecialization = response.data.map(medic => {
                         if (medic.consultatii.length > 0) {
                             const specializare = medic.consultatii[0].numeConsultatie.split(' ')[0];
                             return {...medic, specializare};
@@ -27,17 +24,14 @@ const PatientDashboard = () => {
                         }
                     });
                     setMedics(medicsWithSpecialization);
-                });
-        }
+                } catch (error) {
+                    console.error('Error fetching medics:', error);
+                }
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [user, idPacient, navigate, setUser]);
+        fetchMedics();
+    }, [user, idPacient]);
 
     return (<div className="p-6">
         <PatientMenu/>
@@ -46,7 +40,7 @@ const PatientDashboard = () => {
                 {medics.map((medic) => (<div key={medic.idMedic} className="p-4">
                     <div
                         className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl">
-                    <Link to={`/medic/${medic.idMedic}`}
+                        <Link to={`/medic/${medic.idMedic}`}
                               className="flex flex-col items-center text-center ">
                             <h2 className="text-xl font-bold mb-2">{medic.numeMedic} {medic.prenumeMedic}</h2>
                             <p className="text-gray-700">Specialization: {medic.specializare}</p>

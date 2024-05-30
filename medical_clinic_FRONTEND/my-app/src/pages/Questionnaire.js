@@ -1,21 +1,18 @@
 import React, {useState} from "react";
-import axios from 'axios';
 import PatientMenu from "../components/PatientMenu";
 import DiseaseModal from "../components/DiseaseModal";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {useNavigate} from "react-router-dom";
-import {useUser} from "../user/UserContext";
+import api from '../user/api.js'
+
 
 const Questionnaire = () => {
-    const navigate = useNavigate();
-    const {setUser} = useUser();
 
     const [modalOpen, setModalOpen] = useState(false);
     const [responseData, setResponseData] = useState(null);
     const [patientSymptoms, setPatientSymptoms] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const fever = document.querySelector('input[name="fever"]:checked')?.value === "yes" ? "fever" : null;
@@ -28,9 +25,9 @@ const Questionnaire = () => {
 
         const symptomsText = symptomsArray.length ? ` Symptoms ${symptomsArray.join(', ')}.` : '';
 
-        const symptoms =  patientSymptoms + symptomsText;
+        const symptoms = patientSymptoms + symptomsText;
 
-        axios.post('http://localhost:8081/api/pacient/chestionar', symptoms, {
+        api.post('/pacient/chestionar', symptoms, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -42,14 +39,6 @@ const Questionnaire = () => {
             .catch(error => {
                 console.error('Error:', error);
             });
-
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
     };
 
     return (<div>

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Modal from "react-modal";
-import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css/animate.min.css';
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -9,12 +8,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {toast, ToastContainer} from "react-toastify";
 import {useUser} from '../user/UserContext';
 import MedicMenu from '../components/MedicMenu';
+import api from '../user/api.js'
 
 
 const MedicAppointments = () => {
     Modal.setAppElement('#root')
-    const navigate = useNavigate();
-    const {setUser} = useUser();
 
     const {user} = useUser();
     const idMedic = user ? user.userData.idMedic : null;
@@ -22,8 +20,8 @@ const MedicAppointments = () => {
     const [pastAppointments, setPastAppointments] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
 
-
     const [cnpPacient, setCnpPacient] = useState('');
+    const [patients, setPatients] = useState([]);
     const [idConsultatie, setIdConsultatie] = useState('');
     const [numeConsultatie, setNumeConsultatie] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
@@ -32,29 +30,35 @@ const MedicAppointments = () => {
     const [addModalIsOpen, setAddModalIsOpen] = useState(false);
     const [editModalIsOpen, setEditModalIsOpen] = useState(false);
 
+    useEffect(() => {
+        const fetchConsultatiiMedic = async () => {
+            try {
+                const response = await api.get(`/consultatie/medic?idMedic=${idMedic}`);
+                const currentDate = new Date();
+                const past = response.data.filter(appointment => new Date(appointment.dataConsultatiei) <= currentDate);
+                const upcoming = response.data.filter(appointment => new Date(appointment.dataConsultatiei) > currentDate);
+                setPastAppointments(past);
+                setUpcomingAppointments(upcoming);
+                setNumeConsultatie(response.data[0].numeConsultatie);
+            } catch (error) {
+                console.log('Failed to fetch consultatii medic', error);
+            }
+        };
+
+        fetchConsultatiiMedic();
+    }, [idMedic]);
 
     useEffect(() => {
-        if (idMedic) {
-            fetch(`http://localhost:8081/api/consultatie/medic?idMedic=${idMedic}`)
-                .then(response => response.json())
-                .then(data => {
-                    const currentDate = new Date();
-                    const past = data.filter(appointment => new Date(appointment.dataConsultatiei) <= currentDate);
-                    const upcoming = data.filter(appointment => new Date(appointment.dataConsultatiei) > currentDate);
-                    setPastAppointments(past);
-                    setUpcomingAppointments(upcoming);
-                    setNumeConsultatie(data[0].numeConsultatie);
-                });
+        const fetchPatients = async () => {
+            try {
+                const response = await api.get(`/pacient`);
+                setPatients(response.data);
+            } catch (error) {
+                console.log('Failed to fetch patients', error);
+            }
         }
-
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idMedic, navigate, setUser]);
+        fetchPatients();
+    }, []);
 
 
     const handleAddAppointment = async (event) => {
@@ -174,7 +178,6 @@ const MedicAppointments = () => {
         setEditModalIsOpen(false);
     }
 
-
     return (<div>
         <ToastContainer
             position="top-right"
@@ -186,7 +189,7 @@ const MedicAppointments = () => {
             theme="light"
         />
         <div className="p-6">
-            <MedicMenu/>
+            <MedicMenu medicId = {idMedic}/>
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
@@ -220,10 +223,14 @@ const MedicAppointments = () => {
                     >
                         <form onSubmit={handleAddAppointment} className="flex flex-col">
                             <label className="mb-2">
-                                Patient CNP:
-                                <input type="text" value={cnpPacient}
-                                       onChange={e => setCnpPacient(e.target.value)} required
-                                       className="mt-1"/>
+                                Patient name:
+                                <select value={cnpPacient} onChange={e => setCnpPacient(e.target.value)} required
+                                        className="mt-1">
+                                    <option value="">Select name</option>
+                                    {patients.map(patient => (
+                                        <option key={patient.cnpPacient} value={patient.cnpPacient}>{`${patient.numePacient} ${patient.prenumePacient}`}</option>
+                                    ))}
+                                </select>
                             </label>
                             <label className="mb-2">
                                 Select the date:

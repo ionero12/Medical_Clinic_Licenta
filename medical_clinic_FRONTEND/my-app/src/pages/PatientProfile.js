@@ -1,30 +1,54 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useUser} from "../user/UserContext";
-import axios from "axios";
 import PatientMenu from "../components/PatientMenu";
 import profilePic from '../assets/images/profilePic.png';
-import {useNavigate} from "react-router-dom";
+import api from '../user/api.js'
+import {toast, ToastContainer} from "react-toastify";
+
 
 function PatientProfile() {
-    const navigate = useNavigate();
-    const {setUser} = useUser();
-
     const {user} = useUser();
     const idPacient = user ? user.userData.idPacient : null;
-    const [emailPacient, setEmailPacient] = useState(user ? user.userData.emailPacient : '');
-    const [parolaPacient, setParolaPacient] = useState(user ? user.userData.parolaPacient : '');
-    const [numePacient, setNumePacient] = useState(user ? user.userData.numePacient : '');
-    const [prenumePacient, setPrenumePacient] = useState(user ? user.userData.prenumePacient : '');
-    const [telefonPacient, setTelefonPacient] = useState(user ? user.userData.telefonPacient : '');
-    const [greutatePacient, setGreutatePacient] = useState(user ? user.userData.greutatePacient : '');
-    const [inaltimePacient, setInaltimePacient] = useState(user ? user.userData.inaltimePacient : '');
-    const [varstaPacient, setVarstaPacient] = useState(user ? user.userData.varstaPacient : '');
-    const [asigurat, setAsigurat] = useState(user ? user.userData.asigurat : '');
-    const [abonamentPacient, setAbonamentPacient] = useState(user ? user.userData.abonamentPacient : '');
+
+    const [emailPacient, setEmailPacient] = useState('');
+    const [parolaPacient, setParolaPacient] = useState('');
+    const [numePacient, setNumePacient] = useState('');
+    const [prenumePacient, setPrenumePacient] = useState('');
+    const [telefonPacient, setTelefonPacient] = useState('');
+    const [greutatePacient, setGreutatePacient] = useState('');
+    const [inaltimePacient, setInaltimePacient] = useState('');
+    const [varstaPacient, setVarstaPacient] = useState('');
+    const [asigurat, setAsigurat] = useState('');
+    const [abonamentPacient, setAbonamentPacient] = useState('');
+
+    useEffect(() => {
+        const fetchPacient = async () => {
+            if (idPacient) {
+                try {
+                    const response = await api.get(`/pacient/${idPacient}`);
+                    const data = response.data;
+                    setEmailPacient(data.emailPacient || '');
+                    setParolaPacient(data.parolaPacient || '');
+                    setNumePacient(data.numePacient || '');
+                    setPrenumePacient(data.prenumePacient || '');
+                    setTelefonPacient(data.telefonPacient || '');
+                    setGreutatePacient(data.greutatePacient || '');
+                    setInaltimePacient(data.inaltimePacient || '');
+                    setVarstaPacient(data.varstaPacient || '');
+                    setAsigurat(data.asigurat || '');
+                    setAbonamentPacient(data.abonamentPacient || '');
+                } catch (error) {
+                    console.error('Error fetching patient:', error);
+                }
+            }
+        };
+
+        fetchPacient();
+    }, [idPacient]);
 
     const updatePacientProfile = async () => {
         try {
-            const response = await axios.put(`http://localhost:8081/api/pacient/${idPacient}`, null, {
+            const response = await api.put(`/pacient/${idPacient}`, null, {
                 params: {
                     emailPacient,
                     parolaPacient,
@@ -39,21 +63,31 @@ function PatientProfile() {
                 }
             });
 
-            console.log('Patient profile updated successfully:', response.data);
+            toast.success('Medic profile updated successfully');
         } catch (error) {
-            console.error('Error updating patient profile:', error);
-        }
-
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
+            if (error.response && error.response.data) {
+                const errorData = error.response.data;
+                for (const [field, message] of Object.entries(errorData)) {
+                    toast.error(`Error: ${message}`);
+                }
+            } else {
+                toast.error('Error updating medic profile');
+            }
+            console.error('Error updating medic profile:', error);
         }
     };
 
-    return (<div className="p-6">
+    return (<div>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            draggable
+            theme="light"
+        />
+        <div className="p-6">
             <PatientMenu/>
             <div className="pt-5 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
                 <div className="bg-white grid md:grid-cols-3 grid-cols-1 gap-4 p-2">
@@ -118,8 +152,8 @@ function PatientProfile() {
                         </label>
                         <div className="flex justify-center items-end text-lg w-full">
                             <button onClick={updatePacientProfile}
-                                    className="mt-4 mb-4 p-3 bg-blue-700 hover:bg-blue-900 text-white cursor-pointer rounded">Update
-                                Profile
+                                    className="mt-4 mb-4 p-3 bg-blue-700 hover:bg-blue-900 text-white cursor-pointer rounded">
+                                Update Profile
                             </button>
                         </div>
                     </div>
@@ -163,7 +197,8 @@ function PatientProfile() {
                     </div>
                 </div>
             </div>
-        </div>);
+        </div>
+    </div>);
 }
 
 export default PatientProfile;

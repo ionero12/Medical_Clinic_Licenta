@@ -1,33 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import PatientMenu from "../components/PatientMenu";
-import {useNavigate} from "react-router-dom";
-import {useUser} from "../user/UserContext";
+import api from '../user/api.js'
 
 
 const Prices = () => {
-    const navigate = useNavigate();
-    const {setUser} = useUser();
-
     const [consultatii, setConsultatii] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8081/api/consultatie/preturi')
-            .then(response => {
+        const fetchConsultatii = async () => {
+            try {
+                const response = await api.get('/consultatie/preturi');
                 setConsultatii(response.data);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('There was an error!', error);
-            });
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [navigate, setUser]);
+        fetchConsultatii();
+    }, []);
 
     return (<div className="p-6">
         <PatientMenu/>
