@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import SpecializationDropdown from "../components/SpecializationDropdown";
 import {useNavigate} from 'react-router-dom';
 import '../styles/RegisterPage.css';
-import {useUser} from "../user/UserContext";
 
 function MedicRegister() {
     const [emailMedic, setEmailMedic] = useState('');
@@ -16,7 +15,6 @@ function MedicRegister() {
     const [universitate, setUniversitate] = useState('');
     const [selectedSpecializationId, setSelectedSpecializationId] = useState('');
     const navigate = useNavigate();
-    const {setUser} = useUser();
 
     const handleRegistration = async () => {
         try {
@@ -36,12 +34,7 @@ function MedicRegister() {
                 const data = await response.json();  // parse the response as JSON
                 console.log('Logged in:', data);
 
-                localStorage.setItem('jwtToken', data.jwtToken);
-                localStorage.setItem('jwtTokenExpiry', Date.now() + 900 * 1000);
-                localStorage.setItem('user', JSON.stringify({userType: 'medic', userData: data.medic}));
-                setUser({userType: 'medic', userData: data.medic});
-
-                navigate('/medic/dashboard');
+                navigate('/login');
             } else {
                 console.log('Registration failed');
             }

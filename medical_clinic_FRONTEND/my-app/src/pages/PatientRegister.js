@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {useUser} from '../user/UserContext';
 import '../styles/RegisterPage.css';
 
 
@@ -19,8 +18,6 @@ function PatientRegister() {
     const [asigurat, setAsigurat] = useState('Y');
     const [abonamentPacient, setAbonamentPacient] = useState('Y');
     const navigate = useNavigate();
-    const {setUser} = useUser();
-
 
     const handleRegistration = async () => {
         try {
@@ -46,19 +43,12 @@ function PatientRegister() {
                 }, body: JSON.stringify(newUser)
             });
 
-            if (response.ok) {
+
                 const data = await response.json();
                 console.log('Logged in:', data);
 
-                localStorage.setItem('jwtToken', data.jwtToken);
-                localStorage.setItem('jwtTokenExpiry', Date.now() + 900 * 1000);
-                localStorage.setItem('user', JSON.stringify({userType: 'pacient', userData: data.pacient}));
-                setUser({userType: 'pacient', userData: data.pacient});
+                navigate('/login');
 
-                navigate('/pacient/dashboard');
-            } else {
-                console.log('Registration failed');
-            }
         } catch (error) {
             console.error('Error during registration:', error);
         }
