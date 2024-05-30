@@ -280,7 +280,7 @@ const PatientAppointments = () => {
                                 <form onSubmit={handleAddFeedback} className="flex flex-col">
                                     <label className="mb-2">
                                         Select the rating:
-                                        <StarRating onRatingChange={handleRatingChange}/>
+                                        <StarRating onRatingChange={handleRatingChange} editable={true}/>
                                     </label>
                                     <label className="mb-2">
                                         Add feedback:
