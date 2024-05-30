@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
-const MedicMenu = () => {
+const MedicMenu = ({medicId}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -21,12 +21,14 @@ const MedicMenu = () => {
                   className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
                 Appointments
             </Link>
-            {/* Add more menu items as needed */}
+            <Link to={`/medic/${medicId}`}
+                  className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
+                My page
+            </Link>
             <Link to="/medic/profile"
                   className="text-white hover:text-gray-400 text-xl hover:underline block px-4 py-3 md:inline-block">
                 Profile
             </Link>
-            {/* Add more menu items as needed */}
         </div>
     </div>);
 };

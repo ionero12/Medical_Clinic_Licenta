@@ -1,52 +1,47 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import PacientMenu from "../components/PatientMenu";
 import StarRating from "../components/StarRating";
+import api from '../user/api.js'
+import NavBar from "../components/NavBar";
 import {useUser} from "../user/UserContext";
 
+
 const Medic = () => {
-    const navigate = useNavigate();
-    const {setUser} = useUser();
+    const {user} = useUser();
 
     const [medic, setMedic] = useState(null);
     const [consultatii, setConsultatii] = useState([]);
     const {idMedic} = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:8081/api/medic/${idMedic}`)
-            .then(response => response.json())
-            .then(data => {
-                setMedic(data);
-            });
+        const fetchMedici = async () => {
+            try {
+                const response = await api.get(`/medic/${idMedic}`);
+                setMedic(response.data);
+            } catch (error) {
+                console.log('Failed to fetch medici', error);
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idMedic, navigate, setUser]);
+        fetchMedici();
+    }, [idMedic]);
 
     useEffect(() => {
-        fetch(`http://localhost:8081/api/consultatie/medic?idMedic=${idMedic}`)
-            .then(response => response.json())
-            .then(data => {
-                setConsultatii(data);
-            });
+        const fetchConsultatii = async () => {
+            try {
+                const response = await api.get(`/consultatie/medic?idMedic=${idMedic}`);
+                setConsultatii(response.data);
+            } catch (error) {
+                console.log('Failed to fetch consulatii', error);
+            }
+        };
 
-        if (Date.now() > localStorage.getItem('jwtTokenExpiry')) {
-            setUser(null);
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('jwtTokenExpiry');
-            localStorage.removeItem('user');
-            navigate('/login');
-        }
-    }, [idMedic, navigate, setUser]);
-
+        fetchConsultatii();
+    }, [idMedic]);
 
     return (<div className="p-6">
-        <PacientMenu/>
+        <NavBar userType={user?.userType} medicId={idMedic}/>
         <div className="flex flex-col md:flex-row mt-2">
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
                 <h2 className="text-3xl font-bold mb-4">{medic?.numeMedic} {medic?.prenumeMedic}</h2>
