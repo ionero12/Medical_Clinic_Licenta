@@ -1,14 +1,17 @@
 package com.example.medical_clinic_BACKEND.Service;
 
+import com.example.medical_clinic_BACKEND.Model.Medic;
 import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Repository.PacientRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PacientService {
@@ -75,6 +78,19 @@ public class PacientService {
         if (varstaPacient != null && !pacient.getVarstaPacient().equals(varstaPacient)) {
             pacient.setVarstaPacient(varstaPacient);
         }
+
+        // Validează obiectul Pacient
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Pacient>> violations = validator.validate(pacient);
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        // Salvează modificările în baza de date
+        pacientRepository.save(pacient);
     }
 
     public boolean isValidCredentials(String emailPacient, String parolaPacient) {

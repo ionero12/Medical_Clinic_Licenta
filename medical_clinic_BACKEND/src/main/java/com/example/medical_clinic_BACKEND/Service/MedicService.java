@@ -5,13 +5,12 @@ import com.example.medical_clinic_BACKEND.Model.Specializare;
 import com.example.medical_clinic_BACKEND.Repository.MedicRepository;
 import com.example.medical_clinic_BACKEND.Repository.SpecializareRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MedicService {
@@ -74,6 +73,19 @@ public class MedicService {
         if (experienta != null && !Objects.equals(medic.getExperienta(), experienta)) {
             medic.setExperienta(experienta);
         }
+
+        // Validează obiectul Medic
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Medic>> violations = validator.validate(medic);
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        // Salvează modificările în baza de date
+        medicRepository.save(medic);
     }
 
     public boolean isValidCredentials(String emailMedic, String parolaMedic) {
