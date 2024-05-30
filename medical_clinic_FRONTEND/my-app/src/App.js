@@ -1,5 +1,4 @@
-// App.js
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MedicRegister from './pages/MedicRegister';
@@ -16,9 +15,23 @@ import PatientProfile from './pages/PatientProfile';
 import Patient from './pages/Patient';
 import Medic from './pages/Medic';
 import {UserProvider} from './user/UserContext';
+import {refreshToken} from './user/api.js';
 
 
 function App() {
+
+    useEffect(() => {
+        const checkTokenExpiry = async () => {
+            const tokenExpiry = localStorage.getItem('jwtTokenExpiry');
+            if (tokenExpiry && Date.now() >= tokenExpiry - 30 * 1000) {
+                await refreshToken();
+            }
+        };
+
+        const intervalId = setInterval(checkTokenExpiry, 10000);
+        return () => clearInterval(intervalId);
+    }, []);
+
     return (<Router>
         <UserProvider>
             <Routes>

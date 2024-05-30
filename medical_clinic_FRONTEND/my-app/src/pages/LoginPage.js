@@ -5,6 +5,8 @@ import '../styles/LoginPage.css';
 import {useUser} from '../user/UserContext';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+
 
 function LoginPage() {
     const [emailMedic, setEmailMedic] = useState('');
@@ -45,8 +47,11 @@ function LoginPage() {
                 console.log('Logged in:', data);
 
                 const newUser = {userType: userType, userData: data.medic || data.pacient};
+
+                Cookies.set('refreshToken', data.refreshToken, {expires: 7, secure: true, sameSite: 'strict'});
+
                 localStorage.setItem('jwtToken', data.jwtToken);
-                localStorage.setItem('jwtTokenExpiry', Date.now() + 900 * 1000);
+                localStorage.setItem('jwtTokenExpiry', Date.now() + 15 * 60000);
                 localStorage.setItem('user', JSON.stringify(newUser));
 
                 setUser(newUser);
