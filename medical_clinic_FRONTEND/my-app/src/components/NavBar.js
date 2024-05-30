@@ -13,10 +13,10 @@ const Navbar = ({ userType, medicId }) => {
     const renderMenu = () => {
         if (userType === 'medic') {
             return <MedicMenu medicId={medicId} />;
-        } else if (userType === 'patient') {
+        } else if (userType === 'pacient') {
             return <PatientMenu />;
         } else {
-            return null; // Handle other cases or no user type
+            return null;
         }
     };
 
