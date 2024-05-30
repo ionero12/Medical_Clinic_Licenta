@@ -56,21 +56,9 @@ public class PacientController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addPacient(@Valid @RequestBody Pacient pacient) {
+    public Pacient addPacient(@Valid @RequestBody Pacient pacient) {
         pacientService.addPacient(pacient);
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-        String jwtToken = Jwts.builder()
-                .setSubject(pacient.getEmailPacient())
-                .setExpiration(new Date(System.currentTimeMillis() + 900000))
-                .signWith(key)
-                .compact();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("jwtToken", jwtToken);
-        response.put("pacient", pacient);
-
-        return ResponseEntity.ok(response);
+        return pacient;
     }
 
     @DeleteMapping(path = "{idPacient}")
@@ -79,8 +67,7 @@ public class PacientController {
     }
 
     @PutMapping(path = "{idPacient}")
-    public Pacient updatePacient(@PathVariable("idPacient") Long idPacient, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) Character asigurat, @RequestParam(required = false) Character abonamentPacient, @RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient, @RequestParam(required = false) Integer varstaPacient) {
+    public void updatePacient(@PathVariable("idPacient") Long idPacient, @RequestParam(required = false) String numePacient, @RequestParam(required = false) String prenumePacient, @RequestParam(required = false) String emailPacient, @RequestParam(required = false) String telefonPacient, @RequestParam(required = false) String parolaPacient, @RequestParam(required = false) Character asigurat, @RequestParam(required = false) Character abonamentPacient, @RequestParam(required = false) Double inaltimePacient, @RequestParam(required = false) Double greutatePacient, @RequestParam(required = false) Integer varstaPacient) {
         pacientService.updatePacient(idPacient, numePacient, prenumePacient, telefonPacient, emailPacient, parolaPacient, inaltimePacient, greutatePacient, abonamentPacient, asigurat, varstaPacient);
-        return pacientService.getPacientById(idPacient);
     }
 }
