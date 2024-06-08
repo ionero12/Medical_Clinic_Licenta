@@ -18,7 +18,8 @@ public class Specializare {
     @Column(name = "nume_specializare", nullable = false, length = 64)
     private String numeSpecializare;
 
-    @JsonManagedReference(value="medic-specializare")
+    //@JsonManagedReference(value="medic-specializare")
+    @JsonIgnoreProperties("specializare")
     @OneToMany(mappedBy = "specializare")
     private List<Medic> mediciList;
 

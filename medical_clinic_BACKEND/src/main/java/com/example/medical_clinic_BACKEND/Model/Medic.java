@@ -45,7 +45,7 @@ public class Medic {
     @Email(message = "Email should be valid")
     private String emailMedic;
 
-    @JsonBackReference(value="medic-specializare")
+    //@JsonBackReference(value="medic-specializare")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "specializari_id_specializare", nullable = false)
     private Specializare specializare;
