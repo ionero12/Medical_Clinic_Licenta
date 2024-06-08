@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {toast, ToastContainer} from "react-toastify";
 import {useUser} from '../user/UserContext';
 import MedicMenu from '../components/MedicMenu';
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 
 
 const MedicAppointments = () => {
@@ -33,20 +33,25 @@ const MedicAppointments = () => {
     useEffect(() => {
         const fetchConsultatiiMedic = async () => {
             try {
+                console.log(user)
+
                 const response = await api.get(`/consultatie/medic?idMedic=${idMedic}`);
                 const currentDate = new Date();
                 const past = response.data.filter(appointment => new Date(appointment.dataConsultatiei) <= currentDate);
                 const upcoming = response.data.filter(appointment => new Date(appointment.dataConsultatiei) > currentDate);
                 setPastAppointments(past);
                 setUpcomingAppointments(upcoming);
-                setNumeConsultatie(response.data[0].numeConsultatie);
+
+                const specializare = user?.userData.specializare.numeSpecializare;
+                const nume = specializare + ' consultation'
+                setNumeConsultatie(nume)
             } catch (error) {
                 console.log('Failed to fetch consultatii medic', error);
             }
         };
 
         fetchConsultatiiMedic();
-    }, [idMedic]);
+    }, [idMedic, user]);
 
     useEffect(() => {
         const fetchPatients = async () => {
@@ -148,7 +153,7 @@ const MedicAppointments = () => {
 
 
     const hoursOptions = [];
-    for (let i = 8; i <= 18; i++) {
+    for (let i = 8; i <= 17; i++) {
         if (!takenHours.has(i)) {
             const hour = i < 10 ? `0${i}` : `${i}`;
             hoursOptions.push(<option key={hour} value={hour}>

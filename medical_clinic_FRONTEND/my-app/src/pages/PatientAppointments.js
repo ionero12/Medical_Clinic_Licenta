@@ -9,7 +9,7 @@ import {toast, ToastContainer} from "react-toastify";
 import {useUser} from '../user/UserContext';
 import PatientMenu from '../components/PatientMenu';
 import StarRating from '../components/StarRating';
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 
 
 const PatientAppointments = () => {
@@ -195,7 +195,7 @@ const PatientAppointments = () => {
 
 
     const hoursOptions = [];
-    for (let i = 8; i <= 18; i++) {
+    for (let i = 8; i <= 17; i++) {
         if (!takenHours.has(i)) {
             const hour = i < 10 ? `0${i}` : `${i}`;
             hoursOptions.push(<option key={hour} value={hour}>
