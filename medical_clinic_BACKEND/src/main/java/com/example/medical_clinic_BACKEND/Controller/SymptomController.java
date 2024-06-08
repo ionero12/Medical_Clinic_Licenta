@@ -73,11 +73,23 @@ public class SymptomController {
                     if (entry.getValue().contains(predictedDisease)) {
                         Boala boala = boalaRepository.findByName(predictedDisease);
                         if (boala != null) {
-                            String response = "The disease that matches your symptoms is: " + boala.getNumeBoala() + "\n" +
-                                    "Description: " + boala.getDescriereBoala() + "\n" +
-                                    "Please consult a doctor from " + entry.getKey() + " for further evaluation.";
+                            StringBuilder response = new StringBuilder();
+                            response.append("The disease that matches your symptoms is: ")
+                                    .append(boala.getNumeBoala())
+                                    .append("<br>")
+                                    .append("<br>")
+                                    .append("Description: ")
+                                    .append(boala.getDescriereBoala())
+                                    .append("<br>")
+                                    .append("<br>")
+                                    .append("Please consult a doctor from ")
+                                    .append(entry.getKey())
+                                    .append(" for further evaluation.");
 
-                            return ResponseEntity.ok(response);
+                            String finalResponse = response.toString();
+
+
+                            return ResponseEntity.ok(finalResponse);
                         }
                     }
                 }

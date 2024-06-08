@@ -3,7 +3,7 @@ import PatientMenu from "../components/PatientMenu";
 import DiseaseModal from "../components/DiseaseModal";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 
 
 const Questionnaire = () => {
@@ -34,6 +34,7 @@ const Questionnaire = () => {
         })
             .then(response => {
                 setResponseData(response.data);
+                console.log(response.data)
                 setModalOpen(true);
             })
             .catch(error => {
