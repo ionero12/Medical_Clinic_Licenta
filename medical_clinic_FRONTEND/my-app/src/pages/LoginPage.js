@@ -5,7 +5,7 @@ import '../styles/LoginPage.css';
 import {useUser} from '../user/UserContext';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
+import {startTokenRefresh} from "../user/api";
 
 
 function LoginPage() {
@@ -40,21 +40,19 @@ function LoginPage() {
                 }, body: JSON.stringify({
                     [emailField]: userType === 'medic' ? emailMedic : emailPacient,
                     [parolaField]: userType === 'medic' ? parolaMedic : parolaPacient,
-                }),
+                }), credentials: 'include',  // Include credentials in the request
             });
+
             if (response.ok) {
                 const data = await response.json();
                 console.log('Logged in:', data);
 
                 const newUser = {userType: userType, userData: data.medic || data.pacient};
-
-                Cookies.set('refreshToken', data.refreshToken, {expires: 7, secure: true, sameSite: 'strict'});
-
-                localStorage.setItem('jwtToken', data.jwtToken);
-                localStorage.setItem('jwtTokenExpiry', Date.now() + 15 * 60000);
                 localStorage.setItem('user', JSON.stringify(newUser));
-
                 setUser(newUser);
+
+                localStorage.setItem('loggedIn', 'true');
+                startTokenRefresh();
 
                 navigate(`/${userType}/dashboard`);
             } else {
@@ -66,6 +64,7 @@ function LoginPage() {
             console.error('Error during login:', error);
         }
     };
+
 
     return (<div>
         <ToastContainer

@@ -8,6 +8,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,94 +37,115 @@ public class AuthController {
 
     @CrossOrigin(origins = "http://192.168.1.128:3000")
     @PostMapping("/pacient")
-    public ResponseEntity<?> loginPacient(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<?> loginPacient(@RequestBody Map<String, String> credentials, HttpServletResponse response) {
         String emailPacient = credentials.get("emailPacient");
         String parolaPacient = credentials.get("parolaPacient");
+
         if (pacientService.isValidCredentials(emailPacient, parolaPacient)) {
             Pacient pacient = pacientService.getPacientByEmail(emailPacient);
 
-            String jwtToken = Jwts.builder()
-                    .setSubject(emailPacient)
-                    .setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) //1 min
-                    .signWith(key)
-                    .compact();
+            String jwtToken = Jwts.builder().setSubject(emailPacient).setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
+                    .signWith(key).compact();
 
-            String refreshToken = Jwts.builder()
-                    .setSubject(emailPacient)
-                    .setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) //3 min
-                    .signWith(key)
-                    .compact();
+            String refreshToken = Jwts.builder().setSubject(emailPacient).setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
+                    .signWith(key).compact();
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("jwtToken", jwtToken);
-            response.put("refreshToken", refreshToken);
-            response.put("pacient", pacient);
+            // Set JWT token in HttpOnly cookie
+            Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setMaxAge(15 * 60); // 15 minute
+            response.addCookie(jwtCookie);
 
-            return ResponseEntity.ok(response);
+            // Set Refresh token in HttpOnly cookie
+            Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setMaxAge(60 * 60); // 60 minutes
+            response.addCookie(refreshCookie);
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("pacient", pacient);
+
+            return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/medic")
-    public ResponseEntity<?> loginMedic(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<?> loginMedic(@RequestBody Map<String, String> credentials, HttpServletResponse response) {
         String emailMedic = credentials.get("emailMedic");
         String parolaMedic = credentials.get("parolaMedic");
         if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
             Medic medic = medicService.findByEmail(emailMedic);
 
-            String jwtToken = Jwts.builder()
-                    .setSubject(emailMedic)
-                    .setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) //1 min
-                    .signWith(key)
-                    .compact();
+            String jwtToken = Jwts.builder().setSubject(emailMedic).setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
+                    .signWith(key).compact();
 
-            String refreshToken = Jwts.builder()
-                    .setSubject(emailMedic)
-                    .setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) //3 min
-                    .signWith(key)
-                    .compact();
+            String refreshToken = Jwts.builder().setSubject(emailMedic).setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
+                    .signWith(key).compact();
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("jwtToken", jwtToken);
-            response.put("refreshToken", refreshToken);
-            response.put("medic", medic);
+            // Set JWT token in HttpOnly cookie
+            Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setMaxAge(15 * 60); // 15 minute
+            response.addCookie(jwtCookie);
 
-            return ResponseEntity.ok(response);
+            // Set Refresh token in HttpOnly cookie
+            Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setMaxAge(60 * 60); // 60 minutes
+            response.addCookie(refreshCookie);
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("medic", medic);
+
+            return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> tokenMap) {
-        String refreshToken = tokenMap.get("refreshToken");
+    public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("Refresh token called");
+        String refreshToken = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("refreshToken")) {
+                    refreshToken = cookie.getValue();
+                }
+            }
+        }
+
+        if (refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No refresh token found");
+        }
+
         try {
-            var claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(refreshToken)
-                    .getBody();
+            var claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refreshToken).getBody();
 
             String email = claims.getSubject();
             System.out.println("email din token: " + email);
 
-            String jwtToken = Jwts.builder()
-                    .setSubject(email)
-                    .setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 1 min as the previous access token
-                    .signWith(key)
-                    .compact();
+            String jwtToken = Jwts.builder().setSubject(email).setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min as the previous access token
+                    .signWith(key).compact();
 
-            Map<String, String> response = new HashMap<>();
-            response.put("jwtToken", jwtToken);
+            Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setMaxAge(15 * 60); // 1 minute
+            response.addCookie(jwtCookie);
 
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok().build();
         } catch (ExpiredJwtException e) {
-            // Handle expired refresh token without printing error message
+//            Cookie expiredRefreshCookie = new Cookie("refreshToken", null);
+//            expiredRefreshCookie.setHttpOnly(true);
+//            expiredRefreshCookie.setMaxAge(0); // Set the max age to 0 to delete the cookie
+//            response.addCookie(expiredRefreshCookie);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token expired");
         } catch (Exception e) {
-            // Handle other exceptions and log error message
             System.err.println("Error parsing refresh token: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error parsing refresh token");
         }
