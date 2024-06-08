@@ -31,7 +31,7 @@ public class PacientService {
     public void addPacient(Pacient pacient) {
         Optional<Pacient> pacientOptional = pacientRepository.findPacientByCnp(pacient.getCnpPacient());
         if (pacientOptional.isPresent()) {
-            throw new IllegalStateException("Pacientul exista deja");
+            throw new IllegalArgumentException("Pacientul exista deja");
         }
         pacient.setParolaPacient(passwordEncoder.encode(pacient.getParolaPacient()));
         pacientRepository.save(pacient);

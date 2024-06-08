@@ -31,18 +31,21 @@ public class MedicService {
         return medicRepository.findAll();
     }
 
-    public void addMedic(Medic medic) {
-        Specializare specializare = specializareRepository.findById(medic.getSpecializare().getIdSpecializare()).orElseThrow(() -> new IllegalStateException("Specializare does not exist"));
+    public void addMedic(@Valid Medic medic) {
+        Specializare specializare = specializareRepository.findById(medic.getSpecializare().getIdSpecializare())
+                .orElseThrow(() -> new IllegalArgumentException("Specializare does not exist"));
+
         medic.setSpecializare(specializare);
+
         Optional<Medic> medicOptional = medicRepository.findMedicByCnp(medic.getCnpMedic());
         if (medicOptional.isPresent()) {
-            throw new IllegalStateException("Medicul exista deja");
+            throw new IllegalArgumentException("Medicul exista deja");
         }
+
         medic.setParolaMedic(passwordEncoder.encode(medic.getParolaMedic()));
         specializare.getMediciList().add(medic);
         medicRepository.save(medic);
     }
-
 
     public void deleteMedic(Long medicId) {
         boolean exists = medicRepository.existsById(medicId);
@@ -74,7 +77,6 @@ public class MedicService {
             medic.setExperienta(experienta);
         }
 
-        // Validează obiectul Medic
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
@@ -84,7 +86,6 @@ public class MedicService {
             throw new ConstraintViolationException(violations);
         }
 
-        // Salvează modificările în baza de date
         medicRepository.save(medic);
     }
 
