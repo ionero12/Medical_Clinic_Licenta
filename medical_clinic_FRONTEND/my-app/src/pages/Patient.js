@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import TemperatureChart from "../components/ChartComponent";
 import {toast, ToastContainer} from "react-toastify";
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 import {useUser} from "../user/UserContext";
 
 
@@ -86,6 +86,14 @@ const Patient = () => {
     const handleAddAnaliza = async (event) => {
         event.preventDefault();
 
+        const date = new Date(dataAnaliza);
+        const currentDate = new Date();
+
+        if (date > currentDate) {
+            toast.error('Cannot add analysis to a date in the future');
+            return;
+        }
+
         const newAnaliza = {
             pacient: {
                 idPacient
@@ -151,6 +159,14 @@ const Patient = () => {
 
     const handleAddDiagnostic = async (event) => {
         event.preventDefault();
+
+        const date = new Date(dataDiagnostic);
+        const currentDate = new Date();
+
+        if (date > currentDate) {
+            toast.error('Cannot add diagnostic to a date in the future');
+            return;
+        }
 
         const newDiagnostic = {
             pacient: {
@@ -274,6 +290,8 @@ const Patient = () => {
                                         Analysis name: {valoareAnaliza.valoare.numeValoare}
                                         <br/>
                                         Analysis value: {valoareAnaliza.valoare.rezultatValoare}
+                                        <br/>
+                                        Analysis value interval: {valoareAnaliza.valoare.valoareMin}-{valoareAnaliza.valoare.valoareMax}
                                         <br/>
                                         Date: {valoareAnaliza.analiza.dataAnaliza}
                                     </div>

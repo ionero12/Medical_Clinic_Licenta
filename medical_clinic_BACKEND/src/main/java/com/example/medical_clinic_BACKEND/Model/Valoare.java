@@ -1,6 +1,7 @@
 package com.example.medical_clinic_BACKEND.Model;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "valori")
@@ -18,6 +19,12 @@ public class Valoare {
     @Column(name = "rezultat_valoare", nullable = false)
     private Double rezultatValoare;
 
+    @Column(name = "valoare_min")
+    private Double valoareMin;
+
+    @Column(name = "valoare_max")
+    private Double valoareMax;
+
     public Valoare() {
     }
 
@@ -25,6 +32,14 @@ public class Valoare {
         this.idValoare = idValoare;
         this.numeValoare = numeValoare;
         this.rezultatValoare = rezultatValoare;
+    }
+
+    public Valoare(Long idValoare, String numeValoare, Double rezultatValoare, Double valoareMin, Double valoareMax) {
+        this.idValoare = idValoare;
+        this.numeValoare = numeValoare;
+        this.rezultatValoare = rezultatValoare;
+        this.valoareMin = valoareMin;
+        this.valoareMax = valoareMax;
     }
 
     public Long getIdValoare() {
@@ -49,5 +64,21 @@ public class Valoare {
 
     public void setRezultatValoare(Double rezultatValoare) {
         this.rezultatValoare = rezultatValoare;
+    }
+
+    public Double getValoareMin() {
+        return valoareMin;
+    }
+
+    public void setValoareMin(Double valoareMin) {
+        this.valoareMin = valoareMin;
+    }
+
+    public Double getValoareMax() {
+        return valoareMax;
+    }
+
+    public void setValoareMax(Double valoareMax) {
+        this.valoareMax = valoareMax;
     }
 }

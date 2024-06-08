@@ -21,8 +21,15 @@ public class ValoareService {
     }
 
     public void addValoare(Valoare valoare) {
+        List<Valoare> valori = valoareRepository.findByNumeValoare(valoare.getNumeValoare());
+        Valoare existingValoare = valori.get(0);
+        if (existingValoare != null) {
+            valoare.setValoareMin(existingValoare.getValoareMin());
+            valoare.setValoareMax(existingValoare.getValoareMax());
+        }
         valoareRepository.save(valoare);
     }
+
 
     public void deleteValoare(Long valoareId) {
         boolean exists = valoareRepository.existsById(valoareId);
