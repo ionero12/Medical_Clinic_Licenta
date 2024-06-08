@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useUser} from '../user/UserContext'; // import useUser
 import MedicMenu from '../components/MedicMenu';
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 
 
 const MedicDashboard = () => {
