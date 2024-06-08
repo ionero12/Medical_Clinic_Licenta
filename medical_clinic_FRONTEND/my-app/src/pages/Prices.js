@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PatientMenu from "../components/PatientMenu";
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 
 
 const Prices = () => {
