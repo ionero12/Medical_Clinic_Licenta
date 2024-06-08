@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useUser} from '../user/UserContext'; // import useUser
 import PatientMenu from '../components/PatientMenu';
 import {Link} from "react-router-dom";
-import api from '../user/api.js'
+import {api} from '../user/api.js'
 
 
 const PatientDashboard = () => {
@@ -16,8 +16,8 @@ const PatientDashboard = () => {
                 try {
                     const response = await api.get(`/medic`);
                     const medicsWithSpecialization = response.data.map(medic => {
-                        if (medic.consultatii.length > 0) {
-                            const specializare = medic.consultatii[0].numeConsultatie.split(' ')[0];
+                        if (medic.specializare) {
+                            const specializare = medic?.specializare.numeSpecializare;
                             return {...medic, specializare};
                         } else {
                             return {...medic, specializare: 'Unknown'};
