@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import SpecializationDropdown from "../components/SpecializationDropdown";
 import {useNavigate} from 'react-router-dom';
 import '../styles/RegisterPage.css';
+import {toast, ToastContainer} from "react-toastify";
 
 function MedicRegister() {
     const [emailMedic, setEmailMedic] = useState('');
@@ -25,25 +26,43 @@ function MedicRegister() {
             };
 
             const response = await fetch('http://localhost:8081/api/medic', {
-                method: 'POST', headers: {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json'
-                }, body: JSON.stringify(newUser)
+                },
+                body: JSON.stringify(newUser)
             });
 
             if (response.ok) {
-                const data = await response.json();  // parse the response as JSON
-                console.log('Logged in:', data);
-
+                toast.success('Registration successful');
                 navigate('/login');
             } else {
-                console.log('Registration failed');
+                const errorData = await response.json();
+                if (response.status === 400 && errorData) {
+                    for (const [field, message] of Object.entries(errorData)) {
+                        toast.error(`Error: ${message}`);
+                    }
+                } else {
+                    toast.error('Error during registration');
+                }
             }
         } catch (error) {
-            console.error('Error during registration:', error);
+            toast.error('An unexpected error occurred');
         }
     };
 
-    return (<div className="pt-5">
+
+    return (<div>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            draggable
+            theme="light"
+        />
+    <div className="pt-5">
         <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
             <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
             <label className="block mb-2">
@@ -135,6 +154,7 @@ function MedicRegister() {
                     className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register
             </button>
         </div>
+    </div>
     </div>);
 }
 

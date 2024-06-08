@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import '../styles/RegisterPage.css';
+import {toast, ToastContainer} from "react-toastify";
 
 
 function PatientRegister() {
@@ -43,134 +44,153 @@ function PatientRegister() {
                 }, body: JSON.stringify(newUser)
             });
 
-
-                const data = await response.json();
-                console.log('Logged in:', data);
-
+            if (response.ok) {
+                toast.success('Registration successful')
                 navigate('/login');
-
+            }
+            else {
+                const errorData = await response.json();
+                if (response.status === 400 && errorData) {
+                    for (const [field, message] of Object.entries(errorData)) {
+                        toast.error(`Error: ${message}`);
+                    }
+                } else {
+                    toast.error('Error during registration');
+                }
+            }
         } catch (error) {
-            console.error('Error during registration:', error);
+            toast.error('An unexpected error occurred');
         }
     };
 
-    return (<div className="pt-5">
-        <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
-            <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
-            <label className="block mb-2">
-                First Name:
-                <input
-                    type="text"
-                    value={prenumePacient}
-                    onChange={e => setPrenumePacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Second Name:
-                <input
-                    type="text"
-                    value={numePacient}
-                    onChange={e => setNumePacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                CNP:
-                <input
-                    type="text"
-                    value={cnpPacient}
-                    onChange={e => setCnpPacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Date of Birth:
-                <input
-                    type="date"
-                    value={dataNasterePacient}
-                    onChange={e => setDataNasterePacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Sex:
-                <select value={sexPacient} onChange={e => setSexPacient(e.target.value)}>
-                    <option value="masculin">Masculin</option>
-                    <option value="feminin">Feminin</option>
-                </select>
-            </label>
-            <label className="block mb-2">
-                Weight:
-                <input
-                    type="number"
-                    value={greutatePacient}
-                    onChange={e => setGreutatePacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Height:
-                <input
-                    type="number"
-                    value={inaltimePacient}
-                    onChange={e => setInaltimePacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Age:
-                <input
-                    type="number"
-                    value={varstaPacient}
-                    onChange={e => setVarstaPacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Assured:
-                <select value={asigurat} onChange={e => setAsigurat(e.target.value)}>
-                    <option value="Y">Yes</option>
-                    <option value="N">No</option>
-                </select>
-            </label>
-            <label className="block mb-2">
-                Subscription:
-                <select value={abonamentPacient} onChange={e => setAbonamentPacient(e.target.value)}>
-                    <option value="Y">Yes</option>
-                    <option value="N">No</option>
-                </select>
-            </label>
-            <label className="block mb-2">
-                Phone number:
-                <input
-                    type="phone"
-                    value={telefonPacient}
-                    onChange={e => setTelefonPacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Email:
-                <input
-                    type="email"
-                    value={emailPacient}
-                    onChange={e => setEmailPacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Password:
-                <input
-                    type="password"
-                    value={parolaPacient}
-                    onChange={e => setParolaPacient(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <button onClick={handleRegistration}
-                    className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register
-            </button>
+    return (<div>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            draggable
+            theme="light"
+        />
+        <div className="pt-5">
+            <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
+                <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
+                <label className="block mb-2">
+                    First Name:
+                    <input
+                        type="text"
+                        value={prenumePacient}
+                        onChange={e => setPrenumePacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Second Name:
+                    <input
+                        type="text"
+                        value={numePacient}
+                        onChange={e => setNumePacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    CNP:
+                    <input
+                        type="text"
+                        value={cnpPacient}
+                        onChange={e => setCnpPacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Date of Birth:
+                    <input
+                        type="date"
+                        value={dataNasterePacient}
+                        onChange={e => setDataNasterePacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Sex:
+                    <select value={sexPacient} onChange={e => setSexPacient(e.target.value)}>
+                        <option value="masculin">Masculin</option>
+                        <option value="feminin">Feminin</option>
+                    </select>
+                </label>
+                <label className="block mb-2">
+                    Weight:
+                    <input
+                        type="number"
+                        value={greutatePacient}
+                        onChange={e => setGreutatePacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Height:
+                    <input
+                        type="number"
+                        value={inaltimePacient}
+                        onChange={e => setInaltimePacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Age:
+                    <input
+                        type="number"
+                        value={varstaPacient}
+                        onChange={e => setVarstaPacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Assured:
+                    <select value={asigurat} onChange={e => setAsigurat(e.target.value)}>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                </label>
+                <label className="block mb-2">
+                    Subscription:
+                    <select value={abonamentPacient} onChange={e => setAbonamentPacient(e.target.value)}>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                </label>
+                <label className="block mb-2">
+                    Phone number:
+                    <input
+                        type="phone"
+                        value={telefonPacient}
+                        onChange={e => setTelefonPacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Email:
+                    <input
+                        type="email"
+                        value={emailPacient}
+                        onChange={e => setEmailPacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Password:
+                    <input
+                        type="password"
+                        value={parolaPacient}
+                        onChange={e => setParolaPacient(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <button onClick={handleRegistration}
+                        className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register
+                </button>
+            </div>
         </div>
     </div>);
 }
