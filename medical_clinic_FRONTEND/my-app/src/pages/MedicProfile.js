@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {useUser} from "../user/UserContext";
 import profilePic from '../assets/images/profilePic.png';
 import MedicMenu from "../components/MedicMenu";
-import api from '../user/api.js'
+import {api, handleTokenExpiry} from '../user/api.js'
 import {toast, ToastContainer} from "react-toastify";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit} from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-modal";
 
 
 function MedicProfile() {
@@ -16,6 +19,9 @@ function MedicProfile() {
     const [prenumeMedic, setPrenumeMedic] = useState('');
     const [telefonMedic, setTelefonMedic] = useState('');
 
+    const [passwordModalIsOpen, setPasswordModalIsOpen] = useState(false);
+
+
     useEffect(() => {
         const fetchMedic = async () => {
             if (idMedic) {
@@ -23,7 +29,7 @@ function MedicProfile() {
                     const response = await api.get(`/medic/${idMedic}`);
                     const data = response.data;
                     setEmailMedic(data.emailMedic || '');
-                    setParolaMedic(data.parolaMedic || '');
+                    //setParolaMedic(data.parolaMedic || '');
                     setNumeMedic(data.numeMedic || '');
                     setPrenumeMedic(data.prenumeMedic || '');
                     setTelefonMedic(data.telefonMedic || '');
@@ -38,16 +44,17 @@ function MedicProfile() {
 
     const updateMedicProfile = async () => {
         try {
-            const response = await api.put(`/medic/${idMedic}`, null, {
+            await api.put(`/medic/${idMedic}`, null, {
                 params: {
-                    emailMedic, parolaMedic, numeMedic, prenumeMedic, telefonMedic
+                    emailMedic,
+                    numeMedic, prenumeMedic, telefonMedic
                 }
             });
             toast.success('Medic profile updated successfully');
         } catch (error) {
             if (error.response && error.response.data) {
                 const errorData = error.response.data;
-                for (const [field, message] of Object.entries(errorData)) {
+                for (const [message] of Object.entries(errorData)) {
                     toast.error(`Error: ${message}`);
                 }
             } else {
@@ -56,6 +63,38 @@ function MedicProfile() {
             console.error('Error updating medic profile:', error);
         }
     };
+
+    const handlePasswordChange = async (event) => {
+        event.preventDefault();
+
+        try {
+            await api.put(`/medic/${idMedic}`, null, {
+                params: {
+                    parolaMedic
+                }
+            });
+            toast.success('Medic profile updated successfully');
+        } catch (error) {
+            if (error.response && error.response.data) {
+                const errorData = error.response.data;
+                for (const [message] of Object.entries(errorData)) {
+                    toast.error(`Error: ${message}`);
+                }
+            } else {
+                toast.error('Error updating medic profile');
+            }
+            console.error('Error updating medic profile:', error);
+        }
+    };
+
+    function openPasswordModal() {
+        setPasswordModalIsOpen(true);
+    }
+
+    function closePasswordModal() {
+        setParolaMedic('')
+        setPasswordModalIsOpen(false);
+    }
 
     return (<div>
         <ToastContainer
@@ -77,22 +116,39 @@ function MedicProfile() {
                             <img src={profilePic} alt="Profile" className="w-28 h-28 rounded-full"/>
                         </div>
                     </div>
-
+                    <div className="flex justify-center">
+                        <button
+                            onClick={openPasswordModal}
+                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded inline-flex items-center justify-center mb-2">
+                            Change password <FontAwesomeIcon icon={faEdit}/>
+                        </button>
+                        <Modal
+                            isOpen={passwordModalIsOpen}
+                            onRequestClose={closePasswordModal}
+                            contentLabel="Add AppointmentMedic"
+                            className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        >
+                            <form onSubmit={handlePasswordChange} className="flex flex-col">
+                                <label className="mb-2">
+                                    Password:
+                                    <input
+                                        type="password"
+                                        value={parolaMedic}
+                                        onChange={e => setParolaMedic(e.target.value)}
+                                        className="w-full px-2 py-1 mb-2 border border-gray-400"
+                                    />
+                                    <input type="submit" value="Submit"
+                                           className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                                </label>
+                            </form>
+                        </Modal>
+                    </div>
                     <label className="block mb-2">
                         Email:
                         <input
                             type="email"
                             value={emailMedic}
                             onChange={e => setEmailMedic(e.target.value)}
-                            className="w-full px-2 py-1 mb-2 border border-gray-400"
-                        />
-                    </label>
-                    <label className="block mb-2">
-                        Password:
-                        <input
-                            type="password"
-                            value={parolaMedic}
-                            onChange={e => setParolaMedic(e.target.value)}
                             className="w-full px-2 py-1 mb-2 border border-gray-400"
                         />
                     </label>
@@ -123,16 +179,21 @@ function MedicProfile() {
                             className="w-full px-2 py-1 mb-2 border border-gray-400"
                         />
                     </label>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center space-x-4">
                         <button onClick={updateMedicProfile}
-                                className="mt-4 px-4 py-2 bg-blue-700 text-white border-none cursor-pointer">Update
-                            Profile
+                                className="mt-4 mb-4 p-3 bg-blue-700 hover:bg-blue-900 text-white cursor-pointer rounded">
+                            Update Profile
+                        </button>
+                        <button onClick={handleTokenExpiry}
+                                className="mt-4 mb-4 p-3 bg-blue-700 hover:bg-blue-900 text-white cursor-pointer rounded">
+                            Logout
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>);
+    </div>)
+        ;
 }
 
 export default MedicProfile;
