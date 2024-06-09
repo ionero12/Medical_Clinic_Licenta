@@ -18,7 +18,7 @@ function LoginPage() {
     const {setUser} = useUser();
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = sessionStorage.getItem('user');
         if (storedUser && storedUser !== 'undefined') {
             const user = JSON.parse(storedUser);
             setUser(user);
@@ -48,10 +48,10 @@ function LoginPage() {
                 console.log('Logged in:', data);
 
                 const newUser = {userType: userType, userData: data.medic || data.pacient};
-                localStorage.setItem('user', JSON.stringify(newUser));
+                sessionStorage.setItem('user', JSON.stringify(newUser));
                 setUser(newUser);
 
-                localStorage.setItem('loggedIn', 'true');
+                sessionStorage.setItem('loggedIn', 'true');
                 startTokenRefresh();
 
                 navigate(`/${userType}/dashboard`);

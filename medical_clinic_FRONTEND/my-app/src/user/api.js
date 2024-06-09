@@ -7,7 +7,7 @@ const api = axios.create({
 let intervalId = null;
 
 const startTokenRefresh = (interval = 15 * 60 * 1000) => {
-    const loggedIn = localStorage.getItem('loggedIn') === 'true';
+    const loggedIn = sessionStorage.getItem('loggedIn') === 'true';
     if (loggedIn && !intervalId) {
         const refreshToken = async () => {
             try {
@@ -36,8 +36,8 @@ const stopTokenRefresh = () => {
 
 const handleTokenExpiry = () => {
     stopTokenRefresh();
-    localStorage.removeItem('user');
-    localStorage.removeItem('loggedIn');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('loggedIn');
     window.location.href = "/login";
 };
 
