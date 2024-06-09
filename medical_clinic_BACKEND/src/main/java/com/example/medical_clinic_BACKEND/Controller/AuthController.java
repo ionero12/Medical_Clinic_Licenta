@@ -19,7 +19,8 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("api/login")
@@ -29,6 +30,8 @@ public class AuthController {
 
     private final PacientService pacientService;
     private final MedicService medicService;
+
+    private final Map<String, String> sessionMap = new ConcurrentHashMap<>();
 
     public AuthController(PacientService pacientService, MedicService medicService) {
         this.pacientService = pacientService;
@@ -44,23 +47,38 @@ public class AuthController {
         if (pacientService.isValidCredentials(emailPacient, parolaPacient)) {
             Pacient pacient = pacientService.getPacientByEmail(emailPacient);
 
-            String jwtToken = Jwts.builder().setSubject(emailPacient).setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
+            String sessionId = UUID.randomUUID().toString();
+            sessionMap.put(sessionId, emailPacient);
+
+            String jwtToken = Jwts.builder()
+                    .setSubject(emailPacient)
+                    .claim("sessionId", sessionId)
+                    .setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
                     .signWith(key).compact();
 
-            String refreshToken = Jwts.builder().setSubject(emailPacient).setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
+            String refreshToken = Jwts.builder()
+                    .setSubject(emailPacient)
+                    .claim("sessionId", sessionId)
+                    .setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
                     .signWith(key).compact();
 
             // Set JWT token in HttpOnly cookie
             Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
             jwtCookie.setHttpOnly(true);
-            jwtCookie.setMaxAge(15 * 60); // 15 minute
+            jwtCookie.setMaxAge(15 * 60); // 15 minutes
+            jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
 
             // Set Refresh token in HttpOnly cookie
             Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
             refreshCookie.setHttpOnly(true);
             refreshCookie.setMaxAge(60 * 60); // 60 minutes
+            refreshCookie.setPath("/");
             response.addCookie(refreshCookie);
+
+            // Manually add SameSite attribute
+            response.addHeader("Set-Cookie", "jwtToken=" + jwtToken + "; HttpOnly; Max-Age=" + (15 * 60) + "; Path=/; SameSite=Strict");
+            response.addHeader("Set-Cookie", "refreshToken=" + refreshToken + "; HttpOnly; Max-Age=" + (60 * 60) + "; Path=/; SameSite=Strict");
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("pacient", pacient);
@@ -71,7 +89,6 @@ public class AuthController {
         }
     }
 
-
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/medic")
     public ResponseEntity<?> loginMedic(@RequestBody Map<String, String> credentials, HttpServletResponse response) {
@@ -80,23 +97,38 @@ public class AuthController {
         if (medicService.isValidCredentials(emailMedic, parolaMedic)) {
             Medic medic = medicService.findByEmail(emailMedic);
 
-            String jwtToken = Jwts.builder().setSubject(emailMedic).setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
+            String sessionId = UUID.randomUUID().toString();
+            sessionMap.put(sessionId, emailMedic);
+
+            String jwtToken = Jwts.builder()
+                    .setSubject(emailMedic)
+                    .claim("sessionId", sessionId)
+                    .setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
                     .signWith(key).compact();
 
-            String refreshToken = Jwts.builder().setSubject(emailMedic).setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
+            String refreshToken = Jwts.builder()
+                    .setSubject(emailMedic)
+                    .claim("sessionId", sessionId)
+                    .setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
                     .signWith(key).compact();
 
             // Set JWT token in HttpOnly cookie
             Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
             jwtCookie.setHttpOnly(true);
-            jwtCookie.setMaxAge(15 * 60); // 15 minute
+            jwtCookie.setMaxAge(15 * 60); // 15 minutes
+            jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
 
             // Set Refresh token in HttpOnly cookie
             Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
             refreshCookie.setHttpOnly(true);
             refreshCookie.setMaxAge(60 * 60); // 60 minutes
+            refreshCookie.setPath("/");
             response.addCookie(refreshCookie);
+
+            // Manually add SameSite attribute
+            response.addHeader("Set-Cookie", "jwtToken=" + jwtToken + "; HttpOnly; Max-Age=" + (15 * 60) + "; Path=/; SameSite=Strict");
+            response.addHeader("Set-Cookie", "refreshToken=" + refreshToken + "; HttpOnly; Max-Age=" + (60 * 60) + "; Path=/; SameSite=Strict");
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("medic", medic);
@@ -128,22 +160,31 @@ public class AuthController {
             var claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refreshToken).getBody();
 
             String email = claims.getSubject();
+            String sessionId = claims.get("sessionId", String.class);
+
+            if (!sessionMap.containsKey(sessionId) || !sessionMap.get(sessionId).equals(email)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");
+            }
+
             System.out.println("email din token: " + email);
 
-            String jwtToken = Jwts.builder().setSubject(email).setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min as the previous access token
+            String jwtToken = Jwts.builder()
+                    .setSubject(email)
+                    .claim("sessionId", sessionId)
+                    .setExpiration(new Date(System.currentTimeMillis() + 15 * 60000)) // 15 min
                     .signWith(key).compact();
 
             Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
             jwtCookie.setHttpOnly(true);
-            jwtCookie.setMaxAge(15 * 60); // 1 minute
+            jwtCookie.setMaxAge(15 * 60); // 15 minutes
+            jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
+
+            // Manually add SameSite attribute
+            response.addHeader("Set-Cookie", "jwtToken=" + jwtToken + "; HttpOnly; Max-Age=" + (15 * 60) + "; Path=/; SameSite=Strict");
 
             return ResponseEntity.ok().build();
         } catch (ExpiredJwtException e) {
-//            Cookie expiredRefreshCookie = new Cookie("refreshToken", null);
-//            expiredRefreshCookie.setHttpOnly(true);
-//            expiredRefreshCookie.setMaxAge(0); // Set the max age to 0 to delete the cookie
-//            response.addCookie(expiredRefreshCookie);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token expired");
         } catch (Exception e) {
             System.err.println("Error parsing refresh token: " + e.getMessage());
@@ -151,5 +192,3 @@ public class AuthController {
         }
     }
 }
-
-
