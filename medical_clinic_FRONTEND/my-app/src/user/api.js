@@ -38,6 +38,7 @@ const handleTokenExpiry = () => {
     stopTokenRefresh();
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('loggedIn');
+    sessionStorage.removeItem('sessionKey');
     window.location.href = "/login";
 };
 
