@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import PatientMenu from "../components/PatientMenu";
 import DiseaseModal from "../components/DiseaseModal";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {api} from '../user/api.js'
 
@@ -16,16 +16,34 @@ const Questionnaire = () => {
         event.preventDefault();
 
         const fever = document.querySelector('input[name="fever"]:checked')?.value === "yes" ? "fever" : null;
-        const bloodystool = document.querySelector('input[name="bloody stool"]:checked')?.value === "yes" ? "bloody stool" : null;
-        const runnynose = document.querySelector('input[name="runny nose"]:checked')?.value === "yes" ? "runny nose" : null;
+        const skin_rash = document.querySelector('input[name="skin rash"]:checked')?.value === "yes" ? "skin rash" : null;
+        const runny_nose = document.querySelector('input[name="runny nose"]:checked')?.value === "yes" ? "runny nose" : null;
         const headache = document.querySelector('input[name="headache"]:checked')?.value === "yes" ? "headache" : null;
-        const cough = document.querySelector('input[name="cough"]:checked')?.value === "yes" ? "cough" : null;
+        const cough = document.querySelector('input[name="cough difficulty breathing"]:checked')?.value === "yes" ? "cough difficulty breathing" : null;
+        const tired = document.querySelector('input[name="tired"]:checked')?.value === "yes" ? "tired" : null;
+        const nausea_vomiting = document.querySelector('input[name="nausea vomiting"]:checked')?.value === "yes" ? "nausea vomiting" : null;
+        const urination_pain = document.querySelector('input[name="urination pain"]:checked')?.value === "yes" ? "urination pain" : null;
+        const constipation = document.querySelector('input[name="constipation"]:checked')?.value === "yes" ? "constipation" : null;
+        const abdominal_pain = document.querySelector('input[name="abdominal pain"]:checked')?.value === "yes" ? "abdominal pain" : null;
 
-        const symptomsArray = [fever, bloodystool, runnynose, headache, cough].filter(Boolean);
+        const symptomsArray = [fever, skin_rash, runny_nose, headache, cough, tired, nausea_vomiting, urination_pain, constipation, abdominal_pain].filter(Boolean);
 
         const symptomsText = symptomsArray.length ? ` Symptoms ${symptomsArray.join(', ')}.` : '';
 
         const symptoms = patientSymptoms + symptomsText;
+
+        const allQuestionsAnswered = ['fever', 'skin rash', 'runny nose', 'headache', 'cough difficulty breathing', 'tired', 'nausea vomiting', 'urination pain', 'constipation', 'abdominal pain']
+            .every(questionName => document.querySelector(`input[name="${questionName}"]:checked`));
+
+        if (!allQuestionsAnswered) {
+            toast.error('Please answer all the questions.');
+            return;
+        }
+
+        if (!patientSymptoms.trim()) {
+            toast.error('Please enter your symptoms.');
+            return;
+        }
 
         api.post('/pacient/chestionar', symptoms, {
             headers: {
@@ -78,18 +96,16 @@ const Questionnaire = () => {
                             <input type="radio" name="fever" value="no" className="mr-1"/> No
                         </label>
                     </div>
-
-                    <p className="text-gray-700 leading-relaxed mb-2">Do you have bloody stool?</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any skin rash on your body?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
-                            <input type="radio" name="bloody stool" value="yes" className="mr-1"/> Yes
+                            <input type="radio" name="skin rash" value="yes" className="mr-1"/> Yes
                         </label>
                         <label>
-                            <input type="radio" name="bloody stool" value="no" className="mr-1"/> No
+                            <input type="radio" name="skin rash" value="no" className="mr-1"/> No
                         </label>
                     </div>
-
-                    <p className="text-gray-700 leading-relaxed mb-2">Do you have runny nose?</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you have a runny nose?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
                             <input type="radio" name="runny nose" value="yes" className="mr-1"/> Yes
@@ -98,7 +114,6 @@ const Questionnaire = () => {
                             <input type="radio" name="runny nose" value="no" className="mr-1"/> No
                         </label>
                     </div>
-
                     <p className="text-gray-700 leading-relaxed mb-2">Do you have a headache?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
@@ -108,14 +123,58 @@ const Questionnaire = () => {
                             <input type="radio" name="headache" value="no" className="mr-1"/> No
                         </label>
                     </div>
-
-                    <p className="text-gray-700 leading-relaxed mb-2">Do you have a cough?</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Are you having a persistent cough?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
-                            <input type="radio" name="cough" value="yes" className="mr-1"/> Yes
+                            <input type="radio" name="cough difficulty breathing" value="yes" className="mr-1"/> Yes
                         </label>
                         <label>
-                            <input type="radio" name="cough" value="no" className="mr-1"/> No
+                            <input type="radio" name="cough difficulty breathing" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed mb-2">Are you experiencing excessive tiredness?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="tired" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="tired" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed mb-2">Are you experiencing nausea or vomiting?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="nausea vomiting" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="nausea vomiting" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any pain in your usual urination?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="urination pain" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="urination pain" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any changes in your bowel movements, such as constipation?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="constipation" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="constipation" value="no" className="mr-1"/> No
+                        </label>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you experience any abdominal pain or discomfort, especially after eating?</p>
+                    <div className="flex justify-center mb-4">
+                        <label className="mr-4">
+                            <input type="radio" name="abdominal pain" value="yes" className="mr-1"/> Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="abdominal pain" value="no" className="mr-1"/> No
                         </label>
                     </div>
                 </div>
