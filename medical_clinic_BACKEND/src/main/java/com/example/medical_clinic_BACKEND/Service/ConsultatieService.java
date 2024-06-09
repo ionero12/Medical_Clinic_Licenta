@@ -6,6 +6,7 @@ import com.example.medical_clinic_BACKEND.Repository.PacientRepository;
 import com.example.medical_clinic_BACKEND.Repository.PretRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,24 +48,31 @@ public class ConsultatieService {
 
 
 
+    @Transactional
     public void addConsultatie(Consultatie consultatie) {
         System.out.println(consultatie.getNumeConsultatie() + " " + consultatie.getMedic().getIdMedic() + " " + consultatie.getPacient().getCnpPacient() + " " + consultatie.getPret());
 
-        Pacient pacient = pacientRepository.findByCnp(consultatie.getPacient().getCnpPacient()).orElseThrow(() -> new IllegalStateException("Pacient does not exist"));
+        Pacient pacient = pacientRepository.findByCnp(consultatie.getPacient().getCnpPacient())
+                .orElseThrow(() -> new IllegalStateException("Pacient does not exist"));
         consultatie.setPacient(pacient);
 
         List<Consultatie> existingConsultaties = consultatieRepository.findByName(consultatie.getNumeConsultatie());
         for (Consultatie existingConsultatie : existingConsultaties) {
             if (consultatie.getNumeConsultatie().equals(existingConsultatie.getNumeConsultatie())) {
                 consultatie.setPret(existingConsultatie.getPret());
-            }
-            else {
-                Pret pret = pretRepository.findById(consultatie.getPret().getIdPret()).orElseThrow(() -> new IllegalStateException("Pret does not exist"));
+            } else {
+                Pret pret = pretRepository.findById(consultatie.getPret().getIdPret())
+                        .orElseThrow(() -> new IllegalStateException("Pret does not exist"));
                 consultatie.setPret(pret);
                 pret.getConsultatii().add(consultatie);
             }
         }
-        consultatieRepository.save(consultatie);
+
+        try {
+            consultatieRepository.save(consultatie);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("This time is not available anymore. Please select another time.", e);
+        }
     }
 
     public void deleteConsultatie(Long idConsultatie) {
@@ -83,7 +91,9 @@ public class ConsultatieService {
     @Transactional
     public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Integer rating, String feedback) {
         System.out.println(idConsultatie + " " + dataConsultatiei + " " + rating + " " + feedback);
-        Consultatie consultatie = consultatieRepository.findById(idConsultatie).orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
+        Consultatie consultatie = consultatieRepository.findById(idConsultatie)
+                .orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
+
         if (dataConsultatiei != null && !dataConsultatiei.equals(consultatie.getDataConsultatiei())) {
             consultatie.setDataConsultatiei(dataConsultatiei);
         }
@@ -93,8 +103,14 @@ public class ConsultatieService {
         if (feedback != null && !feedback.isEmpty() && !feedback.equals(consultatie.getFeedback())) {
             consultatie.setFeedback(feedback);
         }
-        return consultatie;
+
+        try {
+            return consultatieRepository.save(consultatie);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("This time is not available anymore. Please select another time.", e);
+        }
     }
+
 
     public List<Consultatie> getConsultatiiByMedicId(Long idMedic) {
         List<Consultatie> consultatii = consultatieRepository.findByIdMedic(idMedic);

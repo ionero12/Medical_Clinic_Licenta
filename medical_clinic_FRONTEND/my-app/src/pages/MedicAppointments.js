@@ -94,11 +94,16 @@ const MedicAppointments = () => {
         try {
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
             setUpcomingAppointments([...upcomingAppointments, response.data]);
-
             toast.success('Appointment added successfully');
             closeAddModal();
         } catch (error) {
             console.error('Error adding appointment:', error);
+
+            if (error.response && error.response.status === 409) {
+                toast.error('This time is not available anymore. Please select another time.');
+            } else {
+                toast.error('An error occurred while adding the appointment');
+            }
         }
     };
 
@@ -130,6 +135,12 @@ const MedicAppointments = () => {
             closeEditModal();
         } catch (error) {
             console.error('Error updating appointment:', error);
+
+            if (error.response && error.response.status === 409) {
+                toast.error('This time is not available anymore. Please select another time.');
+            } else {
+                toast.error('An error occurred while updating the appointment');
+            }
         }
     };
 

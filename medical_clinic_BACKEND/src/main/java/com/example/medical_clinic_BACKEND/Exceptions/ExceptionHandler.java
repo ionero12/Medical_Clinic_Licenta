@@ -2,6 +2,7 @@ package com.example.medical_clinic_BACKEND.Exceptions;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -47,5 +48,15 @@ public class ExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseBody
+    public Map<String, String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", "This time is not available anymore. Please select another time.");
+        return errorResponse;
+    }
 }
+
 

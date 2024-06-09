@@ -600,3 +600,6 @@ ALTER TABLE valori
 ADD (valoare_min NUMBER,
      valoare_max NUMBER);
 
+ALTER TABLE consultatii
+ADD CONSTRAINT consultatie_unica UNIQUE (MEDICI_ID_MEDIC, DATA_CONSULTATIEI);
+

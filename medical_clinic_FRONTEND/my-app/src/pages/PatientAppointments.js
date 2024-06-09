@@ -107,19 +107,32 @@ const PatientAppointments = () => {
         const newAppointment = {
             pacient: {
                 cnpPacient: user.userData.cnpPacient
-            }, medic: {
-                idMedic, numeMedic: medicData.numeMedic, prenumeMedic: medicData.prenumeMedic
-            }, numeConsultatie, dataConsultatiei: `${selectedDate}T${selectedHour}:00`
+            },
+            medic: {
+                idMedic,
+                numeMedic: medicData.numeMedic,
+                prenumeMedic: medicData.prenumeMedic
+            },
+            numeConsultatie,
+            dataConsultatiei: `${selectedDate}T${selectedHour}:00`
         };
+
         try {
             const response = await axios.post(`http://localhost:8081/api/consultatie`, newAppointment);
-            setUpcomingAppointments([...upcomingAppointments, response.data])
+            setUpcomingAppointments([...upcomingAppointments, response.data]);
             toast.success('Appointment added successfully');
             closeAddAppointmentModal();
         } catch (error) {
             console.error('Error adding appointment:', error);
+
+            if (error.response && error.response.status === 409) {
+                toast.error('This time is not available anymore. Please select another time.');
+            } else {
+                toast.error('An error occurred while adding the appointment');
+            }
         }
     };
+
 
     const handleAddFeedback = async (event) => {
         event.preventDefault();
@@ -165,8 +178,13 @@ const PatientAppointments = () => {
             closeEditModal();
         } catch (error) {
             console.error('Error updating appointment:', error);
-        }
 
+            if (error.response && error.response.status === 409) {
+                toast.error('This time is not available anymore. Please select another time.');
+            } else {
+                toast.error('An error occurred while updating the appointment');
+            }
+        }
     };
 
 
