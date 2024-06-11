@@ -293,7 +293,7 @@ const PatientAppointments = () => {
                                 isOpen={addFeedbackModalIsOpen}
                                 onRequestClose={closeAddFeedbackModal}
                                 contentLabel="Add Feedback Medic"
-                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                             >
                                 <form onSubmit={handleAddFeedback} className="flex flex-col">
                                     <label className="mb-2">
