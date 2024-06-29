@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -25,18 +24,18 @@ public class ConsultatieController {
         return consultatieService.getConsultatii();
     }
 
-    @GetMapping(path="/medic")
-    public List<Consultatie> getConsultatiiByMedicId(@RequestParam(required = false) Long idMedic){
+    @GetMapping(path = "/medic")
+    public List<Consultatie> getConsultatiiByMedicId(@RequestParam(required = false) Long idMedic) {
         return consultatieService.getConsultatiiByMedicId(idMedic);
     }
 
-    @GetMapping(path="/pacient")
-    public List<Consultatie> getConsultatiiByPacientId(@RequestParam(required = false) Long idPacient){
+    @GetMapping(path = "/pacient")
+    public List<Consultatie> getConsultatiiByPacientId(@RequestParam(required = false) Long idPacient) {
         return consultatieService.getConsultatiiByPacientId(idPacient);
     }
 
     @GetMapping(path = "/preturi")
-    public List<Consultatie> getConsultatiiWithPrices(){
+    public List<Consultatie> getConsultatiiWithPrices() {
         return consultatieService.getConsultatiiWithPrices();
     }
 
@@ -52,7 +51,7 @@ public class ConsultatieController {
     }
 
     @PutMapping(path = "{idConsultatie}")
-    public Consultatie updateConsultatie(@PathVariable("idConsultatie") Long idConsultatie, @RequestParam(required = false) LocalDateTime dataConsultatiei, @RequestParam(required = false) Integer rating, @RequestParam(required = false) String feedback){
+    public Consultatie updateConsultatie(@PathVariable("idConsultatie") Long idConsultatie, @RequestParam(required = false) LocalDateTime dataConsultatiei, @RequestParam(required = false) Integer rating, @RequestParam(required = false) String feedback) {
         return consultatieService.updateConsultatie(idConsultatie, dataConsultatiei, rating, feedback);
     }
 }

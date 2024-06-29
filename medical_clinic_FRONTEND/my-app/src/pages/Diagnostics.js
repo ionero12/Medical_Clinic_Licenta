@@ -133,98 +133,99 @@ const Diagnostics = () => {
     }
 
     return (<div>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                draggable
-                theme="light"
-            />
-            <div className="p-6">
-                <PatientMenu/>
-                <div className="mt-2 flex flex-col md:flex-row">
-                    <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
-                        <h2 className="text-2xl font-bold mb-2">Diagnostics</h2>
-                        <ul>
-                            {diagnostics.map((diagnostic) => (<li key={diagnostic.idDiagnostic}
-                                                                  className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
-                                Diagnostic name: {diagnostic.numeDiagnostic}
-                                <br/>
-                                ID: {diagnostic.idDiagnostic}, Date: {diagnostic.dataDiagnostic}
-                            </li>))}
-                        </ul>
-                    </div>
-
-                    <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
-                        <div className="flex justify-between items-center mb-2">
-                            <h2 className="text-2xl font-bold">
-                                Analyses
-                            </h2>
-                            <button
-                                onClick={openAddAnalizaModal}
-                                className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
-                                Add analysis <FontAwesomeIcon icon={faPlus}/>
-                            </button>
-                        </div>
-                        <Modal
-                            isOpen={addAnalizaModalIsOpen}
-                            onRequestClose={closeAddAnalizaModal}
-                            contentLabel="Add analiza"
-                            className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
-                        >
-                            <form onSubmit={handleAddAnaliza} className="flex flex-col">
-                                <label className="mb-2">
-                                    Date:
-                                    <input type="date" value={dataAnaliza}
-                                           onChange={e => setDataAnaliza(e.target.value)} required
-                                           className="mt-1"/>
-                                </label>
-                                <label className="mb-2">
-                                    Analysis name:
-                                    <select
-                                        value={numeValoare}
-                                        onChange={e => setNumeValoare(e.target.value)}
-                                        required
-                                        className="mt-1"
-                                    >
-                                        <option value="">Select an analysis</option>
-                                        <option value="Temperature">Temperature</option>
-                                        <option value="Glucose">Glucose</option>
-                                        <option value="Heart Rate">Heart rate</option>
-                                        <option value="Systolic Pressure">Systolic pressure</option>
-                                        <option value="Diastolic Pressure">Diastolic pressure</option>
-                                    </select>
-                                </label>
-                                <label className="mb-2">
-                                    Analysis value:
-                                    <input type="number" value={rezultatValoare}
-                                           onChange={e => setRezultatValoare(e.target.value)} required
-                                           className="mt-1"/>
-                                </label>
-                                <input type="submit" value="Submit"
-                                       className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
-                            </form>
-                        </Modal>
-                        <ul>
-                            {valoareAnalize.map((valoareAnaliza) => (
-                                <li key={`${valoareAnaliza.analizeIdAnaliza}-${valoareAnaliza.valoare.idValoare}`}
-                                    className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
-                                    Analysis name: {valoareAnaliza.valoare.numeValoare}
-                                    <br/>
-                                    Analysis value: {valoareAnaliza.valoare.rezultatValoare}
-                                    <br/>
-                                    Analysis value interval: {valoareAnaliza.valoare.valoareMin}-{valoareAnaliza.valoare.valoareMax}
-                                    <br/>
-                                    Date: {valoareAnaliza.analiza.dataAnaliza}
-                                </li>))}
-                        </ul>
-                    </div>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            draggable
+            theme="light"
+        />
+        <div className="p-6">
+            <PatientMenu/>
+            <div className="mt-2 flex flex-col md:flex-row">
+                <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
+                    <h2 className="text-2xl font-bold mb-2">Diagnostics</h2>
+                    <ul>
+                        {diagnostics.map((diagnostic) => (<li key={diagnostic.idDiagnostic}
+                                                              className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
+                            Diagnostic name: {diagnostic.numeDiagnostic}
+                            <br/>
+                            ID: {diagnostic.idDiagnostic}, Date: {diagnostic.dataDiagnostic}
+                        </li>))}
+                    </ul>
                 </div>
-                <TemperatureChart data={data}/>
+
+                <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
+                    <div className="flex justify-between items-center mb-2">
+                        <h2 className="text-2xl font-bold">
+                            Analyses
+                        </h2>
+                        <button
+                            onClick={openAddAnalizaModal}
+                            className="bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-300 ease-in-out">
+                            Add analysis <FontAwesomeIcon icon={faPlus}/>
+                        </button>
+                    </div>
+                    <Modal
+                        isOpen={addAnalizaModalIsOpen}
+                        onRequestClose={closeAddAnalizaModal}
+                        contentLabel="Add analiza"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                    >
+                        <form onSubmit={handleAddAnaliza} className="flex flex-col">
+                            <label className="mb-2">
+                                Date:
+                                <input type="date" value={dataAnaliza}
+                                       onChange={e => setDataAnaliza(e.target.value)} required
+                                       className="mt-1"/>
+                            </label>
+                            <label className="mb-2">
+                                Analysis name:
+                                <select
+                                    value={numeValoare}
+                                    onChange={e => setNumeValoare(e.target.value)}
+                                    required
+                                    className="mt-1"
+                                >
+                                    <option value="">Select an analysis</option>
+                                    <option value="Temperature">Temperature</option>
+                                    <option value="Glucose">Glucose</option>
+                                    <option value="Heart Rate">Heart rate</option>
+                                    <option value="Systolic Pressure">Systolic pressure</option>
+                                    <option value="Diastolic Pressure">Diastolic pressure</option>
+                                </select>
+                            </label>
+                            <label className="mb-2">
+                                Analysis value:
+                                <input type="number" value={rezultatValoare}
+                                       onChange={e => setRezultatValoare(e.target.value)} required
+                                       className="mt-1"/>
+                            </label>
+                            <input type="submit" value="Submit"
+                                   className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                        </form>
+                    </Modal>
+                    <ul>
+                        {valoareAnalize.map((valoareAnaliza) => (
+                            <li key={`${valoareAnaliza.analizeIdAnaliza}-${valoareAnaliza.valoare.idValoare}`}
+                                className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2">
+                                Analysis name: {valoareAnaliza.valoare.numeValoare}
+                                <br/>
+                                Analysis value: {valoareAnaliza.valoare.rezultatValoare}
+                                <br/>
+                                Analysis value
+                                interval: {valoareAnaliza.valoare.valoareMin}-{valoareAnaliza.valoare.valoareMax}
+                                <br/>
+                                Date: {valoareAnaliza.analiza.dataAnaliza}
+                            </li>))}
+                    </ul>
+                </div>
             </div>
-        </div>);
+            <TemperatureChart data={data}/>
+        </div>
+    </div>);
 };
 
 export default Diagnostics;

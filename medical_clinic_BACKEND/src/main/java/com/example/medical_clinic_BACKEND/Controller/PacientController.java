@@ -4,18 +4,12 @@ import com.example.medical_clinic_BACKEND.Model.Consultatie;
 import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Service.ConsultatieService;
 import com.example.medical_clinic_BACKEND.Service.PacientService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import javax.crypto.SecretKey;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController

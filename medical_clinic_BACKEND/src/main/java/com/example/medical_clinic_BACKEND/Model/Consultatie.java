@@ -3,7 +3,6 @@ package com.example.medical_clinic_BACKEND.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,15 +31,15 @@ public class Consultatie {
     @Column(name = "nume_consultatie", nullable = false, length = 64)
     private String numeConsultatie;
 
-    @JsonBackReference(value="consultatie-pret")
+    @JsonBackReference(value = "consultatie-pret")
     @ManyToOne
     @JoinColumn(name = "preturi_id_pret", nullable = false)
     private Pret pret;
 
-    @Column(name="rating")
+    @Column(name = "rating")
     private Integer rating;
 
-    @Column(name="feedback", length = 256)
+    @Column(name = "feedback", length = 256)
     private String feedback;
 
     public Consultatie() {
@@ -97,36 +96,36 @@ public class Consultatie {
         this.numeConsultatie = numeConsultatie;
     }
 
-    public void setNumeMedic(String numeMedic) {
-        this.medic.setNumeMedic(numeMedic);
-    }
-
     public String getNumeMedic() {
         return this.medic.getNumeMedic();
     }
 
-    public void setPrenumeMedic(String prenumeMedic) {
-        this.medic.setPrenumeMedic(prenumeMedic);
+    public void setNumeMedic(String numeMedic) {
+        this.medic.setNumeMedic(numeMedic);
     }
 
     public String getPrenumeMedic() {
         return this.medic.getPrenumeMedic();
     }
 
-    public void setNumePacient(String numePacient) {
-        this.pacient.setNumePacient(numePacient);
+    public void setPrenumeMedic(String prenumeMedic) {
+        this.medic.setPrenumeMedic(prenumeMedic);
     }
 
     public String getNumePacient() {
         return this.pacient.getNumePacient();
     }
 
-    public void setPrenumePacient(String prenumePacient) {
-        this.pacient.setPrenumePacient(prenumePacient);
+    public void setNumePacient(String numePacient) {
+        this.pacient.setNumePacient(numePacient);
     }
 
     public String getPrenumePacient() {
         return this.pacient.getPrenumePacient();
+    }
+
+    public void setPrenumePacient(String prenumePacient) {
+        this.pacient.setPrenumePacient(prenumePacient);
     }
 
     public Pret getPret() {
@@ -137,20 +136,20 @@ public class Consultatie {
         this.pret = pret;
     }
 
-    public void setPretFaraAbonament(Double pretFaraAbonament) {
-        this.pret.setPretFaraAbonament(pretFaraAbonament);
-    }
-
     public Double getPretFaraAbonament() {
         return this.pret.getPretFaraAbonament();
     }
 
-    public void setPretCuAbonament(Double pretCuAbonament) {
-        this.pret.setPretCuAbonament(pretCuAbonament);
+    public void setPretFaraAbonament(Double pretFaraAbonament) {
+        this.pret.setPretFaraAbonament(pretFaraAbonament);
     }
 
     public Double getPretCuAbonament() {
         return this.pret.getPretCuAbonament();
+    }
+
+    public void setPretCuAbonament(Double pretCuAbonament) {
+        this.pret.setPretCuAbonament(pretCuAbonament);
     }
 
     public Integer getRating() {

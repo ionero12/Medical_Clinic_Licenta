@@ -6,7 +6,7 @@ import {useUser} from '../user/UserContext';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {startTokenRefresh} from "../user/api";
-import { v4 as uuidv4 } from 'uuid';  // Importing UUID generation library
+import {v4 as uuidv4} from 'uuid';
 
 
 function LoginPage() {
@@ -36,29 +36,25 @@ function LoginPage() {
             const emailField = userType === 'medic' ? 'emailMedic' : 'emailPacient';
             const parolaField = userType === 'medic' ? 'parolaMedic' : 'parolaPacient';
 
-            // Generate session key
             const sessionKey = uuidv4();
 
             const response = await fetch(`http://localhost:8081/api/login/${userType}`, {
-                method: 'POST',
-                headers: {
+                method: 'POST', headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
+                }, body: JSON.stringify({
                     [emailField]: userType === 'medic' ? emailMedic : emailPacient,
                     [parolaField]: userType === 'medic' ? parolaMedic : parolaPacient,
                     sessionKey: sessionKey
-                }),
-                credentials: 'include',  // Include credentials in the request
+                }), credentials: 'include',
             });
 
             if (response.ok) {
                 const data = await response.json();
                 console.log('Logged in:', data);
 
-                const newUser = { userType: userType, userData: data.medic || data.pacient };
+                const newUser = {userType: userType, userData: data.medic || data.pacient};
                 sessionStorage.setItem('user', JSON.stringify(newUser));
-                sessionStorage.setItem('sessionKey', sessionKey);  // Store the session key in session storage
+                sessionStorage.setItem('sessionKey', sessionKey);
                 setUser(newUser);
 
                 sessionStorage.setItem('loggedIn', 'true');
@@ -74,7 +70,6 @@ function LoginPage() {
             console.error('Error during login:', error);
         }
     };
-
 
 
     return (<div>

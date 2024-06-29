@@ -38,59 +38,59 @@ const TemperatureChart = ({data}) => {
     }));
 
     return (<div className="flex flex-wrap justify-between mt-3">
-            <div className="w-full sm:w-1/2 mb-4">
-                <div className="bg-white text-black rounded-lg p-4 mr-1 flex justify-center">
-                    <LineChart width={320} height={250} data={chartData1}>
-                        <Line type="monotone" dataKey="Temperature" stroke="#8884d8" name="Temperature"/>
-                        <CartesianGrid stroke="#ccc"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend align="center"/>
-                    </LineChart>
-                </div>
+        <div className="w-full sm:w-1/2 mb-4">
+            <div className="bg-white text-black rounded-lg p-4 mr-1 flex justify-center">
+                <LineChart width={320} height={250} data={chartData1}>
+                    <Line type="monotone" dataKey="Temperature" stroke="#8884d8" name="Temperature"/>
+                    <CartesianGrid stroke="#ccc"/>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Legend align="center"/>
+                </LineChart>
             </div>
+        </div>
 
-            <div className="w-full sm:w-1/2 mb-4">
-                <div className="bg-white text-black rounded-lg p-4 ml-1 flex justify-center">
-                    <LineChart width={320} height={250} data={chartData2}>
-                        <Line type="monotone" dataKey="Heart" stroke="#8884d8" name="Heart Rate"/>
-                        <CartesianGrid stroke="#ccc"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend align="center"/>
-                    </LineChart>
-                </div>
+        <div className="w-full sm:w-1/2 mb-4">
+            <div className="bg-white text-black rounded-lg p-4 ml-1 flex justify-center">
+                <LineChart width={320} height={250} data={chartData2}>
+                    <Line type="monotone" dataKey="Heart" stroke="#8884d8" name="Heart Rate"/>
+                    <CartesianGrid stroke="#ccc"/>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Legend align="center"/>
+                </LineChart>
             </div>
+        </div>
 
-            <div className="w-full sm:w-1/2 mb-4">
-                <div className="bg-white text-black rounded-lg p-4 mr-1 flex justify-center">
-                    <LineChart width={320} height={250} data={chartData3}>
-                        <Line type="monotone" dataKey="Glucose" stroke="#8884d8" name="Glucose"/>
-                        <CartesianGrid stroke="#ccc"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend align="center"/>
-                    </LineChart>
-                </div>
+        <div className="w-full sm:w-1/2 mb-4">
+            <div className="bg-white text-black rounded-lg p-4 mr-1 flex justify-center">
+                <LineChart width={320} height={250} data={chartData3}>
+                    <Line type="monotone" dataKey="Glucose" stroke="#8884d8" name="Glucose"/>
+                    <CartesianGrid stroke="#ccc"/>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Legend align="center"/>
+                </LineChart>
             </div>
+        </div>
 
-            <div className="w-full sm:w-1/2 mb-4">
-                <div className="bg-white text-black rounded-lg p-4 ml-1 flex justify-center">
-                    <LineChart width={320} height={250} data={combinedChartData}>
-                        <Line type="monotone" dataKey="Systolic" stroke="#8884d8" name="Systolic"/>
-                        <Line type="monotone" dataKey="Diastolic" stroke="#82ca9d" name="Diastolic"/>
-                        <CartesianGrid stroke="#ccc"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                        <Legend align="center"/>
-                    </LineChart>
-                </div>
+        <div className="w-full sm:w-1/2 mb-4">
+            <div className="bg-white text-black rounded-lg p-4 ml-1 flex justify-center">
+                <LineChart width={320} height={250} data={combinedChartData}>
+                    <Line type="monotone" dataKey="Systolic" stroke="#8884d8" name="Systolic"/>
+                    <Line type="monotone" dataKey="Diastolic" stroke="#82ca9d" name="Diastolic"/>
+                    <CartesianGrid stroke="#ccc"/>
+                    <XAxis dataKey="name"/>
+                    <YAxis/>
+                    <Tooltip/>
+                    <Legend align="center"/>
+                </LineChart>
             </div>
-        </div>);
+        </div>
+    </div>);
 }
 
 export default TemperatureChart;

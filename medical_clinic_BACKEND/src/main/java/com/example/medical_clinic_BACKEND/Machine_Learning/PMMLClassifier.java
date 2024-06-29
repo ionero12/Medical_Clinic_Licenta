@@ -1,10 +1,13 @@
 package com.example.medical_clinic_BACKEND.Machine_Learning;
 
-import org.dmg.pmml.*;
+import org.dmg.pmml.FieldName;
+import org.dmg.pmml.PMML;
 import org.jpmml.evaluator.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class PMMLClassifier {
 
@@ -19,7 +22,7 @@ public class PMMLClassifier {
 
 
         Map<FieldName, FieldValue> arguments = new LinkedHashMap<>();
-        for(InputField inputField : modelEvaluator.getActiveFields()){
+        for (InputField inputField : modelEvaluator.getActiveFields()) {
             FieldName activeField = inputField.getName();
             FieldValue activeValue = inputField.prepare("I have bloody stool, constipation,my butt hurts.");
             arguments.put(activeField, activeValue);
@@ -31,8 +34,7 @@ public class PMMLClassifier {
         FieldName targetName = targetField.getName();
         Object targetValue = results.get(targetName);
 
-        if (targetValue instanceof ProbabilityDistribution) {
-            ProbabilityDistribution distribution = (ProbabilityDistribution) targetValue;
+        if (targetValue instanceof ProbabilityDistribution distribution) {
             String predictedDisease = (String) distribution.getResult();
             System.out.println("Predicted disease: " + predictedDisease);
         } else {

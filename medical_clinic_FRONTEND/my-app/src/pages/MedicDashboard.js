@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {useUser} from '../user/UserContext'; // import useUser
+import {useUser} from '../user/UserContext';
 import MedicMenu from '../components/MedicMenu';
 import {api} from '../user/api.js'
 
@@ -8,8 +8,8 @@ import {api} from '../user/api.js'
 const MedicDashboard = () => {
     const [patients, setPatients] = useState([]);
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-    const {user} = useUser();  // get user from the user context
-    const idMedic = user ? user.userData.idMedic : null;  // get medicId from the user
+    const {user} = useUser();
+    const idMedic = user ? user.userData.idMedic : null;
 
     useEffect(() => {
         const fetchPatients = async () => {

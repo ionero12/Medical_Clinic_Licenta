@@ -1,6 +1,5 @@
 package com.example.medical_clinic_BACKEND.Service;
 
-import com.example.medical_clinic_BACKEND.Model.Medic;
 import com.example.medical_clinic_BACKEND.Model.Pacient;
 import com.example.medical_clinic_BACKEND.Repository.PacientRepository;
 import jakarta.transaction.Transactional;
@@ -46,7 +45,7 @@ public class PacientService {
     }
 
     @Transactional
-    public void updatePacient(Long idPacient, String numePacient, String prenumePacient , String telefonPacient, String emailPacient, String parolaPacient, Double inaltimePacient, Double greutatePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
+    public void updatePacient(Long idPacient, String numePacient, String prenumePacient, String telefonPacient, String emailPacient, String parolaPacient, Double inaltimePacient, Double greutatePacient, Character asigurat, Character abonamentPacient, Integer varstaPacient) {
         Pacient pacient = pacientRepository.findById(idPacient).orElseThrow(() -> new IllegalStateException("Pacientul cu id-ul " + idPacient + " nu exista"));
         if (numePacient != null && !numePacient.isEmpty() && !pacient.getNumePacient().equals(numePacient)) {
             pacient.setNumePacient(numePacient);
@@ -79,7 +78,6 @@ public class PacientService {
             pacient.setVarstaPacient(varstaPacient);
         }
 
-        // Validează obiectul Pacient
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
@@ -89,7 +87,6 @@ public class PacientService {
             throw new ConstraintViolationException(violations);
         }
 
-        // Salvează modificările în baza de date
         pacientRepository.save(pacient);
     }
 

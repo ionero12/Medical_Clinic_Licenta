@@ -29,7 +29,6 @@ function MedicProfile() {
                     const response = await api.get(`/medic/${idMedic}`);
                     const data = response.data;
                     setEmailMedic(data.emailMedic || '');
-                    //setParolaMedic(data.parolaMedic || '');
                     setNumeMedic(data.numeMedic || '');
                     setPrenumeMedic(data.prenumeMedic || '');
                     setTelefonMedic(data.telefonMedic || '');
@@ -46,8 +45,7 @@ function MedicProfile() {
         try {
             await api.put(`/medic/${idMedic}`, null, {
                 params: {
-                    emailMedic,
-                    numeMedic, prenumeMedic, telefonMedic
+                    emailMedic, numeMedic, prenumeMedic, telefonMedic
                 }
             });
             toast.success('Medic profile updated successfully');
@@ -192,8 +190,7 @@ function MedicProfile() {
                 </div>
             </div>
         </div>
-    </div>)
-        ;
+    </div>);
 }
 
 export default MedicProfile;

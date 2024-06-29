@@ -62,21 +62,18 @@ public class AuthController {
                     .setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
                     .signWith(key).compact();
 
-            // Set JWT token in HttpOnly cookie
             Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
             jwtCookie.setHttpOnly(true);
             jwtCookie.setMaxAge(15 * 60); // 15 minutes
             jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
 
-            // Set Refresh token in HttpOnly cookie
             Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
             refreshCookie.setHttpOnly(true);
             refreshCookie.setMaxAge(60 * 60); // 60 minutes
             refreshCookie.setPath("/");
             response.addCookie(refreshCookie);
 
-            // Manually add SameSite attribute
             response.addHeader("Set-Cookie", "jwtToken=" + jwtToken + "; HttpOnly; Max-Age=" + (15 * 60) + "; Path=/; SameSite=Strict");
             response.addHeader("Set-Cookie", "refreshToken=" + refreshToken + "; HttpOnly; Max-Age=" + (60 * 60) + "; Path=/; SameSite=Strict");
 
@@ -112,21 +109,18 @@ public class AuthController {
                     .setExpiration(new Date(System.currentTimeMillis() + 60 * 60000)) // 60 min
                     .signWith(key).compact();
 
-            // Set JWT token in HttpOnly cookie
             Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
             jwtCookie.setHttpOnly(true);
             jwtCookie.setMaxAge(15 * 60); // 15 minutes
             jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
 
-            // Set Refresh token in HttpOnly cookie
             Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
             refreshCookie.setHttpOnly(true);
             refreshCookie.setMaxAge(60 * 60); // 60 minutes
             refreshCookie.setPath("/");
             response.addCookie(refreshCookie);
 
-            // Manually add SameSite attribute
             response.addHeader("Set-Cookie", "jwtToken=" + jwtToken + "; HttpOnly; Max-Age=" + (15 * 60) + "; Path=/; SameSite=Strict");
             response.addHeader("Set-Cookie", "refreshToken=" + refreshToken + "; HttpOnly; Max-Age=" + (60 * 60) + "; Path=/; SameSite=Strict");
 
@@ -180,7 +174,6 @@ public class AuthController {
             jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
 
-            // Manually add SameSite attribute
             response.addHeader("Set-Cookie", "jwtToken=" + jwtToken + "; HttpOnly; Max-Age=" + (15 * 60) + "; Path=/; SameSite=Strict");
 
             return ResponseEntity.ok().build();

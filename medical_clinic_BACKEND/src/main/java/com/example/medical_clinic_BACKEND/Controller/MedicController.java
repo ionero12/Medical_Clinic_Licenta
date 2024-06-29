@@ -2,18 +2,11 @@ package com.example.medical_clinic_BACKEND.Controller;
 
 import com.example.medical_clinic_BACKEND.Model.Medic;
 import com.example.medical_clinic_BACKEND.Service.MedicService;
-import io.jsonwebtoken.security.Keys;
-
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
-import javax.crypto.SecretKey;
-import java.util.*;
+import java.util.List;
 
 
 @RestController
@@ -54,7 +47,7 @@ public class MedicController {
     }
 
     @PutMapping(path = "{idMedic}")
-    public void updateMedic(@PathVariable("idMedic") Long idMedic, @RequestParam(required = false) String numeMedic, @RequestParam(required = false) String prenumeMedic, @RequestParam(required = false) String emailMedic, @RequestParam(required = false) String telefonMedic, @RequestParam(required = false) String parolaMedic, @RequestParam(required = false) Integer experienta){
+    public void updateMedic(@PathVariable("idMedic") Long idMedic, @RequestParam(required = false) String numeMedic, @RequestParam(required = false) String prenumeMedic, @RequestParam(required = false) String emailMedic, @RequestParam(required = false) String telefonMedic, @RequestParam(required = false) String parolaMedic, @RequestParam(required = false) Integer experienta) {
         medicService.updateMedic(idMedic, numeMedic, prenumeMedic, telefonMedic, emailMedic, parolaMedic, experienta);
     }
 }

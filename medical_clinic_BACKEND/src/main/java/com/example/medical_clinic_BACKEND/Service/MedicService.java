@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MedicService {
@@ -32,8 +35,7 @@ public class MedicService {
     }
 
     public void addMedic(@Valid Medic medic) {
-        Specializare specializare = specializareRepository.findById(medic.getSpecializare().getIdSpecializare())
-                .orElseThrow(() -> new IllegalArgumentException("Specializare does not exist"));
+        Specializare specializare = specializareRepository.findById(medic.getSpecializare().getIdSpecializare()).orElseThrow(() -> new IllegalArgumentException("Specializare does not exist"));
 
         medic.setSpecializare(specializare);
 

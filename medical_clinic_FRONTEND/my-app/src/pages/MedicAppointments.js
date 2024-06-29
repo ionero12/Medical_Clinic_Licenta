@@ -205,7 +205,7 @@ const MedicAppointments = () => {
             theme="light"
         />
         <div className="p-6">
-            <MedicMenu medicId = {idMedic}/>
+            <MedicMenu medicId={idMedic}/>
             <div className="flex flex-col md:flex-row mt-4">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0">
                     <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
@@ -243,9 +243,8 @@ const MedicAppointments = () => {
                                 <select value={cnpPacient} onChange={e => setCnpPacient(e.target.value)} required
                                         className="mt-1">
                                     <option value="">Select name</option>
-                                    {patients.map(patient => (
-                                        <option key={patient.cnpPacient} value={patient.cnpPacient}>{`${patient.numePacient} ${patient.prenumePacient}`}</option>
-                                    ))}
+                                    {patients.map(patient => (<option key={patient.cnpPacient}
+                                                                      value={patient.cnpPacient}>{`${patient.numePacient} ${patient.prenumePacient}`}</option>))}
                                 </select>
                             </label>
                             <label className="mb-2">
@@ -294,7 +293,7 @@ const MedicAppointments = () => {
                                     isOpen={editModalIsOpen}
                                     onRequestClose={closeEditModal}
                                     contentLabel="Update AppointmentMedic"
-                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                                    className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                                 >
                                     <form onSubmit={handleUpdateAppointment} className="flex flex-col">
                                         <label className="mb-2">

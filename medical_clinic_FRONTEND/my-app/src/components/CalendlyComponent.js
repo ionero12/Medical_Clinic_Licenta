@@ -1,16 +1,16 @@
-// SchedulingComponent.jsx
 import React from 'react';
 import { InlineWidget } from 'react-calendly';
 
 const doctorUrls = {
-    24: 'https://calendly.com/ionelaalexandras90-1/30min',
+    23: 'https://calendly.com/ionelaalexandras90-4/30min',
+    24: 'https://calendly.com/ionelaalexandras90-3/15min'
 }
 
 const CalendlyComponent = ({ medicId }) => {
     const calendlyUrl = doctorUrls[medicId];
 
     if (!calendlyUrl) {
-        return <p className="text-red-500">Invalid doctor ID.</p>;
+        return <p className="text-red-500">Doctor does not accept online meetings.</p>;
     }
 
     return (

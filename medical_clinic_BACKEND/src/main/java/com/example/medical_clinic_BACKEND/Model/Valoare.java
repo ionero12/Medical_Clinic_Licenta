@@ -1,7 +1,6 @@
 package com.example.medical_clinic_BACKEND.Model;
 
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "valori")

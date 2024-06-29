@@ -26,11 +26,9 @@ function MedicRegister() {
             };
 
             const response = await fetch('http://localhost:8081/api/medic', {
-                method: 'POST',
-                headers: {
+                method: 'POST', headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newUser)
+                }, body: JSON.stringify(newUser)
             });
 
             if (response.ok) {
@@ -62,99 +60,99 @@ function MedicRegister() {
             draggable
             theme="light"
         />
-    <div className="pt-5">
-        <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
-            <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
-            <label className="block mb-2">
-                First Name:
-                <input
-                    type="text"
-                    value={prenumeMedic}
-                    onChange={e => setPrenumeMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Second Name:
-                <input
-                    type="text"
-                    value={numeMedic}
-                    onChange={e => setNumeMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                CNP:
-                <input
-                    type="text"
-                    value={cnpMedic}
-                    onChange={e => setCnpMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Date of Birth:
-                <input
-                    type="date"
-                    value={dataNastereMedic}
-                    onChange={e => setDataNastereMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Specialization:
-                <SpecializationDropdown onSelectSpecialization={setSelectedSpecializationId}/>
-            </label>
-            <label className="block mb-2">
-                Experience
-                <input
-                    type="number"
-                    value={experienta}
-                    onChange={e => setExperienta(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                University:
-                <input
-                    type="text"
-                    value={universitate}
-                    onChange={e => setUniversitate(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Phone number:
-                <input
-                    type="phone"
-                    value={telefonMedic}
-                    onChange={e => setTelefonMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Email:
-                <input
-                    type="email"
-                    value={emailMedic}
-                    onChange={e => setEmailMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <label className="block mb-2">
-                Password:
-                <input
-                    type="password"
-                    value={parolaMedic}
-                    onChange={e => setParolaMedic(e.target.value)}
-                    className="w-full px-2 py-1 mb-4 border border-gray-300"
-                />
-            </label>
-            <button onClick={handleRegistration}
-                    className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register
-            </button>
+        <div className="pt-5">
+            <div className="max-w-md mx-auto bg-white p-5 rounded shadow-md">
+                <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
+                <label className="block mb-2">
+                    First Name:
+                    <input
+                        type="text"
+                        value={prenumeMedic}
+                        onChange={e => setPrenumeMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Second Name:
+                    <input
+                        type="text"
+                        value={numeMedic}
+                        onChange={e => setNumeMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    CNP:
+                    <input
+                        type="text"
+                        value={cnpMedic}
+                        onChange={e => setCnpMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Date of Birth:
+                    <input
+                        type="date"
+                        value={dataNastereMedic}
+                        onChange={e => setDataNastereMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Specialization:
+                    <SpecializationDropdown onSelectSpecialization={setSelectedSpecializationId}/>
+                </label>
+                <label className="block mb-2">
+                    Experience
+                    <input
+                        type="number"
+                        value={experienta}
+                        onChange={e => setExperienta(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    University:
+                    <input
+                        type="text"
+                        value={universitate}
+                        onChange={e => setUniversitate(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Phone number:
+                    <input
+                        type="phone"
+                        value={telefonMedic}
+                        onChange={e => setTelefonMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Email:
+                    <input
+                        type="email"
+                        value={emailMedic}
+                        onChange={e => setEmailMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <label className="block mb-2">
+                    Password:
+                    <input
+                        type="password"
+                        value={parolaMedic}
+                        onChange={e => setParolaMedic(e.target.value)}
+                        className="w-full px-2 py-1 mb-4 border border-gray-300"
+                    />
+                </label>
+                <button onClick={handleRegistration}
+                        className="w-full px-4 py-2 bg-gray-800 text-white border-none cursor-pointer">Register
+                </button>
+            </div>
         </div>
-    </div>
     </div>);
 }
 

@@ -18,7 +18,7 @@ public class Diagnostic {
     @Column(name = "nume_diagnostic", nullable = false, length = 64)
     private String numeDiagnostic;
 
-    @Column(name = "data_diagnostic",nullable = false)
+    @Column(name = "data_diagnostic", nullable = false)
     private LocalDate dataDiagnostic;
 
     @Column(name = "descriere_diagnostic", length = 256)

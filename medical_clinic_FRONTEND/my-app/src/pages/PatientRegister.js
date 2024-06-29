@@ -47,8 +47,7 @@ function PatientRegister() {
             if (response.ok) {
                 toast.success('Registration successful')
                 navigate('/login');
-            }
-            else {
+            } else {
                 const errorData = await response.json();
                 if (response.status === 400 && errorData) {
                     for (const [field, message] of Object.entries(errorData)) {

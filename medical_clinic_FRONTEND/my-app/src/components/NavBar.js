@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react';
 import MedicMenu from './MedicMenu';
 import PatientMenu from './PatientMenu';
 
-const Navbar = ({ userType, medicId }) => {
+const Navbar = ({userType, medicId}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -12,21 +11,19 @@ const Navbar = ({ userType, medicId }) => {
 
     const renderMenu = () => {
         if (userType === 'medic') {
-            return <MedicMenu medicId={medicId} />;
+            return <MedicMenu medicId={medicId}/>;
         } else if (userType === 'pacient') {
-            return <PatientMenu />;
+            return <PatientMenu/>;
         } else {
             return null;
         }
     };
 
-    return (
-        <div >
-            <div >
+    return (<div>
+            <div>
                 {renderMenu()}
             </div>
-        </div>
-    );
+        </div>);
 };
 
 export default Navbar;

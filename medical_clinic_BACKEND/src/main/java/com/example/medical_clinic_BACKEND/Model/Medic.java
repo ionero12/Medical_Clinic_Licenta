@@ -1,9 +1,7 @@
 package com.example.medical_clinic_BACKEND.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -51,10 +49,10 @@ public class Medic {
     private Specializare specializare;
 
     @Column(name = "parola_medic", nullable = false, length = 64)
-    @Size(min=4, message = "Password must have at least 4 characters")
+    @Size(min = 4, message = "Password must have at least 4 characters")
     private String parolaMedic;
 
-    @JsonManagedReference(value="medic-consultatii")
+    @JsonManagedReference(value = "medic-consultatii")
     @OneToMany(mappedBy = "medic")
     private List<Consultatie> consultatii = new ArrayList<>();
 

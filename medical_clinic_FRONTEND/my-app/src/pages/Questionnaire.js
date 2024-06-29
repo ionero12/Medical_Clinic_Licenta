@@ -150,7 +150,8 @@ const Questionnaire = () => {
                             <input type="radio" name="nausea vomiting" value="no" className="mr-1"/> No
                         </label>
                     </div>
-                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any pain in your usual urination?</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any pain in your usual
+                        urination?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
                             <input type="radio" name="urination pain" value="yes" className="mr-1"/> Yes
@@ -159,7 +160,8 @@ const Questionnaire = () => {
                             <input type="radio" name="urination pain" value="no" className="mr-1"/> No
                         </label>
                     </div>
-                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any changes in your bowel movements, such as constipation?</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Have you noticed any changes in your bowel
+                        movements, such as constipation?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
                             <input type="radio" name="constipation" value="yes" className="mr-1"/> Yes
@@ -168,7 +170,8 @@ const Questionnaire = () => {
                             <input type="radio" name="constipation" value="no" className="mr-1"/> No
                         </label>
                     </div>
-                    <p className="text-gray-700 leading-relaxed mb-2">Do you experience any abdominal pain or discomfort, especially after eating?</p>
+                    <p className="text-gray-700 leading-relaxed mb-2">Do you experience any abdominal pain or
+                        discomfort, especially after eating?</p>
                     <div className="flex justify-center mb-4">
                         <label className="mr-4">
                             <input type="radio" name="abdominal pain" value="yes" className="mr-1"/> Yes

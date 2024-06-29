@@ -1,6 +1,9 @@
 package com.example.medical_clinic_BACKEND.Service;
 
-import com.example.medical_clinic_BACKEND.Model.*;
+import com.example.medical_clinic_BACKEND.Model.Consultatie;
+import com.example.medical_clinic_BACKEND.Model.Medic;
+import com.example.medical_clinic_BACKEND.Model.Pacient;
+import com.example.medical_clinic_BACKEND.Model.Pret;
 import com.example.medical_clinic_BACKEND.Repository.ConsultatieRepository;
 import com.example.medical_clinic_BACKEND.Repository.PacientRepository;
 import com.example.medical_clinic_BACKEND.Repository.PretRepository;
@@ -32,7 +35,7 @@ public class ConsultatieService {
         return consultatieRepository.findAll();
     }
 
-    public List<Consultatie> getConsultatiiWithPrices(){
+    public List<Consultatie> getConsultatiiWithPrices() {
         List<Consultatie> consultatii = consultatieRepository.findAll();
         Map<String, Consultatie> uniqueConsultatii = new HashMap<>();
         for (Consultatie consultatie : consultatii) {
@@ -47,13 +50,11 @@ public class ConsultatieService {
     }
 
 
-
     @Transactional
     public void addConsultatie(Consultatie consultatie) {
         System.out.println(consultatie.getNumeConsultatie() + " " + consultatie.getMedic().getIdMedic() + " " + consultatie.getPacient().getCnpPacient() + " " + consultatie.getPret());
 
-        Pacient pacient = pacientRepository.findByCnp(consultatie.getPacient().getCnpPacient())
-                .orElseThrow(() -> new IllegalStateException("Pacient does not exist"));
+        Pacient pacient = pacientRepository.findByCnp(consultatie.getPacient().getCnpPacient()).orElseThrow(() -> new IllegalStateException("Pacient does not exist"));
         consultatie.setPacient(pacient);
 
         List<Consultatie> existingConsultaties = consultatieRepository.findByName(consultatie.getNumeConsultatie());
@@ -61,8 +62,7 @@ public class ConsultatieService {
             if (consultatie.getNumeConsultatie().equals(existingConsultatie.getNumeConsultatie())) {
                 consultatie.setPret(existingConsultatie.getPret());
             } else {
-                Pret pret = pretRepository.findById(consultatie.getPret().getIdPret())
-                        .orElseThrow(() -> new IllegalStateException("Pret does not exist"));
+                Pret pret = pretRepository.findById(consultatie.getPret().getIdPret()).orElseThrow(() -> new IllegalStateException("Pret does not exist"));
                 consultatie.setPret(pret);
                 pret.getConsultatii().add(consultatie);
             }
@@ -91,8 +91,7 @@ public class ConsultatieService {
     @Transactional
     public Consultatie updateConsultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Integer rating, String feedback) {
         System.out.println(idConsultatie + " " + dataConsultatiei + " " + rating + " " + feedback);
-        Consultatie consultatie = consultatieRepository.findById(idConsultatie)
-                .orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
+        Consultatie consultatie = consultatieRepository.findById(idConsultatie).orElseThrow(() -> new IllegalStateException("Consultatia cu id-ul " + idConsultatie + " nu exista"));
 
         if (dataConsultatiei != null && !dataConsultatiei.equals(consultatie.getDataConsultatiei())) {
             consultatie.setDataConsultatiei(dataConsultatiei);

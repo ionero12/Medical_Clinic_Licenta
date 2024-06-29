@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class Pacient {
     @Column(name = "abonament_pacient", nullable = false)
     private Character abonamentPacient;
 
-    @Size(min=4, message = "Password must have at least 4 characters")
+    @Size(min = 4, message = "Password must have at least 4 characters")
     @Column(name = "parola_pacient", nullable = false)
     private String parolaPacient;
 

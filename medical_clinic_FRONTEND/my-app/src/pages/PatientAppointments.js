@@ -26,7 +26,7 @@ const PatientAppointments = () => {
     const [idConsultatie, setIdConsultatie] = useState('');
     const [numeConsultatie, setNumeConsultatie] = useState("");
     const [selectedDate, setSelectedDate] = useState('');
-    const [selectedHour, setSelectedHour] = useState('08:00'); // Default to 08:00
+    const [selectedHour, setSelectedHour] = useState('08:00');
     const [rating, setRating] = useState('');
     const [feedback, setFeedback] = useState('');
 
@@ -107,14 +107,9 @@ const PatientAppointments = () => {
         const newAppointment = {
             pacient: {
                 cnpPacient: user.userData.cnpPacient
-            },
-            medic: {
-                idMedic,
-                numeMedic: medicData.numeMedic,
-                prenumeMedic: medicData.prenumeMedic
-            },
-            numeConsultatie,
-            dataConsultatiei: `${selectedDate}T${selectedHour}:00`
+            }, medic: {
+                idMedic, numeMedic: medicData.numeMedic, prenumeMedic: medicData.prenumeMedic
+            }, numeConsultatie, dataConsultatiei: `${selectedDate}T${selectedHour}:00`
         };
 
         try {
@@ -271,48 +266,48 @@ const PatientAppointments = () => {
                     <h2 className="text-2xl font-bold mb-2">Past Appointments</h2>
                     {pastAppointments.map(appointment => (<div key={appointment.idConsultatie}
                                                                className="border-gray-400 border-2 p-4 rounded-md shadow-lg transition duration-300 ease-in-out hover:shadow-2xl mb-2 flex justify-between items-center">
-                            <div>
-                                <p>
-                                    Appointment name: {appointment.numeConsultatie}
-                                    <br/>
-                                    Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
-                                    <br/>
-                                    Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
-                                    Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
-                                </p>
-                            </div>
-                            <button
-                                onClick={() => {
-                                    setIdConsultatie(appointment.idConsultatie);
-                                    openAddFeedbackModal();
-                                }}
-                                className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
-                                Add feedback <FontAwesomeIcon icon={faPlus}/>
-                            </button>
-                            <Modal
-                                isOpen={addFeedbackModalIsOpen}
-                                onRequestClose={closeAddFeedbackModal}
-                                contentLabel="Add Feedback Medic"
-                                className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
-                            >
-                                <form onSubmit={handleAddFeedback} className="flex flex-col">
-                                    <label className="mb-2">
-                                        Select the rating:
-                                        <StarRating onRatingChange={handleRatingChange} editable={true}/>
-                                    </label>
-                                    <label className="mb-2">
-                                        Add feedback:
-                                        <input
-                                            type="text"
-                                            value={feedback}
-                                            onChange={(e) => setFeedback(e.target.value)}
-                                        />
-                                    </label>
-                                    <input type="submit" value="Submit"
-                                           className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
-                                </form>
-                            </Modal>
-                        </div>))}
+                        <div>
+                            <p>
+                                Appointment name: {appointment.numeConsultatie}
+                                <br/>
+                                Medic name: {appointment.numeMedic} {appointment.prenumeMedic}
+                                <br/>
+                                Date: {new Date(appointment.dataConsultatiei).toLocaleDateString()},
+                                Hour: {new Date(appointment.dataConsultatiei).toLocaleTimeString()}
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => {
+                                setIdConsultatie(appointment.idConsultatie);
+                                openAddFeedbackModal();
+                            }}
+                            className={`bg-emerald-500 hover:bg-emerald-700 text-white py-2 px-3 rounded transition duration-200`}>
+                            Add feedback <FontAwesomeIcon icon={faPlus}/>
+                        </button>
+                        <Modal
+                            isOpen={addFeedbackModalIsOpen}
+                            onRequestClose={closeAddFeedbackModal}
+                            contentLabel="Add Feedback Medic"
+                            className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl  border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        >
+                            <form onSubmit={handleAddFeedback} className="flex flex-col">
+                                <label className="mb-2">
+                                    Select the rating:
+                                    <StarRating onRatingChange={handleRatingChange} editable={true}/>
+                                </label>
+                                <label className="mb-2">
+                                    Add feedback:
+                                    <input
+                                        type="text"
+                                        value={feedback}
+                                        onChange={(e) => setFeedback(e.target.value)}
+                                    />
+                                </label>
+                                <input type="submit" value="Submit"
+                                       className="mt-7 border-2 border-blue-600 rounded-3xl w-1/2 mx-auto"/>
+                            </form>
+                        </Modal>
+                    </div>))}
                 </div>
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
                     <div className="flex justify-between items-center">
@@ -334,7 +329,7 @@ const PatientAppointments = () => {
                                 Select the appointment:
                                 <select
                                     onChange={e => handleAppointmentChange(e.target.value, e.target.options[e.target.selectedIndex].text)}>
-                                    <option value="">Select appointment</option>
+                                    <option value="">Select specialization</option>
                                     {uniqueAppointments.map(appointment => (
                                         <option key={appointment.idConsultatie} value={appointment.idConsultatie}>
                                             {appointment.numeConsultatie}

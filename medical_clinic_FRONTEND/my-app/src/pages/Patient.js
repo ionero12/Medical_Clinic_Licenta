@@ -12,7 +12,6 @@ import {api} from '../user/api.js'
 import {useUser} from "../user/UserContext";
 
 
-
 const Patient = () => {
     Modal.setAppElement('#root')
 
@@ -228,7 +227,7 @@ const Patient = () => {
             theme="light"
         />
         <div className="p-6">
-            <MedicMenu medicId = {idMedic}/>
+            <MedicMenu medicId={idMedic}/>
             <div className="flex flex-col md:flex-row mt-2">
                 <div className="bg-white p-4 rounded shadow w-full md:w-1/2 mr-2 mb-4 md:mb-0 text-lg">
                     <h2 className="text-3xl font-bold mb-4">{patient?.numePacient} {patient?.prenumePacient}</h2>
@@ -254,7 +253,7 @@ const Patient = () => {
                         isOpen={addAnalizaModalIsOpen}
                         onRequestClose={closeAddAnalizaModal}
                         contentLabel="Add analiza"
-                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddAnaliza} className="flex flex-col">
                             <label className="mb-2">
@@ -291,7 +290,8 @@ const Patient = () => {
                                         <br/>
                                         Analysis value: {valoareAnaliza.valoare.rezultatValoare}
                                         <br/>
-                                        Analysis value interval: {valoareAnaliza.valoare.valoareMin}-{valoareAnaliza.valoare.valoareMax}
+                                        Analysis value
+                                        interval: {valoareAnaliza.valoare.valoareMin}-{valoareAnaliza.valoare.valoareMax}
                                         <br/>
                                         Date: {valoareAnaliza.analiza.dataAnaliza}
                                     </div>
@@ -313,7 +313,7 @@ const Patient = () => {
                         isOpen={addDiagnosticModalIsOpen}
                         onRequestClose={closeAddDiagnosticModal}
                         contentLabel="Add diagnostic"
-                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-200 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
+                        className="w-80 h-80 p-4 m-4 md:w-1/2 md:h-1/2 lg:w-1/3 lg:h-2/3 mx-auto mt-36 bg-blue-300 rounded-2xl border-2 border-blue-600 text-center content-center animate__animated animate__zoomIn"
                     >
                         <form onSubmit={handleAddDiagnostic} className="flex flex-col">
                             <label className="mb-2">

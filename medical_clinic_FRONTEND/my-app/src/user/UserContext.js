@@ -1,8 +1,8 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 
 export const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+export const UserProvider = ({children}) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -10,7 +10,7 @@ export const UserProvider = ({ children }) => {
         if (storedUser && storedUser !== 'undefined') {
             setUser(JSON.parse(storedUser));
         } else {
-            setUser({ userType: '', userData: null });
+            setUser({userType: '', userData: null});
         }
     }, []);
 
@@ -18,11 +18,9 @@ export const UserProvider = ({ children }) => {
     }, [user]);
 
 
-    return (
-        <UserContext.Provider value={{ user, setUser }}>
+    return (<UserContext.Provider value={{user, setUser}}>
             {children}
-        </UserContext.Provider>
-    );
+        </UserContext.Provider>);
 };
 
 export const useUser = () => useContext(UserContext);

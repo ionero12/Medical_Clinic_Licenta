@@ -92,11 +92,9 @@ const Medic = () => {
                     {/*        <FullCalendarComponent />*/}
                     {/*    </div>*/}
                     {/*)}*/}
-                    {user?.userType === 'pacient' && (
-                        <div className="mb-4">
-                            <CalendlyComponent medicId={idMedic} />
-                        </div>
-                    )}
+                    {user?.userType === 'pacient' && (<div className="mb-4">
+                            <CalendlyComponent medicId={idMedic}/>
+                        </div>)}
                 </div>
             </div>
             <div className="bg-white p-4 rounded shadow w-full md:w-1/2">
