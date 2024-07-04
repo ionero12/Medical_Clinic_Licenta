@@ -26,7 +26,7 @@ public class SymptomController {
 
     public SymptomController(BoalaRepository boalaRepository) throws Exception {
         PMML pmml;
-        try (InputStream in = new FileInputStream("src/main/resources/gaussian_nb_model_new2.pmml")) {
+        try (InputStream in = new FileInputStream("src/main/resources/gaussian_nb_model_new2_2.pmml")) {
             pmml = PMMLUtil.unmarshal(in);
         }
 

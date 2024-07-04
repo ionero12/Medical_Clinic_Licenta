@@ -13,7 +13,7 @@ public class PMMLClassifier {
 
     public static void main(String[] args) throws Exception {
         PMML pmml;
-        try (InputStream in = new FileInputStream("C:\\Users\\Ione\\Desktop\\test1\\bayes\\gaussian_nb_model_new2.pmml")) {
+        try (InputStream in = new FileInputStream("C:\\Users\\Ione\\Desktop\\test1\\bayes\\gaussian_nb_model_new2_2.pmml")) {
             pmml = org.jpmml.model.PMMLUtil.unmarshal(in);
         }
 
