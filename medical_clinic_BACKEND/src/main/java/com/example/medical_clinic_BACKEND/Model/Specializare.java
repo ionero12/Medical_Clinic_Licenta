@@ -10,8 +10,7 @@ import java.util.List;
 public class Specializare {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SPECIALIZARE_SEQ")
-    @SequenceGenerator(name = "SPECIALIZARE_SEQ", sequenceName = "SPECIALIZARE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_specializare")
     private Long idSpecializare;
 

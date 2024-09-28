@@ -10,8 +10,7 @@ import java.time.LocalDate;
 @Table(name = "diagnostice")
 public class Diagnostic {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DIAGNOSTIC_SEQ")
-    @SequenceGenerator(name = "DIAGNOSTIC_SEQ", sequenceName = "DIAGNOSTIC_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_diagnostic")
     private Long idDiagnostic;
 

@@ -8,8 +8,7 @@ import jakarta.persistence.*;
 public class Boala {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOALA_SEQ")
-    @SequenceGenerator(name = "BOALA_SEQ", sequenceName = "BOALA_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_boala")
     private Long idBoala;
 

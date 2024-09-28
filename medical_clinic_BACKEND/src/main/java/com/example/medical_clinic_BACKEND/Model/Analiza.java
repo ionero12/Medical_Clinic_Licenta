@@ -10,8 +10,7 @@ import java.time.LocalDate;
 public class Analiza {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ANALIZA_SEQ")
-    @SequenceGenerator(name = "ANALIZA_SEQ", sequenceName = "ANALIZA_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_analiza")
     private Long idAnaliza;
 

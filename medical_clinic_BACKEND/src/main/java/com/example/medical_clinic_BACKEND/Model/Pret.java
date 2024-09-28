@@ -10,8 +10,7 @@ import java.util.List;
 public class Pret {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRET_SEQ")
-    @SequenceGenerator(name = "PRET_SEQ", sequenceName = "PRET_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pret")
     private Long idPret;
 

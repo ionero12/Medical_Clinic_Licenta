@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "consultatii")
 public class Consultatie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONSULTATIE_SEQ")
-    @SequenceGenerator(name = "CONSULTATIE_SEQ", sequenceName = "CONSULTATIE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_consultatie")
     private Long idConsultatie;
 
@@ -42,10 +43,13 @@ public class Consultatie {
     @Column(name = "feedback", length = 256)
     private String feedback;
 
+    @OneToMany(mappedBy = "consultatie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Payment> payments = new HashSet<>();
+
     public Consultatie() {
     }
 
-    public Consultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret, Integer rating, String feedback) {
+    public Consultatie(Long idConsultatie, LocalDateTime dataConsultatiei, Pacient pacient, Medic medic, String numeConsultatie, Pret pret, Integer rating, String feedback, Set<Payment> payments) {
         this.idConsultatie = idConsultatie;
         this.dataConsultatiei = dataConsultatiei;
         this.pacient = pacient;
@@ -54,6 +58,7 @@ public class Consultatie {
         this.pret = pret;
         this.rating = rating;
         this.feedback = feedback;
+        this.payments = payments;
     }
 
     public Long getIdConsultatie() {
